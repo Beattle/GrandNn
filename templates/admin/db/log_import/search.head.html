@@ -1,0 +1,33 @@
+<? 
+	global $FORM_DATA;
+
+	$orderby = empty($_GET['orderby']) ? 'none':$_GET['orderby'];  $ord="a_order_none.gif"; $ord_text = "Отсортировать по возрастанию";
+	$desc = empty($_GET['desc']) ? "site":$_GET['desc'];  
+	switch ( $desc )
+	{	
+		case "site":	$spec="a_order_none.gif";	$spec_text="Отсортировать по возрастанию";	$ndesc="up";	break;
+		case "up":		$spec="a_order_up.gif";		$spec_text="Отсортировать по убыванию";		$ndesc="down";	break;
+		case "down":	$spec="a_order_down.gif";	$spec_text="Отсортировать, как на сайте";	$ndesc="site";	break;
+	}
+
+		$fields_arr = array('date_time', 'good', 'bad', 'images' );
+?>
+<table class="viewdetails"width=100% border=0 cellpadding="0" cellspacing="1">
+<THEAD>
+<tr>
+	<td class="header" nowrap width=20>
+<?
+// все заголовки
+foreach ($fields_arr as $field_name) {
+	?>
+	
+	<td class="header" nowrap>
+      <a href="<?=$_SERVER['REQUEST_URI']?>?orderby=<?=$field_name?>&desc=<?=($orderby==$field_name)?@$ndesc:"up"?>" title="<?=( $orderby==$field_name )?$spec_text:$ord_text?>">
+      <IMG SRC="<?=KAT::inc_link( ( $orderby==$field_name )?$spec:$ord , $tmp)?>"  Alt="" >   
+      
+			<?=$FORM_DATA[$field_name]['title']?></a>
+	</td>
+<?}?>
+</TR>
+</THEAD>
+<tbody>

@@ -1,0 +1,154 @@
+<?
+if (!empty($_REQUEST['price_from'])) {
+	$FORM_WHERE .= " AND 1*price * REPLACE(weight, ',', '.') >= '".$_REQUEST['price_from']."'";
+}
+if (!empty($_REQUEST['price_to'])) {
+  $FORM_WHERE .= " AND 1*price * REPLACE(weight, ',', '.') <= '".$_REQUEST['price_to']."'";
+}
+$_REQUEST['articul'] = mysql_real_escape_string($_REQUEST['articul']);
+if(!empty($_REQUEST['articul'])){
+  $FORM_WHERE .= " AND (name LIKE '%%".$_REQUEST['articul']."%%' OR artikul LIKE '%%".$_REQUEST['articul']."%%')";
+}
+
+$FORM_ORDER = " ORDER BY price * REPLACE(weight, ',', '.') ";
+$FORM_FROM = " as t1 ";
+
+$add_where = "";
+//if(in_array($_KAT['KUR_ALIAS'],$arr_katsize)!==false){ 
+/*  if (!empty($_REQUEST['size_from'])) {
+    $add_where = "(SELECT count(*) FROM ".DB_TABLE_PREFIX.$_KAT[$_KAT['KUR_ALIAS']]["matrix_table"][$TYPE."_opt"] . " as v, ".DB_TABLE_PREFIX.$TYPE."_size as db1 WHERE v.id_db1 = db1.id AND v.item_id = t1.id  AND 1*db1.name >= ".$_REQUEST['size_from'].") ";
+    $FORM_WHERE .= " AND ((1*size >= ".$_REQUEST['size_from']." AND 1*size > 0) OR ".$add_where." > 0)";    
+  }
+  if (!empty($_REQUEST['size_to'])) {
+    $add_where = "(SELECT count(*) FROM ".DB_TABLE_PREFIX.$_KAT[$_KAT['KUR_ALIAS']]["matrix_table"][$TYPE."_opt"] . " as v1, ".DB_TABLE_PREFIX.$TYPE."_size as db2 WHERE v1.id_db1 = db2.id AND v1.item_id = t1.id  AND 1*db2.name <= ".$_REQUEST['size_to'].") ";
+    $FORM_WHERE .= " AND ((1*size <= ".$_REQUEST['size_to']." AND 1*size > 0) OR ".$add_where." > 0)";    
+  }*/
+//}
+
+
+//SQL::getall('db1.name x, db2.name y, value', DB_TABLE_PREFIX.$_KAT[$_KAT['KUR_ALIAS']]["matrix_table"][$TYPE."_opt"] . ' v, '.DB_TABLE_PREFIX.$TYPE.'_size db1, '.DB_TABLE_PREFIX.$TYPE.'_ins db2', "v.id_db1 = db1.id AND v.id_db2 = db2.id AND v.item_id = '".$form['id']."'", 'ORDER BY y, x', DEBUG);
+if (empty($search) && !empty($_REQUEST))
+	$search = 'searching';
+
+?>
+
+<?//cmd('/db/'.$FORM_DATA[$TYPE.'_rozn']['DBnameY'].'/');?>
+<? if ($TYPE){ echo cmd('/local/items_ins');?>
+<script>
+$(document).ready(function() {
+  $("#triger_search").toggle(
+    function(){
+      $("#search_spravochnik").show(400);
+			  },
+    function(){
+      $("#search_spravochnik").hide(200);
+	  }
+  );
+});
+</script>
+<? } ?>
+</div>
+<div class=cl></div>
+  <div id="form_search"><h1>Поиск украшений</h1>
+  <form action="/db/shop_search">
+  			<input name=articul type="hidden" value="" />
+    <select id="sel1" name="form[name]">
+      <option <?=($_REQUEST['form']['name']=='')?'selected="selected"':"";?>  value="">Все украшения</option>
+<?php
+	$vid_arr = array("кольцо" => "кольца",
+                    "серьги" => "серьги",
+                    "подвеска" => "подвески",
+                    "ладанка" => "ладанки",
+                    "крест" => "кресты",
+                    "браслет" => "браслеты",
+                    "цепь" => "цепи",
+                    "колье" => "колье",
+                    "печатка" => "печатки",
+                    "зажим" => "зажимы для галстука",
+                    "брошь" => "броши",
+                    "часы" => "часы",
+                    "монета" => "монеты",
+                    "пирсинг" => "пирсинг",
+                    "запонки" => "запонки"
+      );
+        foreach($vid_arr as $k=>$vid){
+          echo '<option value="'.$k.'" '.(($_REQUEST['form']['name']==$k)?'selected="selected"':"").'>'.$vid.'</option>'."\n";
+        }
+?>
+    </select>
+    <select id="sel2" name="form[bu]">
+      <option <?=($_REQUEST['form']['bu']==2)?'selected="selected"':"";?>  value="2">Все</option>
+      <option value="">Новое</option>
+      <option <?=($_REQUEST['form']['bu']==1)?'selected="selected"':"";?>  value="1">б/у</option>
+    </select>
+    <select id="sel3" name="form[metal]">
+      <option value="">Любой материал</option>
+      <?
+        $arr_met = array('серебро 925', 'золото 585 (красное)', 'золото 585 (белое)', 'золото 585 (желтое)', 'золото 585 (комбинированное)', 'золото 750 (красное)', 'золото 750 (белое)', 'золото 750 (желтое)','золото 750 (комбинированное)');
+        foreach($arr_met as $k=>$met){
+          echo '<option value="'.$met.'">'.$met.'</option>'."\n";
+          echo '<option '; 
+          if($_REQUEST['form']['metal']==$met) echo 'selected="selected"';
+          echo ' value="'.$met.'">'.$met.'</option>'."\n";
+        }
+        /*$arr_met = SQL::getall("metal",DB_TABLE_PREFIX."view_all", "metal!='' AND (hidden != 1 OR hidden IS NULL)"," GROUP BY metal ORDER BY metal");
+        foreach($arr_met as $k=>$met){
+          echo '<option '; 
+          if($_REQUEST['form']['metal']==$met['metal']) echo 'selected="selected"';
+          echo ' value="'.$met['metal'].'">'.$met['metal'].'</option>'."\n";
+        }*/
+      ?> 
+    </select>
+    <select id="sel4" name="gvstav">
+      <?php
+	     $arr = array('Все вставки',
+                  'Без вставок', 
+                  'Бриллианты', 
+                  'Фианиты', 
+                  'Жемчуг', 
+                  'Драгоценные', 
+                  'Полудрагоценные', 
+                  'Поделочные'
+                  );
+        
+        foreach($arr as $k=>$v){
+          echo '<option ';
+          if($_REQUEST['gvstav']==$k) echo 'selected="selected"';
+          echo ' value="'.$k.'">'.$v.'</option>'."\n";
+        }
+      ?>
+    </select>
+    <select id="sel5" name="gprice">
+      <option value="0">Цена</option>
+      <option <?=($_REQUEST['gprice']==4)?'selected="selected"':"";?>  value="4">до 5000р.</option>
+      <option <?=($_REQUEST['gprice']==1)?'selected="selected"':"";?>  value="1">5000-10000р.</option>
+      <option <?=($_REQUEST['gprice']==2)?'selected="selected"':"";?>  value="2">10000-20000р.</option>
+      <option <?=($_REQUEST['gprice']==3)?'selected="selected"':"";?>  value="3">20000-50000р.</option>
+      <option <?=($_REQUEST['gprice']==5)?'selected="selected"':"";?>  value="5">более 50000р.</option>
+    </select>
+    <select id="sel6" name="nalich">
+      <option value="" <?=($_REQUEST['nalich']==='')?'selected="selected"':"";?> >Весь каталог</option>
+      <option value="1" <?=($_REQUEST['nalich']==1)?'selected="selected"':"";?> >В салоне пр. Гагарина 66</option>
+      <option value="2" <?=($_REQUEST['nalich']==2)?'selected="selected"':"";?> >В салоне ул. Родионова 17</option>
+      <option value="0" <?=($_REQUEST['nalich']===0)?'selected="selected"':"";?> >на заказ</option>
+    </select>
+    <input class="btn" type="submit" value="Найти" name="submit" />
+    </form>
+  </div>
+<?/*
+<form action='' method=get class="search_form">
+Выберите диапазон цен 
+<? if(!empty($_REQUEST['articul'])){?>
+<input type="hidden" name="articul" value="<?=$_REQUEST['articul'];?>" />
+<? } ?>
+от <input type="text" name="price_from" value="<?=$_REQUEST['price_from']?>">
+до <input type="text" name="price_to" value="<?=$_REQUEST['price_to']?>">&nbsp;руб.<input type="submit" class='btn' value="Выбрать" >
+// if(in_array($_KAT['KUR_ALIAS'],$arr_katsize)!==false){ ?>
+<br /><br />
+Выберите диапазон размеров
+от <input type="text" name="size_from" value="<?=$_REQUEST['size_from']?>">
+до <input type="text" name="size_to" value="<?=$_REQUEST['size_to']?>">&nbsp;<input type="submit" class='btn' value="Выбрать" >
+<?// } 
+</form>
+*/?>
+<div class=cnt_onpage>Показывать на странице по <a href="?onpage[<?=$_KAT['KUR_ALIAS']?>]=20">20</a>, <a href="?onpage[<?=$_KAT['KUR_ALIAS']?>]=50">50</a>, <a href="?onpage[<?=$_KAT['KUR_ALIAS']?>]=75">75</a> изделий</div> 

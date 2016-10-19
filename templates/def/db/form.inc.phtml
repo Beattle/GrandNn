@@ -1,0 +1,17 @@
+<?global $form;?>
+<p align=center><?=@nl2br($_KAT['ERROR'])?></p>
+<FORM ACTION="/<?=$_KAT['MODULE_NAME']."/".$_KAT['KUR_ALIAS']."/add?edit"?>" METHOD=POST enctype="multipart/form-data" name='db_form'>
+<TABLE BORDER=0 width='100%' cellspacing=1 cellpadding=3 class="form">
+<?$_KAT['cForm']->Body_print();?>
+</table>
+<table width="100%"  border="0" cellpadding="0" cellspacing="0" class="form">
+<tr>
+  <input type="hidden" name="apply" value="0">
+  <td width="100%" class="tdleft fin"><input type=submit name="submit" value="Сохранить"></td>
+  <td class="tdright fin" align="right"><input type=reset value="Отменить"></td>
+</tr>
+</TABLE>
+<script type="text/javascript">
+document.db_form['form[name]'].focus();
+</script>
+</FORM>

@@ -1,0 +1,3 @@
+<?
+echo "<SCRIPT>CUTTED_BAN='".@$_SESSION['BAN']['CUTTED_ITEM_ALIAS']."';</SCRIPT>";
+?>

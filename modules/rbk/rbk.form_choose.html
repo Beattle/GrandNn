@@ -1,0 +1,61 @@
+<?php
+	if ( empty($_SESSION['SESS_AUTH']['ID']) ) {
+	echo 'Пожалуйста залогиньтесь';
+	return;
+}
+?>
+
+		<script type="text/javascript" src="/js/validate.js"></script>
+
+        <div style="padding: 20px;" id = "forma1"> 
+            <h1>Пополнение баланса</h1><br />
+            <form  action="/empty/<?=$_RBK['MODULE_NAME']?>/readytopay" method="post" id="form_rbk">
+          <table class="forma-tbl2" style="width: auto;" >
+            <tr>
+              <td>Сумма пополнения</td>
+              <td><input name="out_summ" id="out_summ" type="text" value="<?=$_REQUEST['summ']?>"  /></td>
+              <td valign="top"><img width="15" height="11" align="top" alt="" src="/i/star.gif"></td>
+            </tr>
+
+            <tr>
+              <td>&nbsp;</td>
+              <td><div class="button4" >
+                  <input type="Image" src="/i/send.gif" onclick="if ($('#form_rbk').valid()){ $('#form_rbk').submit();} return false;" class="subm" />
+                </div></td>
+              <td>&nbsp;</td>
+            </tr>
+          </table>
+        </form>
+            
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#form_rbk").validate({
+	    rules: {
+	      'out_summ': {
+	        required: true,
+	        min: 1
+	      }
+	    },
+	    messages: {
+		  'out_summ': {
+	        required: "<br>Пожалуйста, введите сумму.",
+	        min: "<br>Пожалуйста, введите значение отличное от нуля."
+	      }
+	    }
+	});
+
+	$('#form_rbk').bind('submit',function() {
+			$.fancybox.showActivity();	
+			var formData = $('#form_rbk').serialize();
+			$.post( $(this).attr('action'), formData, function(data){
+				$('#forma1').html(data);
+				$.fancybox.hideActivity();
+			});
+		return false;
+	});
+
+});
+
+</script>
+
+</div>

@@ -1,0 +1,74 @@
+<div class="obsv zakaz" >
+<?php if (!empty($_OBSV['ERROR'])) {?>
+<h3 style="margin-left:21px;"><?=@$_OBSV['ERROR'];?></h3><?}else{?>
+	<!--<script language="javascript">
+		$(function(){
+			$('select.pretty, input:radio, input:file, input:text, input:submit, input:password, input:button,  textarea').uniform();
+		});
+	</script>-->
+	<script type="text/javascript" src="<?=$_CORE->TEMPLATES.$_CORE->CURR_TPL?>/JS/validate.js"></script>
+<script language="javascript" src="<?=$_CORE->TEMPLATES.$_CORE->CURR_TPL?>/JS/jquery.maskedinput-1.2.2.js"	type="text/javascript"></script>
+<script type="text/javascript">
+	jQuery(function($) {
+		$.mask.definitions['~']='[+-]';
+		$('#phone').mask('+7(999)999-99-99');
+	});
+</script>
+<form action="/obsv/" method=POST name=tform id=obsv>
+<!--<h2>Напишите нам</h2>-->
+<h3 style="margin-left: 21px;">Задайте Ваш вопрос</h3>
+<table border=0 class="form-tbl">
+ 	<tr><td nowrap valign=top>Ваше имя <span class=mark>*</span></td><td><input type="text" size='40' maxlength=64 id = "obsv[name]" name="obsv[name]" onkeyup="v()" value='<?=@(!empty($obsv['name']))?$obsv['name']:(!empty($_SESSION['SESS_AUTH']['ALL']['author_comment']))? $_SESSION['SESS_AUTH']['ALL']['author_comment'] : '';?>' ></td></tr> 
+	<!--<tr><td nowrap valign=top><span class=mark>*</span></td><td><INPUT TYPE="text" SIZE='40' maxlength=64 NAME="obsv[person]" id = "obsv[person]"  onkeyup="v()" value='<?=@$obsv[person]?>' ></td></tr>-->
+	<tr><td nowrap valign=top>Ваш электронный адрес <span class=mark>*</span><td><input type="text" size='40' maxlength=64 name="obsv[email]"  onkeyup="v()" value='<?=@(!empty($obsv['email']))?$obsv['email']:(!empty($_SESSION['SESS_AUTH']['ALL']['author_login']))? $_SESSION['SESS_AUTH']['ALL']['author_login'] : '';?>' ></tr>
+	<!--<tr><td nowrap valign=top>Существующий сайт</td><td><INPUT TYPE="text" SIZE='40' maxlength=64 NAME="obsv[www]" onkeyup="v()"  value='<?=@$obsv['www']?>' ></td></tr>-->
+	<tr><td nowrap valign=top>Телефон<span class=mark>*</span></td><td><input type="text" size='40' maxlength=64 name="obsv[phone]" onkeyup="v()" id="phone" value='<?=@(!empty($obsv['phone']))?$obsv['phone']:(!empty($_SESSION['SESS_AUTH']['ALL']['author_phone']))? $_SESSION['SESS_AUTH']['ALL']['author_phone'] : '';?>' ></td></tr>
+	<tr><td nowrap valign=top valign=top>Сообщение <span class=mark>*</span></td><td><textarea  rows=5 cols=40 name="obsv[describe]"><?=@$obsv['describe']?></textarea></td></tr>
+					<?  $wall->out_form(); ?>
+	<tr><td></td><td><input type="submit" name="Submit" value='Отправить'></td></tr>
+</table>
+<input type=hidden name="obsv[ts]" value="<?=time()?>">
+</form>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#obsv").validate({
+	    rules: {
+	      'obsv[name]': {
+	        required: true,
+	        minlength: 2
+	      },	
+	      'obsv[email]': {
+	        required: true,
+	      },
+			'obsv[phone]': {
+	        required: true,
+			rangelength: [7, 12]
+	      },
+	      'obsv[describe]': {
+	        required: true,
+	        minlength: 2
+	      }		  
+	    },
+	    messages: {
+	      'obsv[name]': {
+	        required: "<br>Пожалуйста, укажите название предприятия.",
+	        minlength: "<br>Пожалуйста, введите не менее 2 символов"
+	      },
+		  'obsv[email]': {
+	        required: "<br>Пожалуйста, укажите Ваш email для связи."
+	      },
+	      'obsv[phone]': {
+	        required: "<br>Номер телефона слишком короткий.",
+	        rangelength: "<br>Пожалуйста, введите не менее 7 символов"
+	      },
+		  'obsv[describe]': {
+	        required: "<br>Пожалуйста, введите ваше сообщение.",
+	        minlength: "<br>Пожалуйста, введите не менее 2 символов"
+	      }
+	    }
+	});
+});
+</script>
+<script>m=[1,2,4,5]; function v(){}</script>
+<?}?>
+</div>

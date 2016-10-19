@@ -1,0 +1,23 @@
+<?
+if($form['hidden'] == 0){
+  // изменим баланс 
+  $set = "money = money".(($data['balance_type']==2)?" - ":" + ").$form['balance'];
+  SQL::upd(DB_TABLE_PREFIX.'auth_pers',$set,"author_id = '".$form['author_id']."'", DEBUG ) ; 
+         
+  // оповестим в событиях
+  SQL::ins(DB_TABLE_PREFIX.'event_log', 'alias, name, from_auth, ev_type', "'".$_SESSION['SESS_AUTH']['ID']."_".(microtime(1)+0)."', '".$form['comment'].": ".(($data['balance_type']==2)?"( - ) ":"( + ) ").$form['balance']." руб.', '".$form['author_id']."', 6 ", DEBUG);  
+  
+  SQL::upd((defined('DB_TABLE_PREFIX') ? DB_TABLE_PREFIX : '').'auth_balance_events',"hidden = 1","id=".$form['id'] ,0);
+}
+ob_end_clean();
+//ob_end_flush();
+// hader("Location: /doctxt?tree");
+global $_KAT;
+?>
+
+<script language="javascript" type="text/javascript">
+window.opener.location='/db/<?=$_KAT['KUR_ALIAS']?>/';self.close();
+</script>
+
+
+<?exit;?>

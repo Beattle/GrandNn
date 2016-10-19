@@ -1,0 +1,13 @@
+<?
+ob_end_clean();
+//ob_end_flush();
+// hader("Location: /doctxt?tree");
+global $_KAT;
+?>
+
+<script language="javascript" type="text/javascript">
+window.opener.location='/db/<?=$_KAT['KUR_ALIAS']?>/';self.close();
+</script>
+
+
+<?exit;?>

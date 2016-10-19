@@ -1,0 +1,18 @@
+<? global $_AUTH; ?>
+<?=(!empty($LOGIN_RESULT_STR))?"<h3>".$LOGIN_RESULT_STR."</h3>":'';?>
+<script>
+	<? if($_CORE->IS_ADMIN){ ?>
+		window.location.reload();
+	<? 	}else{ ?>	
+	setTimeout(startTimer, 2000);
+	function startTimer(){
+		if($('#fancybox-content').html()!= ''){
+			$.fancybox.close();
+			window.location.reload();
+		}else{
+			window.location = '<?='/'.$_AUTH['after_login_url'];?>';
+		}
+		return;
+	}
+	<? } ?>	
+</script>

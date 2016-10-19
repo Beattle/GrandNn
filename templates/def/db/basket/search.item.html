@@ -1,0 +1,30 @@
+<tr class="basket_list_item">
+	<td><?=STR::date2word($data['ts'], 'd m')?>
+	<td><a href="/clear/<?=$_KAT['MODULE_NAME'].'/'.$_KAT['KUR_ALIAS'].'/'.$data["alias"].$url_add?>" rel=facebox><?='Заказ №'. $data['alias']?></a>
+	<td><? //=($data['hidden']) ? 'принят' : '<b>исполнен</b>'?>
+	<?=$FORM_DATA['status']['arr'][$data['status']];?>
+	<? 
+	global $_CONF; 
+	if (in_array("pay", $_CONF['USED_MODULES'])) {?>
+		<td class=pay><a target=_blank href="<?="/pay/go?pay[summ]=".trim($data['summ'])."&pay[partner]=".trim($data['name'])."&pay[name]=Заказ N".$data['alias'],"&pay[num]=".$data['alias']."&pay[date]=".date("Y-m-d")."&name"?> class="schet">счет</a>
+		<a target=_blank href="<?="/pay/akt?pay[summ]=".trim($data['summ'])."&pay[partner]=".trim($data['name'])."&pay[name]=Заказ N".$data['alias'],"&pay[num]=".$data['alias']."&pay[date]=".date("Y-m-d")."&name"?> class="akt">Акт</a>
+		</td>
+	<?}?>
+	<td>
+			<? if(!$data['payed']){ 
+				if($data['status']== 2){
+					echo "<span title='сумма заказа'>".(int)$data['summ']."</span> + <span title='сумма за доставку'>".(int)$data['delivery_summ']."</span> = ".((int)$data['summ']+(int)$data['delivery_summ'])." руб";
+				}else{
+					echo "<span title='сумма заказа без учета стоимости доставки'>".(int)$data['summ']."</span> руб";
+				}
+			} ?>
+	</td>
+ <?if ( $_CONF['FEATURES_USED']['basketpay']) { ?>
+		<td class=robokassa> 
+			<? if($data['payed']){ 
+				echo '<b>оплачено</b>'; 
+			}elseif($data['status']== 2){ ?>
+				<a href="/robokassa/readytopay?out_summ=<?=(int)$data['summ']+(int)$data['delivery_summ'].'&shp_item='.$data['id'];?>">оплатить</a>
+			<? } ?>
+		</td>
+ <?}?>

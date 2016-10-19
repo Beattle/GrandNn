@@ -1,0 +1,10 @@
+<tr class="row">
+  <td><?=($i+1);?></td>
+  <td><?=$rows[$i]['email'];?></td>
+  <td><?=date("h:i:s d.m.Y",$rows[$i]['stamp']);?></td>
+  <td><?=decode_ip($rows[$i]['ip']);?></td>
+  <td><?=date("h:i:s d.m.Y",$rows[$i]['confirm']);?></td>
+  <td><?=decode_ip($rows[$i]['confirm_ip']);?></td>
+  <td><?=$rows[$i]['code_key'];?></td>
+  <td><input type="checkbox" name="del[]" value="<?=$rows[$i]['email'];?>" /></td>
+</tr>

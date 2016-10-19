@@ -1,0 +1,79 @@
+<?GLOBAL $_DOC;?>    
+<TABLE class=popuptitle cellSpacing=20 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD><IMG height=24 alt="" hspace=0 
+            src="<?=DOCTXT::inc_link('a_ren.gif',$tmp);?>" width=24 align=left> 
+            <H2>NoKill: <?=$alias?></H2>
+          </TD>
+        </TR></TBODY>
+      </TABLE>
+      <TABLE cellSpacing=20 cellPadding=0 width="100%" border=0>
+        <FORM  name=dataForm method="post" action="/clear/doctxt/nokill">
+        <INPUT type=hidden value=1 name=close> 
+        <INPUT type=hidden value="<?=$alias?>" name="nokillalias"> 
+        <TBODY>
+        <TR>
+          <TD>
+            <TABLE class=form cellSpacing=0 cellPadding=0 width="100%" border=0><TBODY>
+              <TR>
+                <TD>
+                Только для чтения (не изменять)
+                </TD>
+                <TD>
+                <input type="checkbox" name='readonly' <?if(DOCTXT::is_readonly($_DOC['TREE'], $alias)) echo 'checked';?>>
+                </TD>
+              </TR>
+              <TR>
+                <TD>
+                Не удалять
+                </TD>
+                <TD>
+                <input type="checkbox" name='nokill' <?if(DOCTXT::is_nokill($_DOC['TREE'], $alias)) echo 'checked';?> >
+                </TD>
+              </TR>
+              <TR>
+                <TD>
+                Только для зарегистрированных
+                </TD>
+                <TD>
+                <input type="checkbox" name='needreg' <?if(DOCTXT::is_needreg($_DOC['TREE'], $alias)) echo 'checked';?> >
+                </TD>
+              </TR>
+              <TR>
+                <TD>
+                Открыто, но не показывать в меню
+                </TD>
+                <TD>
+                <input type="checkbox" name='nomenu' <?if(DOCTXT::is_present($_DOC['TREE'], $alias, 'nomenu')) echo 'checked';?> >
+                </TD>
+              </TR>
+              <TR>
+                <TD>
+                Показывать в меню, но без ссылки
+                </TD>
+                <TD>
+                <input type="checkbox" name='menunolink' <?if(DOCTXT::is_present($_DOC['TREE'], $alias, 'menunolink')) echo 'checked';?> >
+                </TD>
+              </TR>
+            </TBODY>
+            </TABLE>
+            
+            <TABLE class=form style="MARGIN-TOP: 20px" cellSpacing=0 
+            cellPadding=0 width="100%" border=0>
+              <TBODY>
+              <TR>
+                <TD class=sep colSpan=5>
+                  <DIV class=sep><SPACER height="1" width="1" 
+                  type="block"></SPACER></DIV></TD></TR>
+              <TR>
+                <TD class=tdleft width="100%"><INPUT type="reset" value=Отменить ></TD>
+                <TD class=tdcenter><INPUT name=apply onclick="return true;" type=button value=Применить></TD>
+                <TD class=tdright><INPUT name=save type=submit value=Сохранить></TD>
+              </TR></TBODY>
+             </TABLE>
+             
+             </TD>
+             </TR>
+            </FORM></TBODY></TABLE>
+  

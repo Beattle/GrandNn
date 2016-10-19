@@ -1,0 +1,17 @@
+<?ob_end_clean();?>
+
+<script language="javascript" type="text/javascript">
+
+	if( window.opener != null )
+		{	var str = window.opener.location.href;
+			if( str.search('\\?')!= -1 )
+					window.opener.location = window.opener.location+'&mark='+'<?=$path?>';
+			else	window.opener.location = window.opener.location+'?mark='+'<?=$path?>';
+			
+			self.close();
+		}
+	else window.location='/';
+
+</script>
+
+<?exit;?>

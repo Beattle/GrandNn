@@ -1,0 +1,12 @@
+<tr>
+	<td>
+			<input type="checkbox" class=checkbox noWrap name="s[<?=$v['path']?>]" onclick="change1('<?=htmlspecialchars($v['path'],ENT_QUOTES)?>', '<?=htmlspecialchars($v['name'],ENT_QUOTES)?>');"  <?$p=$v['path'];if(!empty( $_CONNECTS['links'][$p]))echo "checked";?> >
+	</td>
+	<td>
+<?if( $v['is_parent'] ){?>
+			<a  href="/clear/<?=$_CONNECTS['MODULE_NAME']?>/process?node=<?=$v['path']?>&path=<?=$path?>" onclick=""><?=$v['name']?></a>
+<?}else{?>
+			<p><?=$v['name']?></p>
+<?}?>
+	</td>
+</tr>

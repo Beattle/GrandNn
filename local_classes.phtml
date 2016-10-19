@@ -1,0 +1,32 @@
+<? 
+
+class Spsr
+{
+    public $xml;
+    private function getXml()
+    {
+        $url = curl_init("https://api.spsr.ru/test");
+        curl_setopt($url, CURLOPT_POST, true);
+        curl_setopt($url, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($url, CURLOPT_HTTPHEADER, array('Content-Type: application/xml'));
+        curl_setopt($url, CURLOPT_POSTFIELDS, $this->xml);
+        return curl_exec($url);
+    }
+
+    public function getXmlObject()
+    {
+        return new SimpleXMLElement($this->getXML());
+    }
+
+    static function encodingFromUtf($str)
+    {
+        return mb_convert_encoding($str, 'windows-1251', "utf-8");
+    }
+
+    function getCityName()
+    {
+
+        //return $this->encodingFromUtf($this->getXmlObject()->SPSROffices->Office['Address']);
+
+    }
+}  

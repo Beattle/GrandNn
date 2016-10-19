@@ -1,0 +1,121 @@
+<table width="100%"  border="0" cellpadding="0" cellspacing="20" class="popuptitle">
+      <tr>
+        <td>
+        	<img src="<?=$_CORE->TEMPLATES.$_CORE->CURR_TPL?>/<?=$_VOTE['MODULE_NAME']?>/d_folder.gif" alt="" width="24" height="24" hspace="0" vspace="0" align="left">
+            <h2><?=($_VOTE['LOADED'])?"Редактирование":"Добавление";?></h2>
+        </td>
+      </tr>
+</table>
+<?php 
+	
+	if (empty($_VOTE['LOADED'])){
+		$data = date('Y-m-d',time());
+    } else {
+    	if ( $vote['data']=='0000-00-00' ){
+        	$data = date('Y-m-d',$id);
+        } else {
+        	$data = $vote['data'];
+        }
+    }
+    $answer_size = 255;
+    if (isset($_VOTE['conf']['answer_size'])){
+    	$answer_size = $_VOTE['conf']['answer_size'];
+    }
+?>
+<TABLE BORDER=0 width='100%' cellspacing=20 cellpadding=0>
+    <tr>
+        <td>
+            <FORM METHOD=POST ACTION='/<?=$_VOTE['MODULE_NAME']?>/admin' name=quest>
+            <INPUT TYPE='hidden' name=loaded value="<?=@$_VOTE['LOADED']?>">
+            <INPUT TYPE='hidden' name=id value="<?=@$id?>">
+            <TABLE BORDER=0 CELLSPACING=1 CELLPADDING=3>
+                <TR>
+                  <TD class=tab><?=@($_VOTE['ERROR']['data'])?'<FONT COLOR="red">»</FONT>&nbsp;&nbsp;':''?>Дата:<br />(Год-месяц-день)</TD>
+                  <TD><input type="text" class='lf1' name="vote[data]" value="<?=$data;?>" class="form" SIZE=50></TD>
+                </TR>
+
+                <TR>
+                  <TD class=tab><?=@($_VOTE['ERROR']['title'])?'<FONT COLOR="red">»</FONT>&nbsp;&nbsp;':''?>вопрос:</TD>
+                  <TD><input type="text" class='lf1' name="vote[title]" value="<?=@$vote['title']?>" class="form" SIZE=50></TD>
+                </TR>
+                <TR>
+                  <TD class=tab><?=@($_VOTE['ERROR']['ans'][0])?'<FONT COLOR="red">»</FONT>&nbsp;&nbsp;':''?>ответ 1:</TD>
+                  <TD>
+                    <INPUT TYPE="hidden" name="vote[ans_id][0]" value="<?=@$vote['ans_id'][0]?>">
+                    <input type="text" maxlength="<?=$answer_size;?>" class='lf1' name="vote[ans][0]" value="<?=@$vote['ans'][0]?>" class="form" SIZE=50 ></TD>
+                </TR>
+                <TR>
+                  <TD class=tab><?=@($_VOTE['ERROR']['ans'][1])?'<FONT COLOR="red">»</FONT>&nbsp;&nbsp;':''?>ответ 2:</TD>
+                  <TD>
+                  <INPUT TYPE="hidden" name="vote[ans_id][1]" value="<?=@$vote['ans_id'][1]?>">
+                  <input type="text" maxlength="<?=$answer_size;?>" class='lf1' name="vote[ans][1]" value="<?=@$vote['ans'][1]?>" class="form" SIZE=50 ></TD>
+                </TR>
+                <TR>
+                  <TD class=tab><?=@($_VOTE['ERROR']['ans'][2])?'<FONT COLOR="red">»</FONT>&nbsp;&nbsp;':''?>ответ 3:</TD>
+                  <TD>
+                  <INPUT TYPE="hidden" name="vote[ans_id][2]" value="<?=@$vote['ans_id'][2]?>">
+                  <input type="text" maxlength="<?=$answer_size;?>" class='lf1' name="vote[ans][2]" value="<?=@$vote['ans'][2]?>" class="form" SIZE=50 ></TD>
+                </TR>
+                <TR>
+                  <TD class=tab>ответ 4:</TD>
+                  <TD>
+                    <INPUT TYPE="hidden" name="vote[ans_id][3]" value="<?=@$vote['ans_id'][3]?>">
+                    <input type="text" maxlength="<?=$answer_size;?>" class='lf1' name="vote[ans][3]" value="<?=@$vote['ans'][3]?>" class="form" SIZE=50></TD>
+                </TR>
+                <TR>
+                  <TD class=tab>ответ 5:</TD>
+                  <TD>
+                  <INPUT TYPE="hidden" name="vote[ans_id][4]" value="<?=@$vote['ans_id'][4]?>">
+                  <input type="text" maxlength="<?=$answer_size;?>" class='lf1' name="vote[ans][4]" value="<?=@$vote['ans'][4]?>" class="form" SIZE=50 ></TD>
+                </TR>
+                <TR>
+                  <TD class=tab>ответ 6:</TD>
+                  <TD>
+                  <INPUT TYPE="hidden" name="vote[ans_id][5]" value="<?=@$vote['ans_id'][5]?>">
+                  <input type="text" maxlength="<?=$answer_size;?>" class='lf1' name="vote[ans][5]" value="<?=@$vote['ans'][5]?>" class="form" SIZE=50 ></TD>
+                </TR>
+                <TR>
+                  <TD class=tab>ответ 7:</TD>
+                  <TD>
+                  <INPUT TYPE="hidden" name="vote[ans_id][6]" value="<?=@$vote['ans_id'][6]?>">
+                  <input type="text" maxlength="<?=$answer_size;?>" class='lf1' name="vote[ans][6]" value="<?=@$vote['ans'][6]?>" class="form" SIZE=50 ></TD>
+                </TR>
+                <?if (sizeof($vote['ans_id']) > 7) for ($i=7;$i<sizeof($vote['ans_id']);$i++) {?>
+                <TR>
+                  <TD class=tab>ответ <?=$i+1?>:</TD>
+                  <TD>
+                  <INPUT TYPE="hidden" name="vote[ans_id][<?=$i?>]" value="<?=@$vote['ans_id'][$i]?>">
+                  <input type="text" maxlength="<?=$answer_size;?>" class='lf1' name="vote[ans][<?=$i?>]" value="<?=@$vote['ans'][$i]?>" class="form" SIZE=50></TD>
+                </TR>
+                <?}?>
+                <TR>
+                  <TD class=tab valign=top>комментарий:</TD>
+                  <TD><textarea  class='lf1' name="vote[comment]" rows="5" cols="50" class=form><?=@htmlspecialchars($vote['comment'])?></textarea></TD>
+                </TR>
+                <TR>
+                  <TD class=tab>&nbsp;</TD>
+                  <TD><INPUT TYPE="checkbox" NAME="vote[akt]" value=1 <?=(!empty($vote['akt']))?'CHECKED':''?>> активен ? </TD>
+                </TR>
+                <TR>
+                  <TD class=tab>&nbsp;</TD>
+                  <TD align=right><INPUT TYPE='submit' name='go' value='сохранить' class=subm>&nbsp;&nbsp;<INPUT TYPE='reset' value='сбросить' class=subm></TD>
+                </TR>
+                <TR>
+                    <TD colspan=2>
+                    <B>Внимание!</B><BR>
+                    <LI> Ответов на вопрос не должно быть меньше 2;</LI>
+                    <LI> Длина ответов должна быть не более <?=$answer_size;?> символа(ов);</LI>
+                    <LI> не пытайтесь добавить запись без указания самого вопроса;</LI>
+                    <LI> комментарии не обязательны.</LI>
+                    </TD>
+                </TR>
+            </TABLE>
+            </FORM>
+        </td>
+    </tr>
+</TABLE>
+	<SCRIPT>
+	//<!--
+		document.forms['quest']['vote[title]'].focus();
+	-->
+	</SCRIPT>

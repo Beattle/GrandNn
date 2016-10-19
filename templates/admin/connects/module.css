@@ -1,0 +1,20 @@
+TABLE.common A:hover {
+	COLOR: #848484
+}
+TABLE.seealso A:hover {
+	COLOR: #848484
+}
+TABLE.color {
+	BACKGROUND-COLOR: #848484
+}
+TABLE.popuptitle {
+	BACKGROUND-COLOR: #848484
+}
+
+TABLE.content {
+	BACKGROUND-COLOR: #fff
+}
+
+TABLE.content A {
+	COLOR: #4C4C4C
+}

@@ -1,0 +1,20 @@
+<?
+if ($_CONF['FEATURES_USED']['settings']){
+    cmd('db/settings', false, true);
+    cmd('css/restyle');
+}
+ob_end_clean();
+
+?>
+
+<script language="javascript" type="text/javascript">
+
+	if( window.opener != null )
+		{	window.opener.location.reload();
+			self.close();
+		}
+	else window.location='/db/<?=$_KAT['KUR_ALIAS']?>/?<?=$_SERVER['QUERY_STRING']?>';
+
+</script>
+
+<?exit;?>

@@ -1,0 +1,41 @@
+<? $orders++;?>
+<tr>
+	<td width="60" style="border-bottom-width: 0px;width: 60px; background-color: <?=($orders%2)? '#e4b847':'#f5f5d6';?>; padding: 0px; vertical-align: middle; padding-left: 18px;">
+	<? if(!empty($data['doc'])){ 
+		$ar_doc 	= explode('/',$data['doc']);
+		$name_file 	= array_pop($ar_doc);
+		$ar_doc[] 	='50x50';
+		$ar_doc[] 	= $name_file;
+		$data['doc'] = implode('/',$ar_doc);
+	?>
+	
+	<a href="http://<?=$_SERVER['SERVER_NAME'];?><?=$data['link']?>" target="_blank">
+		<img src='http://<?=$_SERVER['SERVER_NAME'];?>/reimg<?=$data['doc']?>' style="border: 1px solid #ccc;-moz-border-radius: 5px;-webkit-border-radius: 5px;-khtml-border-radius: 5px;border-radius: 5px;" />
+	</a>
+	<? } ?>
+	</td>
+	<td style="border-bottom-width: 0px;padding-right: 5px;padding-left: 20px; padding-top: 10px; padding-bottom: 10px;border-right:2px #f5f5d6 solid;vertical-align: middle; background-color: <?=($orders%2)? '#e4b847':'#f5f5d6';?>;">
+		<a href='http://<?=$_SERVER['SERVER_NAME'];?><?=$data['link']?>' target="_blank" style="color: #000;"><?=$data['subj']?> <br />(<?=$data['desc']?>)</a>
+	</td>
+<?php
+	/*
+	<td style="padding-left: 10px;	padding-right: 5px;padding-top: 10px;	padding-bottom: 10px;border-right:2px #f5f5d6 solid;vertical-align: middle;<?=($orders%2)? 'background-color: #e4b847;':'';?>">200000044873</td>
+	<td style="padding-left: 10px;	padding-right: 5px;padding-top: 10px;	padding-bottom: 10px;border-right:2px #f5f5d6 solid;vertical-align: middle;<?=($orders%2)? 'background-color: #e4b847;':'';?>">585</td>
+	<td style="padding-left: 10px;	padding-right: 5px;padding-top: 10px;	padding-bottom: 10px;border-right:2px #f5f5d6 solid;vertical-align: middle;<?=($orders%2)? 'background-color: #e4b847;':'';?>">21.1</td>
+	<td style="padding-left: 10px;	padding-right: 5px;padding-top: 10px;	padding-bottom: 10px;border-right:2px #f5f5d6 solid;vertical-align: middle;<?=($orders%2)? 'background-color: #e4b847;':'';?>">7.88</td>
+	*/
+?>
+	<td style="border-bottom-width: 0px;padding-left: 10px;	padding-right: 5px;padding-top: 10px;	padding-bottom: 10px;border-right:2px #f5f5d6 solid;vertical-align: middle;text-align: center; color: #000;  background-color: <?=($orders%2)? '#e4b847':'#f5f5d6';?>;">
+		<?=$data['count']?>
+	</td>
+	<td class="price" style="border-bottom-width: 0px;padding-left: 10px; padding-right: 5px;padding-top: 10px;	padding-bottom: 10px;border-right:0px;vertical-align: middle; text-align: center; color: #000;  background-color: <?=($orders%2)? '#e4b847':'#f5f5d6';?>;font-size: 16px;">
+		<? if(!empty($data['discount'])){ ?>
+		<span style="text-decoration: line-through; padding-left: 0;"><?=STR::price_sp($data['price_lost'])."&nbsp;ğ.";?></span><br />
+		<span >-<?=$data['discount'];?>%<br />
+			<?=STR::price_sp($data['price']);?> ğ.</span>
+		<? }else{
+			echo Str::price_sp($data['price'])."&nbsp;ğ.";
+		   }
+		?>
+	</td>
+</tr>

@@ -1,0 +1,58 @@
+<div class="pline" style="float: none; width: 810px; text-align: center;">
+	<?=(!empty($nextPage))?$nextPage:'';?>
+</div>
+<script>
+$('.pline a').click(function(){
+    var page = $(this).attr('title');
+    if(page == 1) page = '';
+	$('#page_id').val(page);
+	$('#nextpage').val(page);
+	$.fancybox.showActivity();
+	$.post(
+		'/empty/<?=$_SERVER['REQUEST_URI'];?>',
+		{
+            p:page,
+            nextpage:page<? 
+            if(!empty($_GET['form']['size'])){
+                echo ", form[size]:".$_GET['form']['size'];
+            } ?>
+        },
+        // $('#form_filter').serialize(),
+		function(data){
+			$.fancybox.hideActivity();
+			$('.pline a').remove();
+			$('#page_id').val('');
+			$('#nextpage').val('');
+			$('.search_all_items .SR_left_side').append(
+				data
+			);
+			var leftside_height = $(".SR_left_side").css("height").replace('px','')< 850 ? '850px' : $(".SR_left_side").css("height");
+			//$(".SR_left_side").css("height", (leftside_height<800? 800 : leftside_height));
+			$("#Wrapfollow").css("height", leftside_height);
+			
+			$('.search_all_items .SR_left_side a[rel*=facebox]').fancybox({
+				'padding'					: 	20,
+				'cyclic'					: true,
+				'opacity'					: true,
+				'overlayOpacity'    : 0.7,
+				'overlayColor'      : '#000',
+				'showNavArrows'		: true,
+				'titlePosition'		: 'inside',
+				'autoScale'				: 'true',
+				'scrolling'				: 'no'
+			});
+			$('.objhover').hover(
+				function(){ //over
+					$(this).parents('.cat-tovar').eq(0).children('a').eq(0).show();
+				},
+				function(){ //out
+					$(this).parents('.cat-tovar').eq(0).children('a').eq(0).hide();
+				}
+			);
+			
+		}
+	);
+	return false;
+});
+
+</script>

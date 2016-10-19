@@ -1,0 +1,20 @@
+@charset "utf-8";
+/* Используем шрифты из коллекции google font api */
+/* @import url(http://fonts.googleapis.com/css?family=Lobster&subset=cyrillic,latin); */
+
+#mcs5_container{margin:0px auto 0 auto; width:100%; height:380px; padding:0px;}
+#mcs5_container .customScrollBox{position:relative; width: 100%; overflow:hidden;}
+#mcs5_container .customScrollBox .horWrapper{position:relative; left:0;}
+#mcs5_container .customScrollBox .container{position:relative; left:0; display:inline-block; *display:inline;}
+#mcs5_container .customScrollBox .content{clear:both;}
+
+#mcs5_container .scroll {width: 960px; position: relative; margin: 0 auto;}
+
+#mcs5_container .dragger_container{position:relative; height: 35px; width:270px; margin-top: 15px; border-top:3px solid #386c93;}
+#mcs5_container .dragger{position:absolute; width:30px; height:30px; background: url(/templates/def/images/s1_30.png) 50% 50% no-repeat; margin-top:-16px;}
+#mcs5_container .dragger_pressed{position:absolute; width:30px; height:30px; background: url(/templates/def/images/s1_30.png) 50% 50% no-repeat; margin-top:-16px;}
+#mcs5_container .scrollUpBtn,#mcs5_container .scrollDownBtn{position:absolute; top:0; display:inline-block; font-family:Arial,Helvetica,sans-serif; font-size:large; font-weight:normal; color:#386c93; margin:0px 5px 0 10px; text-decoration:none;}
+#mcs5_container .scrollDownBtn{right:60px;}
+#mcs5_container .scrollUpBtn{right:150px;}
+#mcs5_container .scrollUpBtn:hover,#mcs5_container .scrollDownBtn:hover{color:#386c93;}
+

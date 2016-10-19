@@ -1,0 +1,71 @@
+<? global $FORM_DATA;
+	if(!empty($data['num_series'])){
+		$arr = preg_split('/\\r\\n?|\\n/', $data['num_series']);
+		foreach($arr as $i => $ar){
+			if(empty($ar)) unset($arr[$i]);
+		}
+		$TYPE = 'all_items';
+		$cnt = count($arr);
+		$items = SQL::getall('*',DB_TABLE_PREFIX."items","num_series IN ('".implode("','",$arr)."') AND doc!='' AND (hidden != 1 OR hidden IS NULL) ");
+		$summa = 0; $forms = array();
+		if(count($items) == $cnt){ ?>
+<div class="seealso">
+<h2>Идеальный комплект</h2>
+<hr>
+<br>
+<div style="width: 100%; clear: both;" >
+<?		foreach($items as $i => $data){
+			//if( $data['num_series'] != $_REQUEST['num_series'] ){
+				$FORM_DATA["doc"]["abspath"] = $_SERVER['DOCUMENT_ROOT']."/data/db/f_all_items/";
+				$FORM_DATA["doc"]["path"] = "/data/db/f_all_items/";
+				include $_SERVER['DOCUMENT_ROOT'].'/templates/def/db/shop/search.item.html';
+				$forms[] = $data['id'];
+				
+				if (!empty($data['discount'])){ 
+					$summa = $summa+ceil($price-$price*$data['discount']/100);
+				}else{
+					$summa = $summa+$price;
+				}
+				if($i < (count($items)-1) ){ ?>
+					<div style="float: left; width: 50px; height: 146px; line-height: 126px; font-size: 40px; text-align: center; margin-right: 22px;">+</div>
+				<? }
+			//}
+		} ?>
+	
+		<div style="float: left; width: 50px; height: 146px; line-height: 126px; font-size: 40px; text-align: center; margin-right: 22px;">=</div>
+		<div style="float: left; width: 190px; height: 146px;  font-size: 36px; text-align: center; margin-right: 22px;padding-top: 20px;">
+			<?=STR::price_sp($summa)?> руб.<br />
+			<a class="btn add_complect" style="width: 180px;" href="javascript:;" onclick="add_complect<?=$data['alias'];?>(); return false;">Купить комплект</a>
+		</div>
+</div>
+<script>
+	function add_complect<?=$data['alias'];?>(){
+			<?
+				foreach($forms as $form){
+					?>
+					
+					$.ajax({
+						type: "POST",
+						url: $('#list<?=$form;?>').attr('action'),
+						data: $('#list<?=$form;?>').serialize() + '&ajax=1',
+						async: false,
+						success: function(data){
+							basketWork( document.forms.list<?=$form;?>[5].value, document.forms.list<?=$form;?>[7].value, 0, <?=$form; ?> );}
+					});
+					<?
+				}
+				
+			?>
+			$('div.seealso img').each(function(){
+
+				animate_cart_my($(this));
+			})
+			
+			
+	}
+</script>
+</div>
+<?	}
+}
+?>
+

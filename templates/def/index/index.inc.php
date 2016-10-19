@@ -1,0 +1,2 @@
+<hr>
+	<?=cmd('/db/banners');?>

@@ -1,0 +1,51 @@
+<?php
+	$debugCont = 'Запуск скрипта discount';
+	$discounts = SQL::getall('*',DB_TABLE_PREFIX.'discounts',"1 AND (hidden != 1  OR hidden IS NULL)", " ORDER BY prior, discount, ts ASC ");
+	SQL::upd(DB_TABLE_PREFIX."items","`discount` = ''");
+	
+	if( is_array($discounts) && count($discounts) ){
+		foreach($discounts as $discount){
+			$add_where = 1;
+			if(!empty($discount['probe'])){
+				$add_where .= " AND `probe` LIKE '%%".$discount['probe']."%%'";
+			}
+			if(!empty($discount['type_products'])){
+				$add_where .= " AND `type_id` = ".$discount['type_products']." ";
+			}
+			if(!empty($discount['bu'])){
+				$add_where .= " AND `bu` = ".($discount['bu']-1)." ";
+			}
+			if(!empty($discount['ins'])){
+				if($discount['ins'] == 1){
+					$add_where .= " AND ins = '' ";
+				}else{
+					$ins_names = SQL::getall("`name`",DB_TABLE_PREFIX."shop_ins", "`group` = '".$discount['ins']."'");
+					if(is_array($ins_names) && count($ins_names) >0 ){
+						$add_where_ins = '';
+						foreach($ins_names as $ins_name){
+							if( !empty($add_where_ins) ) $add_where_ins .= " OR ";
+							$add_where_ins .= " `ins` LIKE '%%".$ins_name['name']."%%' ";
+						}
+						$add_where .= " AND ( ".$add_where_ins." ) ";
+					}
+				}
+			}
+			if(!empty($discount['num_series'])){
+				$add_where .= " AND `num_series` = '".$discount['num_series']."' ";
+			}
+			if(!empty($discount['from_price'])){
+				$add_where .= " AND `full_price` >= ".$discount['from_price']." ";
+			}
+			if(!empty($discount['to_price'])){
+				$add_where .= " AND `full_price` <= ".$discount['to_price']." ";
+			}
+			//$data['discount'] = ($data['discount'] > $newdiscount)?$data['discount']:$newdiscount;
+			if(empty($discount['discount']) && !empty($discount['priceforone'])){
+				$add_where.= " AND price > ".$discount['priceforone']." ";
+				SQL::upd(DB_TABLE_PREFIX."items","`discount` = (price - ".$discount['priceforone'].")*100/price ",$add_where);
+			}else{
+				SQL::upd(DB_TABLE_PREFIX."items","`discount` = '".$discount['discount']."'",$add_where);
+			}
+		}
+	}
+?>

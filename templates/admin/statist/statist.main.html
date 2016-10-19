@@ -1,0 +1,95 @@
+<?global $_STATIST;$iterator=0;?>
+<TABLE BORDER=0 cellpadding=2 cellspacing=1 width=100% class="viewdetails">
+<THEAD>
+	<tr>
+		<td class="header">Название</td>
+	</TR>
+</THEAD>
+<tbody>
+<tr>
+    <td>
+	<img alt=" " src="<?=Main::comm_link('list.gif', $f, $_STATIST['MODULE_NAME'] )?>" >
+       <a href="<?=$_STATIST_CONST['path']?>/statist/simple" id="itemList<?=$iterator?>"
+
+			onclick="return false;//writeField('EventsCmdRight', getField('dmodel_<?=$skin?>_down_r'));writeField('EventsCmdLeft', getField('dmodel_<?=$skin?>_down_l'));return false;"
+			
+			ondblclick="ShowPopUp('/clear/<?=$_STATIST['MODULE_NAME']?>/simple',800,600,'yes');"
+			
+			onfocus="setPointer('<?=$iterator?>');" 
+			<?$iterator++;?>
+
+       >
+        Посещаемость
+       </a>
+    </td>
+</tr>
+<tr> 
+    <td>
+	<img alt=" " src="<?=Main::comm_link('list.gif', $f, $_STATIST['MODULE_NAME'] )?>" >
+       <a href="<?=$_STATIST_CONST['path']?>/statist/pages" id="itemList<?=$iterator?>"
+
+			onclick="return false;//writeField('EventsCmdRight', getField('dmodel_<?=$skin?>_down_r'));writeField('EventsCmdLeft', getField('dmodel_<?=$skin?>_down_l'));return false;"
+			
+			ondblclick="ShowPopUp('/clear/<?=$_STATIST['MODULE_NAME']?>/pages',800,600,'yes');"
+			
+			onfocus="setPointer('<?=$iterator?>');" 
+			<?$iterator++;?>
+
+       >
+        Постранично
+       </a>
+    </td>
+</tr>
+<tr> 
+    <td>
+	<img alt=" " src="<?=Main::comm_link('list.gif', $f, $_STATIST['MODULE_NAME'] )?>" >
+       <a href="<?=$_STATIST_CONST['path']?>/statist/searchwordsgroup" id="itemList<?=$iterator?>"
+
+			onclick="return false;//writeField('EventsCmdRight', getField('dmodel_<?=$skin?>_down_r'));writeField('EventsCmdLeft', getField('dmodel_<?=$skin?>_down_l'));return false;"
+			
+			ondblclick="ShowPopUp('/clear/<?=$_STATIST['MODULE_NAME']?>/searchwordsgroup',800,600,'yes');"
+			
+			onfocus="setPointer('<?=$iterator?>');" 
+			<?$iterator++;?>
+
+       >
+        По поисковым фразам
+       </a>
+    </td>
+</tr>
+<tr> 
+    <td>
+	<img alt=" " src="<?=Main::comm_link('list.gif', $f, $_STATIST['MODULE_NAME'] )?>" >
+       <a href="<?=$_STATIST_CONST['path']?>/statist/searchservers" id="itemList<?=$iterator?>"
+
+			onclick="return false;//writeField('EventsCmdRight', getField('dmodel_<?=$skin?>_down_r'));writeField('EventsCmdLeft', getField('dmodel_<?=$skin?>_down_l'));return false;"
+			
+			ondblclick="ShowPopUp('/clear/<?=$_STATIST['MODULE_NAME']?>/searchservers',800,600,'yes');"
+			
+			onfocus="setPointer('<?=$iterator?>');" 
+			<?$iterator++;?>
+
+       >
+        По поисковым машинам
+       </a>
+    </td>
+</tr>
+<tr> 
+    <td>
+	<img alt=" " src="<?=Main::comm_link('list.gif', $f, $_STATIST['MODULE_NAME'] )?>" >
+       <a href="<?=$_STATIST_CONST['path']?>/statist/from" id="itemList<?=$iterator?>"
+
+			onclick="return false;//writeField('EventsCmdRight', getField('dmodel_<?=$skin?>_down_r'));writeField('EventsCmdLeft', getField('dmodel_<?=$skin?>_down_l'));return false;"
+			
+			ondblclick="ShowPopUp('/clear/<?=$_STATIST['MODULE_NAME']?>/from',800,600,'yes');"
+			
+			onfocus="setPointer('<?=$iterator?>');" 
+			<?$iterator++;?>
+
+       >
+        По переходам
+       </a>
+    </td>
+</tr>
+</tbody>
+</table>

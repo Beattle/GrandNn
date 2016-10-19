@@ -1,0 +1,6 @@
+<br>
+<?=$editorTitle?>
+<br>
+<textarea name="<?=$textareaName?>" cols="140" rows="<?=($textareaLength<$max_len?$textareaLength:$max_len)+5;?>" onchange="document.<?=$formName?>.is_change_<?=$textareaName?>.value='change';"><?=$textareaContent?></textarea>
+<input name="is_change_<?=$textareaName?>" type="hidden" value="none">
+<br>

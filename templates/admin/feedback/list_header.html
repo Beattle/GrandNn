@@ -1,0 +1,46 @@
+<?
+       $orderby = $tools->getOrder();  $ord="a_order_none.gif"; $ord_text = "Отсортировать по возрастанию";
+       $desc = $tools->isDesced() ? 'down':'up';  
+	   switch ( $desc )
+		{	case "site":	$spec="a_order_none.gif";	$spec_text="Отсортировать по возрастанию";		break;
+			case "up":		$spec="a_order_up.gif";		$spec_text="Отсортировать по убыванию";			break;
+			case "down":	$spec="a_order_down.gif";	$spec_text="Отсортировать по возрастанию";		break;
+		}
+		$iterator=0;global $_OBSV;
+?>
+<div id="dmodel_up_l" style="position:absolute;visibility:hidden">
+			<img alt=" " src="<?=Main::comm_link('add.gif', $f, $_OBSV['MODULE_NAME'] )?>">
+			<a title="Main Settings" href="/clear/<?=$_OBSV['MODULE_NAME']?>/main" OnClick="ShowPopUp(this.href,800,600,'yes');return false;">Main</a>
+			<br>
+			<img alt=" " src="<?=Main::comm_link('add.gif', $f, $_OBSV['MODULE_NAME'] )?>">
+			<a title="Add" href="/clear/<?=$_OBSV['MODULE_NAME']?>/<?=$GLOBALS['part']?>/add" OnClick="ShowPopUp(this.href,400,500,'yes');return false;">Add</a>
+</div>
+<script language="javascript" type="text/javascript">
+	writeField('CreateCmdLeft', getField('dmodel_up_l'));
+</script>
+
+<div id="dmodel_up_r" style="position:absolute;visibility:hidden">
+			<img alt=" " src="<?=Main::comm_link('add.gif', $f, $_OBSV['MODULE_NAME'] )?>">
+			<a title="View emails list" href="/<?=$_OBSV['MODULE_NAME']?>/emails/list">Emails</a>
+			<br>
+			<img alt=" " src="<?=Main::comm_link('add.gif', $f, $_OBSV['MODULE_NAME'] )?>">
+			<a title="View details list" href="/<?=$_OBSV['MODULE_NAME']?>/details/list">Details</a>
+</div>
+<script language="javascript" type="text/javascript">
+	writeField('CreateCmdRight', getField('dmodel_up_r'));
+</script>
+<form name="dbform" action="" method="POST">
+<TABLE BORDER=0 cellpadding=2 cellspacing=1 width=100% class="viewdetails">
+ <tbody>
+<tr>
+    <? if (is_array($out)) { ?>
+     <? foreach ($out[0] as $field_alias => $field_value)
+     		if (Out::checkFieldVisibility($field_alias)) { ?>
+      <td class="header" nowrap >
+      <a href="<?=$tools->getOrderUrl($field_alias)."&form_id=".$_REQUEST['form_id']?>" title="<?=($tools->isOrdered($field_alias))?$spec_text:$ord_text?>">
+      <IMG SRC="<?=Main::comm_link( ($tools->isOrdered($field_alias))?$spec:$ord , $f, $_OBSV['MODULE_NAME'])?>"  Alt="" >   
+      <?=Out::getFieldTitle($field_alias)?></a>
+      </td>
+     		<?}
+		}?>
+  </tr>

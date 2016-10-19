@@ -1,0 +1,22 @@
+<?
+	if ($was) 
+		echo '<div class="line"><spacer type="block" width="1" height="1"></spacer></div>';
+?>
+<div class="block zakaz news_item">
+<?if (!empty($data["doc"]) && is_file($FORM_DATA["doc"]["abspath"]."/".$data["doc"])):?>
+				<div class="photo">
+					<img src="<?=$FORM_DATA["doc"]["path"]."/".$data["doc"]?>" alt="<?=$data['doc_title']?>" border="0">
+					<p class="source"><?=$data['doc_title']?></p>
+				</div>
+<?endif;?>	
+				<div class="content">
+					<p class="date"><?=STR::date2word($data['ts'])?></p>
+					<h3><?=STR::taging_a($data['name'],"/".$_KAT['MODULE_NAME'].'/'.$_KAT['KUR_ALIAS'].'/'.$data["alias"].$url_add)?></h3>
+					<p class="comment"><?=$data['title2']?><?=($data['page'])?" — стр. ".$data['page']:''?></p>
+					<p><?=$data['anons']?></p>
+				</div>
+				<span style="position: absolute; bottom: 20px; right: 15px;">
+						<?=STR::taging_a('Подробнее >',"/".$_KAT['MODULE_NAME'].'/'.$_KAT['KUR_ALIAS'].'/'.$data["alias"].$url_add)?>
+				</span>
+</div>
+<?$was = false;?>

@@ -1,0 +1,12 @@
+<?ob_end_clean();?>
+
+<script language="javascript" type="text/javascript">
+<?		if( empty( $path )) {?>
+			window.opener.location = "http://<?=$_SERVER['SERVER_NAME']?>/<?=$_DMODEL['MODULE_NAME']?>/skins";
+<?}		else{?>
+			window.opener.location = "http://<?=$_SERVER['SERVER_NAME']?>/<?=$_DMODEL['MODULE_NAME']?>/map?skin=<?=$skin?>&path=<?=((dirname($path)==".")||(dirname($path)=="\\")?"/":dirname($path)."/")?>";
+<?}?>
+			self.close();
+			
+</script>
+<?exit;?>

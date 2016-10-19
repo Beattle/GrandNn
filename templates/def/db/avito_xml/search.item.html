@@ -1,0 +1,135 @@
+<?
+	$transart = str_replace(array("#"," "),array('','_'),trim(strtolower(STR::translit(str_replace("№",'N',$data["artikul"])))));
+	$img = (!empty($data["doc"]) && is_file($FORM_DATA["doc"]["abspath"]."/".$data["doc"])) ?$FORM_DATA["doc"]["path"]."/".$data["doc"] // для классических каталогов
+			: (((is_file($_SERVER['DOCUMENT_ROOT']."/data/db/f_all_items/".$transart.".jpg")) ? "/data/db/f_all_items/".$transart.'.jpg' // для нового способа каталога
+			: ((!empty($data["doc"]) && is_file(KAT::get_data_path( '/f_'.$data["tab"], $dir, KAT_LOOKIG_DATA_DIR )."/".$data["doc"]))  ? KAT::get_data_link( '/f_'.$data["tab"], $dir, KAT_LOOKIG_DATA_DIR )."/".$data["doc"] // для переходного процесса
+						: '/templates/def/images/prod-01.jpg')));
+// после импорта точки могут замениться запятыми
+$data['price'] = str_replace(',','.',$data['price']);
+$data['weight'] = str_replace(array(',','-'),array('.',''),$data['weight']);
+$data['size'] = str_replace(',','.',$data['size']);
+
+// Цена
+$price = $data['full_price'];
+
+$type_icon = array(
+            1=>"premium.png",
+            2=>"akciya.png",
+            3=>"hit.png"
+              );
+$num_item ++;
+
+$data['anons'] = '';
+
+$arr_met = array("Ag" => 'Серебро', "Ag 925" => 'Серебро 925', "Au" => 'Золото', "Au 585" => 'Золото 585', "Au 750" => 'Золото 750');
+if(!empty($data['probe']) && !empty($arr_met[$data['probe']])){
+	$data['anons'] .= $arr_met[$data['probe']];
+}
+if(!empty($data['size'])){
+	if(!empty($data['anons']))$data['anons'] .= "\n";
+	$data['anons'] .= "Размер ".$data['size'];
+}
+if(!empty($data['weight'])){
+	if(!empty($data['anons']))$data['anons'] .= "\n";
+	$data['anons'] .= "Вес ".$data['weight'];
+}
+if(!empty($data['ins']) && $data['ins']!= '<без вставок>'){
+	if(!empty($data['anons']))$data['anons'] .= "\n";
+	$data['anons'] .= "Вставка ".$data['ins'];
+}
+$categoryId = '';
+$arr_name = explode(' ',strtolower($data['name']));
+if($arr_name[1]!= 'обручальное' )
+	$categoryId = $vid_arr_new[$arr_name[0]]['id'];
+else
+	$categoryId = $vid_arr_new['обручальное']['id'];
+if(empty($categoryId)) $categoryId = 99;
+
+$name_one = trim(str_replace($data['artikul'],'',$data['name']));
+
+$name = $name_one. ' ';
+
+if(!empty($data['probe'])){
+		if( strstr($name_one,'Обручальное') || strstr($name_one,'обручальное') )$name_one = 'обручальное';
+		$wordform = SQL::getval('wordform',DB_TABLE_PREFIX.'type_products',"(hidden != 1 OR hidden IS NULL) AND name_one like '%%".$name_one."%%'",'',0);
+		if(strstr($data['probe'],'Au')){
+			switch($wordform){
+				case 0:
+					$name .= "золотой ";
+				break;
+				case 1:
+					$name .=  "золотая ";
+				break;
+				case 2:
+					$name .=  "золотое ";
+				break;
+				case 3:
+					$name .=  "золотые ";
+				break;
+			}
+		}elseif(strstr($data['probe'],'Ag')){
+			switch($wordform){
+				case 0:
+					$name .=  "серебрянный ";
+				break;
+				case 1:
+					$name .=  "серебрянная ";
+				break;
+				case 2:
+					$name .=  "серебрянное ";
+				break;
+				case 3:
+					$name .=  "серебрянные ";
+				break;
+			}
+		}
+		$name .=  trim(str_replace(array('Au','Ag'),'',$data['probe']))." пробы";
+	}
+
+/*
+        <AdStatus>TurboSale</AdStatus>
+
+*/
+?>
+    <Ad>
+		<AdStatus>Free</AdStatus>
+		<Id><?=$data['id']?></Id>
+		<DateBegin><?=date("Y-m-d")?></DateBegin>
+        <DateEnd><?=date("Y-m-d", time() + 60*60*24*30)?></DateEnd>
+        <AllowEmail>Да</AllowEmail>
+        <ManagerName>Ломбард и Ювелирный Салон Гранд</ManagerName>
+        <ContactPhone>+7 930 701-45-64</ContactPhone>
+        <Region>Нижегородская область</Region>
+        <City>Нижний Новгород</City>
+		<District>Нижегородский</District>
+		<Category>Ювелирные изделия</Category>        
+		<GoodsType>Часы и украшения</GoodsType>        
+		<Title><?=$name;?></Title>
+        <Description><![CDATA[
+<?=$data['anons']?>
+
+
+Все предлагаемые Нами вещи прошли тщательную предпродажную обработку опытными ювелирами до состояния нового изделия (полировка, ультразвуковая чистка, в некоторых случаях производится покрытие родием)
+
+В Нашем салоне Вы можете купить, продать или обменять ювелирные изделия и золотые часы.
+
+Пишите в Telegram, WhatsApp и Viber с 9 до 20 часов ежедневно. Мы ответим на все Ваши вопросы. Можем прислать дополнительные фотографии.
+
+Осуществляется доставка по России СПСР. С тарифам на доставку можете ознакомиться на сайте СПСР в разделе «Тарифный калькулятор»
+ 
+]]></Description>
+		<Price><? 	if (!empty($data['discount'])){ 
+				echo ceil($price-$price*$data['discount']/100);
+			}else{ 
+				echo $price; 
+			} 
+		?></Price>
+		<Images>
+            <Image url="<?='http://'.$_SERVER['HTTP_HOST'].$img;?>" />
+            <Image url="<?='http://'.$_SERVER['HTTP_HOST'].str_ireplace(".JPG", "_1.jpg", $img);?>" />
+            <Image url="<?='http://'.$_SERVER['HTTP_HOST'].str_ireplace(".JPG", "_2.jpg", $img);?>" />
+            <Image url="<?='http://'.$_SERVER['HTTP_HOST'].str_ireplace(".JPG", "_3.jpg", $img);?>" />
+        </Images>
+    </Ad>
+		
+    

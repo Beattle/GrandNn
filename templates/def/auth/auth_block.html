@@ -1,0 +1,14 @@
+<?php if(empty($_SESSION['SESS_AUTH']['ID'])) {?> 
+			<div class="reg"><a href="/clear/auth/login" id="enterLink" rel=facebox1>Вход</a>  <a href="/clear/auth/register" id="regLink" rel=facebox>Регистрация</a></div>
+<?php	} else {
+		$ava = (is_file($_SERVER['DOCUMENT_ROOT'].$_SESSION['SESS_AUTH']['AVATAR'])) ? $_SESSION['SESS_AUTH']['AVATAR'] : $_CORE->TEMPLATES.$_CORE->CURR_TPL.'/images/logo.jpg';
+		?>
+			<div class="reg">
+			<a href="/auth/update" id="enterLink" ><?=$_SESSION['SESS_AUTH']['NAME']?></a> <a href="/auth/logoff" id="regLink">Выход</a>
+			<br><a href="/basketorders/myorders">Ваши заказы</a></div>
+
+			<script>
+			  ga('set', 'userId', '<?=$_SESSION['SESS_AUTH']['ID']?>'); // GA
+			  rrApiOnReady.push(function() { rrApi.setEmail('<?=$_SESSION['SESS_AUTH']['LOGIN']?>', { }); });
+			</script>
+<?php } ?>

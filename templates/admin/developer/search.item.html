@@ -1,0 +1,59 @@
+<tr>
+	<td>
+		<? 
+		if(isset($_CORE->_modules[$data['alias']])){ 
+			echo '<a href="/developer/get_config?mod='.$data["alias"].'" onclick="ShowPopUp(\'/clear/developer/get_config?mod='.$data["alias"].'\',600,450,\'yes\');return false;"  title="перейти в настройки модуля">';
+			echo $data['name'];
+			echo '</a>';
+		}else{ 
+			echo $data['name'];
+		}
+		?>
+	</td>
+	<td width="100" align="center">
+	<?php
+		$file = (!isset($_CORE->_modules[$data['alias']])) ? 'a_red.gif':'a_green.gif';
+		$path = "developer/module/".$data["alias"];
+		$action = "?".((!isset($_CORE->_modules[$data['alias']])) ? 'show':'hide');
+	?>
+		<a href="<?='/'.$path.$action;?>"><img src="<?=DOCTXT::inc_link($file, $f);?>" border="0"  /></a>
+	</td>
+	<td width="90" align="center">
+		<? 
+		if(!isset($_CORE->_modules[$data['alias']])){ 
+			echo '<a href="/developer/install_mod?mod='.$data["alias"].'" onclick="ShowPopUp(\'/clear/developer/install_mod?mod='.$data["alias"].'\',600,450,\'yes\');return false;" title="Установить модуль">установить</a>';
+		}else{ 
+			echo 'установлено';
+		}
+		?>
+	</td>
+
+</tr>
+<?php global $_REIMG; ?>
+<div id="newsList<?=$num?>" style="position:absolute;visibility:hidden">
+<b><?=$data[$field_name]?></b><br>
+<?=strip_tags(substr($data["anons"], 0, 50))?><br><br>
+
+
+<a href="javascript:;" OnClick="ShowPopUp('<?=(!empty($item['link']))?$item['link']:
+'/def/'.$path
+?>?edit', 900, 900, 'yes');" title="<?=$path?>">
+<div class=impreview>
+<!--
+<?=$FORM_DATA["doc"]["abspath"]."/".$data["doc"];?>
+-->
+<?if (!empty($data["doc"]) && is_file($FORM_DATA["doc"]["abspath"]."/".$data["doc"]) && $FORM_DATA["doc"]["sub_type"] == 'photo'):?>
+<?if($_REIMG['nginx_mode'] == true){ ?>
+	<img class=docview src="/reimg/<?=$FORM_DATA["doc"]["path"]?>/x100/<?=$data["doc"]?>" alt="<?=$data["name"]?>" border="0" style="max-width: 300px;"><br>
+<?}else{?>
+	<img class=docview src="/reimg/<?=$FORM_DATA["doc"]["path"]."/".$data["doc"]?>?x100" alt="<?=$data["name"]?>" border="0" style="max-width: 300px;"><br>
+<?}?>
+<?endif;?>
+</div>
+
+<br>Просмотреть на сайте
+</a>
+<br><input type="input" style="width: 100%" value="<?=(!empty($item['link']))?$item['link']:"/".$path;?>">
+
+</div>
+

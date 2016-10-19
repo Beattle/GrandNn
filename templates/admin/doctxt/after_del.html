@@ -1,0 +1,11 @@
+<?
+switch ($_SESSION['DOC']['ADM_VIEWSTYLE']){
+	case 'tree':
+		$add = '';
+		break;
+	case 'list':
+		$add = "&node=".$_REQUEST['node'];
+		break;
+}
+header("Location: /doctxt?".$_SESSION['DOC']['ADM_VIEWSTYLE'].$add);
+?>

@@ -1,0 +1,15 @@
+<div align=right>
+<A HREF='/<?=$_VOTE['MODULE_NAME']?>/admin?>' TITLE="администрирование опросов"><IMG SRC="<?=$_CORE->CoreModDir?>/images/a_add.gif" WIDTH="16" HEIGHT="16" BORDER="0" ALT="добавить"></A>
+<A HREF='/<?=$_VOTE['MODULE_NAME']?>/admin?loaded=1&id=<?=@$_VOTE['vote']['id']?>'><IMG SRC='<?=$_CORE->CoreModDir?>/images/a_edit.gif' WIDTH='16' HEIGHT='16' BORDER='0' ALT='редактировать'></A>
+<IMG SRC='<?=$_CORE->CoreModDir?>/images/a_delete.gif' WIDTH='16' HEIGHT='16' BORDER='0' ALT='удалить' OnMouseOver="this.style.cursor=(NS?'pointer':'hand');" OnClick='db_del("<?=$_VOTE['vote']['title']?>",<?=@$_VOTE['vote']['id']?>);'>
+<SCRIPT>
+function db_del(name, id){ // js
+if (confirm("Вы уверены что хотите удалить опрос \n"+name+"\n")) {
+document.location.href	= "http://"+location.host+location.pathname+"?del=1&id="+id;
+return true;
+}else
+return false;
+}
+</script>
+	</div>
+<BR>

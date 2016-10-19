@@ -1,0 +1,26 @@
+<script type="text/javascript" src="/templates/def/JS/jquery.jcarousel.min.js"></script>
+<script type="text/javascript" src="/templates/def/JS/proloser/js/jquery.anythingslider.min.js"></script>
+<link href="/templates/def/JS/proloser/css/anythingslider.css" rel="stylesheet" type="text/css">
+<script src="/templates/def/JS/proloser/js/jquery.anythingslider.fx.min.js"></script>	
+<script src="/templates/def/JS/proloser/js/jquery.easing.1.2.js"></script>	
+<script>
+$(function(){
+	$('#slider3').anythingSlider({
+		buildStartStop 		: false,
+		autoPlay 			: true,
+		resizeContents 		: false,
+		pauseOnHover 		: false,
+		delay				: 8000,
+		easing				: "swing",
+		animationTime		: 600,
+		buildNavigation		: true,
+		onInitialized 		: function(e, slider) {
+			var q = $('.anythingControls ul li a').length;
+			var width = 940-q*7;
+			$('.anythingControls ul li a').css('width',width/q + 'px');
+		}
+	});
+});
+</script>
+<?$it = 0;?> <ul id="slider3">
+			

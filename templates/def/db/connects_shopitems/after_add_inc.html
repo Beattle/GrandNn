@@ -1,0 +1,15 @@
+<?php
+
+if($_KAT['ERROR']=='Данные сохранены' ){
+
+	if(!empty($form['num_series'])){
+		$arr = preg_split('/\\r\\n?|\\n/', $form['num_series']);
+		$items = '';
+		foreach($arr as $num_series){
+			$items .= SQL::getval('artikul',DB_TABLE_PREFIX."items","num_series = '".$num_series."'")."\r\n";
+		}
+		SQL::upd(DB_TABLE_PREFIX."connects_shopitems","artikuls = '".$items."'","name = '".$form['name']."' AND num_series = '".$form['num_series']."'");
+	}
+}
+
+?>

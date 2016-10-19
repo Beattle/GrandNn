@@ -1,0 +1,4 @@
+<li><?=STR::short($v['name'], $_CONNECTS['SEEALSO_COUNT'],1)?>&nbsp;
+<a href="<?=CONNECTS::from_where($v['path'])?>" target><img src="/templates/admin/connects/src.gif" border=0 vspace=0></a><?if( empty($_CONNECTS['is_del']) ){?>
+<a href="/<?=$_CONNECTS['MODULE_NAME']?>/del?link=<?=$v['path']?>&path=<?=$path?>&loc=<?=$_SERVER['REQUEST_URI'].'?'.$_SERVER['QUERY_STRING']?>" onclick="return confirm('Вы уверены что хотите удалить связь?');" target><img src="/templates/admin/connects/unlinks.gif" border=0 vspace=0></a><br>
+<?}?>

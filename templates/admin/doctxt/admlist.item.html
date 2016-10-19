@@ -1,0 +1,132 @@
+<tr>
+<td valign=middle width=100%>
+<a href="javascript:;" 
+onclick="<?
+if (!preg_match("|.*(/db/.+)|",$item['path'],$m) && empty($item['path_tmp']))
+	echo ($item['next'])
+		?"location.href='?list&node=".$item['path']."'" 
+		:((!empty($item['link']))?"ShowPopUp('".$item['link']."', 800, 600, 'yes');"
+		:(empty($item['readonly'])?"ShowPopUp('/clear/".$item['path']."?edit', 800, 600, 'yes');":''));
+else
+	echo (empty($m[1]))
+		?"location.href='".$item['path_tmp']."'"
+		:"location.href='".$m[1]."'";
+?>"
+title="Click to open for iPad"
+>
+<IMG SRC="<?=(preg_match('/\/db\//',$item['path']))
+?Main::comm_link('1folder.gif', $tmp, 'db')
+:DOCTXT::inc_link((!empty($item['next']))?'1folder.gif':((!empty($item['link']))?'1link.gif':'1article.gif'), $tmp)
+?>" BORDER='0' ALT='Опции' align="left">
+</a>
+<a href="<?=$item['path']?>" id="itemList<?=
+$_DOC['COUNTER']
+?>" TITLE='<?=
+addslashes(strtr(htmlspecialchars($item['name']),array("'"=>' ', '"' => '')))
+?>' 
+
+onfocus="writeField('EventsCmdLeft', getField('tree_<?=
+$_DOC['COUNTER']
+?>_l'));writeField('EventsCmdRight', getField('tree_<?=
+$_DOC['COUNTER']
+?>_r'));writeField('CreateCmdRight', getField('tree_<?=
+$_DOC['COUNTER']
+?>_up'));writeField('LeftPreview', getField('tree_<?=
+$_DOC['COUNTER']
+?>_d'));writeField('Connects', getField('tree_<?=
+$_DOC['COUNTER']
+?>_sa'));"
+ondblclick="<?
+if (!preg_match("|.*(/db/.+)|",$item['path'],$m) && empty($item['path_tmp']))
+	echo ($item['next'])
+		?"location.href='?list&node=".$item['path']."'" 
+		:((!empty($item['link']))?"ShowPopUp('".$item['link']."', 800, 600, 'yes');"
+		:(empty($item['readonly'])?"ShowPopUp('/clear/".$item['path']."?edit', 800, 600, 'yes');":''));
+else
+	echo (empty($m[1]))
+		?"location.href='".$item['path_tmp']."'"
+		:"location.href='".$m[1]."'";
+?>"
+onclick ="setPointer('<?=$_DOC['COUNTER']?>'); <?=(!empty($item['link']))?"if(chk_press_edit()){ShowPopUp('".$item['link']."', 800, 600, 'yes');}":(empty($item['readonly'])?"if(chk_press_edit()){ShowPopUp('/clear/".$item['path']."?edit', 800, 600, 'yes');}":"")?>; return false;"
+>
+<?=$item['name']?>
+</a>
+</td>
+<td nowrap>
+	<?$tmp_date=date("d M (H:i)", $item['date']); if($tmp_date[0]=='0')echo substr($tmp_date, 1);else echo $tmp_date;?>
+</td>
+<td><?
+$file = (!empty($item['hidden'])) ? 'a_red.gif':'a_green.gif';
+$link = "/".$_DOC['MODULE_NAME']."/?list&node=".$item['root']."&add=".$item['path']."&";
+$link .= (!empty($item['hidden'])) ? 'show':'hide';;
+?><a href="<?=
+$link
+?>"><IMG src="<?=
+DOCTXT::inc_link($file, $f);
+?>" border="0" align="left">
+</td>
+</tr>
+<?
+// Последнее - это скрыть, убрать, есть в интерфейсе
+array_pop($ADDONS);
+?>
+<div id="tree_<?=
+$_DOC['COUNTER']
+?>_up" style="position:absolute;visibility:hidden">
+<?
+	// Первое - это добавить поддокумент, его в верх
+	echo '<div class="action">'.array_shift($ADDONS).'</div>';
+?>
+</div>
+
+<div id="tree_<?=
+$_DOC['COUNTER']
+?>_l" style="position:absolute;visibility:hidden">
+<?
+for ( $i = 0; $i < sizeof($ADDONS); $i+=2 ) {
+	echo '<div class="action">'.$ADDONS[$i].'</div>';
+}?>
+</div>
+
+<div id="tree_<?=
+$_DOC['COUNTER']
+?>_r" style="position:absolute;visibility:hidden">
+<?for ( $i = 1; $i < sizeof($ADDONS); $i+=2 ) {
+	echo '<div class="action">'.$ADDONS[$i].'</div>';
+}?>
+</div>
+
+<div id="tree_<?=
+$_DOC['COUNTER']
+?>_d" style="position:absolute;visibility:hidden">
+<b><?=$item["name"]?></b><br>
+
+<div class=impreview>
+<?global $_REIMG;?>
+<?if (!empty($item["doc"]) && is_file($FORM_DATA["doc"]["abspath"]."/".$item["doc"]) && $FORM_DATA["doc"]["sub_type"] == 'photo'):?>
+<?if($_REIMG['nginx_mode'] == true){?>
+	<img class=docview src="/reimg/<?=$FORM_DATA["doc"]["path"]."/100/".$item["doc"]?>" alt="<?=$item["name"]?>" border="0"><br>
+<?}else{?>
+	<img class=docview src="/reimg/<?=$FORM_DATA["doc"]["path"]."/".$item["doc"]?>?x100" alt="<?=$item["name"]?>" border="0"><br>
+<?}?>
+<?endif;?>
+</div>
+
+<?
+$path = (!empty($item['link']))?$item['link']:$item['path'];
+?>
+<p>
+	<a href="javascript:;" OnClick="ShowPopUp('<?=(!empty($item['link']))?$item['link']:
+	str_replace('//','/','/def/'.$item['path']);
+	?>', 900, 900, 'yes');">Просмотр</a>
+	<br><input type="input" style="width: 250px" value="<?=(!empty($item['link']))?$item['link']:$item['path']?>">
+</p>
+<br>
+<a href="/clear/doctxt/nokill?nokillalias=<?=$item['path']?>" OnClick="ShowPopUp('/clear/doctxt/nokill?nokillalias=<?=$item['path']?>', 800, 600, 'yes');return false;" style='color: #fff'>nokill</a></p>
+</div>
+
+<div id="tree_<?=
+$_DOC['COUNTER']
+?>_sa" style="position:absolute;visibility:hidden">
+<?=cmd("connects/edit/".$item['path'])?>
+</div>

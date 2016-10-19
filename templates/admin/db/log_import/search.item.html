@@ -1,0 +1,10 @@
+<TR>
+	<td><p><a <a href="javascript:;" id="itemList<?=$num?>" 
+	ondblclick='ShowPopUp("/clear/<?=$_KAT['MODULE_NAME']?>/<?=$_KAT['KUR_ALIAS']?>/<?=$data['alias']?>?edit", 800, 600, "yes");'>
+		<IMG SRC="<?=KAT::inc_link('a_oper.gif', $tmp)?>" BORDER='0' ALT='Опции' align="left"></a></p>
+<? foreach ($fields_arr as $field_name) { ?>
+	<td> <?=$data[$field_name]?>
+<?}?>
+</TR>
+
+

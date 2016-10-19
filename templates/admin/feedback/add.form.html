@@ -1,0 +1,33 @@
+<TABLE cellSpacing=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE class=popuptitle cellSpacing=20 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class="modulename"><IMG height=24 alt=" " hspace=0 src="<?=Main::comm_link('module.gif', $f, $_OBSV['MODULE_NAME']);?>" width=24 align=left> 
+                 <H2>Add&nbsp;field&nbsp;<?=$_OBSV['form_name']?></H2>
+                <br>
+          </TD>
+        </TR>
+        </TBODY>
+</TABLE>
+<? global $cform;?>
+<form name="dbform" action="" method="POST">
+<table border="0" cellpadding="0" cellspacing="2" >
+ <tbody>
+ <?$cform->Body_print();?>
+ </tbody>
+</table>
+<TABLE class=form style="MARGIN-TOP: 20px" cellSpacing=0 cellPadding=0 width="100%" border=0>
+      <TBODY>
+      <TR><TD class=sep colSpan=5><DIV class=sep><SPACER height="1" width="1" type="block"></SPACER></DIV></TD></TR>
+      <TR>
+        <TD class=tdleft width="100%">
+	<input type="submit" name="add_record" value="Add">
+        <TD class=tdright>
+	<input type="submit" name="" value="Cancel" onclick="self.close();">
+   </TD>
+      </TR>
+      </TBODY>
+</TABLE></form>

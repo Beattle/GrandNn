@@ -1,0 +1,12 @@
+<?if (!empty($data["doc1"]) && is_file($FORM_DATA["doc1"]["abspath"]."/".$data["doc1"])):?>
+<div class="cat-tovar">
+		<a href="<?=$FORM_DATA["doc1"]["path"]."/".$data["doc1"]?>" rel=facebox>
+			<div class="img cat-icon " style="width: 150px; height: 150px; overflow: hidden; margin: 0px; background: url(/reimg/<?=$FORM_DATA["doc1"]["path"]."/x150/".$data["doc1"]?>) no-repeat 50% 50%;">
+			</div>
+			<!--
+<p>	<?=$data['name']?> </p>
+-->
+		</a>
+</div>
+<?endif;?>  
+

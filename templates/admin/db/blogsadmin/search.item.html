@@ -1,0 +1,47 @@
+<TR>
+	<TD>
+	     <?// там вывод data[name]
+	     if ($_CORE->IS_ADMIN && KAT::inc_tpl('kat_admin.submenu.each.inc.php',$f)) include $f?>
+	</TD>
+	<TD>
+    <?php   
+    	$author = SQL::getval( 'author_login', (( defined('DB_TABLE_PREFIX') ) ? DB_TABLE_PREFIX : '') . 'auth_pers', " author_id = '".$data['pid']."'", '', DEBUG);
+                
+    ?>
+	<a href="javascript:;" ondblclick="ShowPopUp('/clear/db/auth/<?=$data['pid']?>?edit', 800, 600, 'yes');" ><?=$author;?></a>
+        
+	</TD>
+
+    <td><?
+    $file = (!empty($data['hidden'])) ? 'a_red.gif':'a_green.gif';
+    ?><IMG src="<?=
+    DOCTXT::inc_link($file, $f);
+    ?>" border="0" align="left">
+    </td>
+
+</TR>
+
+<div id="newsList<?=$num?>" style="position:absolute;visibility:hidden">
+<b><?=$data["name"]?></b><br>
+<?=substr($data["anons"], 0, 50)?><br>
+<div class=impreview>
+<?global $_REIMG;?>
+<?if (!empty($data["doc"]) && is_file($FORM_DATA["doc"]["abspath"]."/".$data["doc"]) && $FORM_DATA["doc"]["sub_type"] == 'photo'):?>
+<?if($_REIMG['nginx_mode'] == true){?>
+	<img class=docview src="/reimg/<?=$FORM_DATA["doc"]["path"]."/100/".$item["doc"]?>" alt="<?=$item["name"]?>" border="0"><br>
+<?}else{?>
+	<img class=docview src="/reimg/<?=$FORM_DATA["doc"]["path"]."/".$item["doc"]?>?x100" alt="<?=$item["name"]?>" border="0"><br>
+<?}?>
+<?endif;?>
+</div>
+Служебная информация:<br>
+
+<?
+$path = $_KAT['MODULE_NAME'].'/'.$_KAT['KUR_ALIAS']."/".$data["alias"];
+?>
+<p>Просмотреть:<br><a href="javascript:;" OnClick="ShowPopUp('<?=(!empty($item['link']))?$item['link']:
+'/def/'.$path
+?>?edit', 900, 900, 'yes');"><?=(strlen($path) > 30)?"...".substr($path, -30):$path?></a></p>
+
+</div>
+

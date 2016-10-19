@@ -1,0 +1,28 @@
+  <tr>
+   <? if (is_array($record)) {?>
+	<? foreach ($record as $field_alias => $field_value) { ?>
+	 <? if (Out::checkFieldVisibility($field_alias)) { ?>
+	  <? if (Out::checkSearchField($field_alias)) { ?>
+       <td valign=middle width="100%"><input name="<?=$tools->s?>[<?=$field_alias?>]" value="<?=$tools->getSearchByName($field_alias)?>"></td>		  
+      <? } else { ?>
+       <td  align="right">&nbsp</td>		  
+      <? } ?>
+     <? } ?>
+	<? } ?>    
+   <? } ?>    
+  </tr>  
+	<tr>
+		<td valign=middle width="100%">
+			<input name="search" value="Search" type="submit">
+		</td>
+	</tr>
+<?if (isset($_OBSV['csv'])) {?>
+	<tr>
+		<td valign=middle width="100%">
+			<input type="button" value="Csv exchange" onclick="ShowPopUp('/clear/<?=$_OBSV['MODULE_NAME']?>/capture?form_id=<?=$_REQUEST['form_id']?>', 600, 600);return false;"">
+		</td>
+	</tr>
+<?}?>
+ </tbody>
+</table>
+</form>

@@ -1,0 +1,99 @@
+<?// partof сортировка в админском режиме added 22.02.06
+       $orderby = empty($_GET['orderby']) ? 'none':$_GET['orderby'];  $ord="a_order_none.gif"; $ord_text = "Отсортировать по возрастанию";
+       $desc = empty($_GET['desc']) ? "site":$_GET['desc'];  
+	   switch ( $desc )
+		{	case "site":	$spec="a_order_none.gif";	$spec_text="Отсортировать по возрастанию";	$ndesc="up";	break;
+			case "up":		$spec="a_order_up.gif";		$spec_text="Отсортировать по убыванию";		$ndesc="down";	break;
+			case "down":	$spec="a_order_down.gif";	$spec_text="Отсортировать, как на сайте";	$ndesc="site";	break;
+		}
+?>
+<TABLE BORDER=0 cellpadding=2 cellspacing=1 width=100% class="viewdetails"><THEAD>
+<thead>
+
+<div id="doc_adm_menu" style="visibility:hidden;position:absolute">
+<p><?=@$ADDISHION ?></p><br>
+<p><a href="/clear/doctxt/site_order?node=<?=$_REQUEST['node']?>" OnClick="ShowPopUp('/clear/doctxt/site_order?node=<?=$_REQUEST['node']?>', 800, 600, 'yes');return false;">
+	<IMG SRC='<?=DOCTXT::inc_link('a_ordering.gif',$tmp);?>' BORDER='0' ALT='Порядок'  align=left>	
+	Порядок вывода
+</a></p><br>
+<?if($_DOC['conf']['csv']){?>
+<p><A HREF='/csv/' OnClick="ShowPopUp('/clear/csv/', 480, 200, 'yes');return false;"><IMG SRC='<?=DOCTXT::inc_link('a_uban.gif',$f)?>' BORDER='0' TITLE='Загрузить CSV-файл' >Загрузить CSV-файл</A></p>
+<?}?>
+</div>
+
+
+
+<div id="doc_adm_seealso" style="position:absolute;visibility:hidden">
+<a href="/<?=$_DOC['MODULE_NAME']?>?tree"><img src="/templates/admin/viewmode.gif" align=left><p>Сменить режим отображения (дерево)</p></a>
+</div>
+
+<div id="doc_buff_cont" style="visibility:hidden;position:absolute">
+<? /*if( is_array($_SESSION['DOC']['CUTTED_ITEM_ALIAS']) )
+echo "<pre>"; print_r($_SESSION['DOC']['CUTTED_ITEM_ALIAS']); echo "</pre>"; 
+	foreach( @$_SESSION['DOC']['CUTTED_ITEM_ALIAS'] as $k=>$v )
+	{	$name_cuted = DOCTXT::get_name_by_alias( $v );
+		$tmp = ($k != 'cop')?'y':''; 
+		echo "<a href='javascript:;' title=".$v.">".substr($name_cuted, 0, 40)."</a> (".$_SESSION['DOC']['CUTTED_TYPE'][$k].$tmp.")<br>";
+	}
+
+*/ ?>
+<?
+	if( is_array($_SESSION['DOC']['CUTTED_ITEM_ALIAS']) ){
+
+    foreach( @$_SESSION['DOC']['CUTTED_ITEM_ALIAS'] as $k=>$v ){	
+      $name_cuted = DOCTXT::get_name_by_alias( $v );
+      $tmp = ($k != 'cop')?'y':'';
+      if($_SESSION['DOC']['CUTTED_TYPE'][$k] === "cop"){
+        $cutted_type = 'Ctrl+C';
+    } else {
+      if ($_SESSION['DOC']['CUTTED_TYPE'][$k] === "cut"){
+        $cutted_type = 'Ctrl+X';
+      }
+    }
+?>
+		<img src="<?=( preg_match('/\/db\//',$v) ) ? Main::comm_link('1folder.gif', $tmp, 'db') :  DOCTXT::inc_link((!empty($item['next']))?'1folder.gif':'1article.gif', $tmp);?>" border="0" alt="Опции" align="left" />
+    <p>
+      <a href="javascript:;" title="<?=$v;?>" >
+        <?=substr($name_cuted, 0, 40);?>(<?=$cutted_type;?>)
+      </a>
+    </p>
+<?
+    }
+  }
+?>
+</div>
+
+<script language="javascript" type="text/javascript">
+  writeField('CreateCmdLeft', getField('doc_adm_menu'));
+  writeField('SeeAlso', getField('doc_adm_seealso'));
+  writeField('Buff', getField('doc_buff_cont'));
+</script>
+
+
+<tr>
+	<td class="header">
+<? //внимание важно правильно заполнить!!! 
+   $field_name = 'name';
+?>  	
+      <a href="<?=$_SERVER['REQUEST_URI']?>?list&node=<?=$node?>&orderby=<?=$field_name?>&desc=<?=($orderby==$field_name)?$ndesc:"up"?>" title="<?=($orderby==$field_name)?$spec_text:$ord_text?>">
+      <IMG SRC="<?=KAT::inc_link( ($orderby==$field_name)?$spec:$ord , $tmp)?>"  Alt="" >   
+      </a>
+	Наименование</td>
+	<td class="header" nowrap>
+<? //внимание важно правильно заполнить!!! 
+   $field_name = 'date';
+?>  	
+      <a href="<?=$_SERVER['REQUEST_URI']?>?list&node=<?=$node?>&orderby=<?=$field_name?>&desc=<?=($orderby==$field_name)?$ndesc:"up"?>" title="<?=($orderby==$field_name)?$spec_text:$ord_text?>">
+      <IMG SRC="<?=KAT::inc_link( ($orderby==$field_name)?$spec:$ord , $tmp)?>"  Alt="" >   
+      </a>
+	Дата</td>
+	<td class="header" nowrap>
+<? //внимание важно правильно заполнить!!! 
+   $field_name = 'hidden';
+?>  	
+      <a href="<?=$_SERVER['REQUEST_URI']?>?list&node=<?=$node?>&orderby=<?=$field_name?>&desc=<?=($orderby==$field_name)?$ndesc:"up"?>" title="<?=($orderby==$field_name)?$spec_text:$ord_text?>">
+      <IMG SRC="<?=KAT::inc_link( ($orderby==$field_name)?$spec:$ord , $tmp)?>"  Alt="" >   
+      </a>
+	Статус</td>
+</TR>
+</THEAD><TBODY>

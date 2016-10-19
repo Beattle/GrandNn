@@ -1,0 +1,42 @@
+<SCRIPT>
+function db_del(name, id){ // js
+if (confirm("¬ы уверены что хотите удалить опрос \n"+name+"\n")) {
+document.location.href	= "http://"+location.host+location.pathname+"?del=1&id="+id;
+return true;
+}else
+return false;
+}
+</script>
+<table class="viewdetails"width=100% border=0 cellpadding="0" cellspacing="1">
+<THEAD>
+<tr>
+	<td class="header">
+<? //внимание важно правильно заполнить!!! 
+   //в переменную $field_name нужно положить ключ у массива $data, из файла search.item.html, соответствующего данному заголовку, сейчас это $data['name'] 
+       $field_name = 'name';
+?>  	
+<!--      <a href="<?=$_SERVER['REQUEST_URI']?>?orderby=<?=$field_name?>&desc=<?=($orderby==$field_name)?@$ndesc:"up"?>" title="<?=( $orderby==$field_name )?$spec_text:$ord_text?>">
+      <IMG SRC="<?=KAT::inc_link( ( $orderby==$field_name )?$spec:$ord , $tmp)?>"  Alt="" >   
+      </a>-->
+	Ќаименование</td>
+	<td class="header" nowrap>
+<? //внимание важно правильно заполнить!!! 
+   //в переменную $field_name нужно положить ключ у массива $data, из файла search.item.html, соответствующего данному заголовку, сейчас это $data['ts']
+       $field_name = 'ts';
+?>  	
+<!--      <a href="<?=$_SERVER['REQUEST_URI']?>?orderby=<?=$field_name?>&desc=<?=($orderby==$field_name)?@$ndesc:"up"?>" title="<?=( $orderby==$field_name )?$spec_text:$ord_text?>">
+      <IMG SRC="<?=KAT::inc_link( ( $orderby==$field_name )?$spec:$ord , $tmp)?>"  Alt="" >   
+      </a>
+-->	ƒата</td>
+	<td class="header" nowrap>
+<? //внимание важно правильно заполнить!!! 
+   //в переменную $field_name нужно положить ключ у массива $data, из файла search.item.html, соответствующего данному заголовку, сейчас это $data['ts']
+       $field_name = 'hidden';
+?>  	
+<!--      <a href="<?=$_SERVER['REQUEST_URI']?>?orderby=<?=$field_name?>&desc=<?=($orderby==$field_name)?@$ndesc:"up"?>" title="<?=( $orderby==$field_name )?$spec_text:$ord_text?>">
+      <IMG SRC="<?=KAT::inc_link( ( $orderby==$field_name )?$spec:$ord , $tmp)?>"  Alt="" >   
+      </a>
+-->	—татус</td>
+</TR>
+</THEAD>
+<tbody>

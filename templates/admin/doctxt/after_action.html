@@ -1,0 +1,12 @@
+<?
+ob_end_clean();
+//ob_end_flush();
+// hader("Location: /doctxt?tree");
+?>
+
+<script language="javascript" type="text/javascript">
+window.parent.location.href = '/doctxt?<?=$_SESSION['DOC']['ADM_VIEWSTYLE']?>&node=<?=$_REQUEST['node']?>';
+//window.close();
+</script>
+
+<?exit;?>

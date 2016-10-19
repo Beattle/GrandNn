@@ -1,0 +1,25 @@
+<?
+	if ($was) 
+		echo '<div class="line" style=" height: 20px;"></div>';
+?>
+<div class="block">
+	<div class="content">
+		<?php
+	/*<p class="date" style="display: inline-block;"><?=STR::date2word($data['ts'])?></p>*/
+?>
+		<h2><?=$data['person'];?></h2>
+		<p style="border-left: 1px solid #333; margin-left: 10px; padding: 10px; margin-top: 5px; padding-top: 0px;margin-bottom: 10px;"><?=$data['cont']?></p>
+        <? if(!empty($data['request'])){ ?>
+        <div style="margin-left: 20px;">
+            <h3>Администратор</h3>
+            <div style="border-left: 1px solid #333; margin-left: 10px; padding: 10px; margin-top: 5px; padding-top: 0px;margin-bottom: 10px;"><?=$data['request']?></div>
+        </div>
+        <? } ?>
+	</div>
+  <? $_REQUEST['like_path'] = "/db/response/".$data['alias'];
+        echo cmd('/like/response/show/short');
+        unset($_REQUEST['like_path']);
+		?>
+</div>
+<div class="cl"></div>
+<?$was = true;?>

@@ -1,0 +1,15 @@
+<? if(!strstr($v['path'],'/news/')){ ?>
+<a href='<?=$v['path']?>' class=item>
+	<? 
+		$parce_doc = explode('/',$v['doc']);
+		if(count($parce_doc)>1){
+			$last_item 		= array_pop($parce_doc);
+			$parce_doc[] 	= '140x140';
+			$parce_doc[]	= $last_item;
+			$v['doc'] = implode('/',$parce_doc);
+		}
+	?>
+	<img src="/reimg/<?=$v['doc']?>" width=140 alt="<?=$v['name']?>">
+	<p><?=$v['name']?></p>
+</a>
+<? } ?>

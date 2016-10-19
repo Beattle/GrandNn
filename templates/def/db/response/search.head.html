@@ -1,0 +1,52 @@
+<?php
+	$youtube = SQL::getall('code,alias',DB_TABLE_PREFIX.'response',"1 AND (hidden != 1 OR hidden IS NULL) and code!=''");
+	if( is_array($youtube) && count($youtube) ) {
+		
+?>
+	<style>
+		#fancybox-left, #fancybox-right {
+			bottom: auto;
+			top: 0;
+			height: 90%;
+		}
+	</style>
+<script type="text/javascript" src="<?=$_CORE->TEMPLATES.$_CORE->CURR_TPL?>/JS/jcarousel/jquery.jcarousel.min.js"></script>
+
+<div  class="search_short_youtube" style="text-align: center;  width: 950px; max-height: 170px;">
+<ol id="mycarousel" class="jcarousel-skin-tango" style="overflow: hidden; height: 128px; width: 970px; margin: 0; padding: 0;">
+	<script type="text/javascript">
+		$(document).ready(function() {
+			<? if( count($youtube)>4 ){ ?>
+			jQuery('#mycarousel').jcarousel({
+				/*wrap: 'circular',*/
+				animation: 'slow',
+				auto: 0,
+				scroll: 4
+			});
+			<? } ?>
+			$("a[rel=si_youtube]").fancybox({
+				'padding'		: 0,
+				'width'				: '640',
+				'height'			: '385',
+				'autoScale'			: false,
+				'transitionIn'		: 'none',
+				'transitionOut'		: 'none'
+				/*'type'				: 'swf'http://www.youtube.com/v/<?=trim($tube['code'])?>?version=3&amp;hl=ru_RU&amp;rel=0*/
+			});
+			
+		});
+	</script>
+<?php foreach($youtube as $tube){ ?>
+<li style="list-style-type:none; float: left; margin-right: 10px;">
+	<div class="searchitem_youtube" style="margin: 0;">
+		<a href="/clear/db/response/<?=$tube['alias'];?>"  rel="si_youtube">
+			<img class="img_youtube" src="http://i3.ytimg.com/vi/<?=trim($tube['code'])?>/mqdefault.jpg" width="220" />
+			<div class="play_youtube"></div>
+		</a>
+	</div>
+</li>
+	<?php } ?>
+	</ol>
+</div>
+<div class="cl"></div>
+<?php } ?>

@@ -1,0 +1,72 @@
+<?
+global $_CONF, $SQL_DBCONF;
+
+	/*	Clients Conf */
+	$_CONF['PJ_NAME'] = 'grand';
+	$_CONF['CSS'] = '38';	
+	$_CONF['MAIL_ACT'] = true;	
+	
+	// for class.DBCQ.php
+	if (empty($SQL_DBCONF)) {
+		$SQL_DBCONF['user']	= 'landcom_grandnn';
+		$SQL_DBCONF['pwd']	= '123123123';		
+		$SQL_DBCONF['name']	= 'landcom_grandnn';
+		$SQL_DBCONF['port']	= '3306';		
+		$SQL_DBCONF['host']	= 'localhost';
+		$SQL_DBCONF['type']	= 'mysql';		
+		define('DB_TABLE_PREFIX', $_CONF['PJ_NAME'].'__');
+		}
+		define ("CODEPAGE", "windows-1251");
+		// разные для locale, страниц и заголовков
+		$_CONF['CorePath']	= '/home/l/landcom/lib/sited_core3/';
+		$_CONF['USED_MODULES'] = array("doctxt", "db",  "auth", "news", "index", "user", "obsv", "basketorders");
+		// , "pay"
+        $_CONF['MENUED_MODULES_ADMIN'] = array("doctxt", "basketorders", "db", "auth" );
+		// "tpls", "auth", 'obsv'
+    	$_CONF['MENUED_MODULES_USERS'] = array();	$_CONF['upload_path'] = '/data/uploads/';
+		$_CONF['TmplExt'] = '.tpl.phtml';
+		$_CONF['FEATURES_USED'] = array(
+		'aliases'			=> false,
+		'pagenum'			=> false,
+		'youtubeapi'		=> true,
+		'settings'			=> true,
+		'basketsave'		=> true,
+		'basketauth'		=> true,
+		// включает автосоздание пользователя по e-mail работает только с basketsave
+		'basketpay'			=> true, 
+		// включает отображение "оплатить" в списке заказов и привязку оплаты к заказу
+		'partner_auth'	=> true,
+		// использует параметр "партнер" для зарегистрированных пользователей
+		'partners'		=> true,		
+		'auth_role'		=> true
+		// включает возможность давать пользователям доступ в админку
+		);
+		/* Define Core interrupt */
+		define('INT_TREE_LOADED', 'INT_TREE_LOADED');
+		define('ACT_TREE_LOADED', 'ACT_TREE_LOADED');
+		if (strstr($_SERVER['SERVER_NAME'], 'dev.')) {
+			$_CONF['CorePath']      = '/home/l/landcom/lib/sited_core3/';
+			$SQL_DBCONF['user']	= 'landcom_granddev';
+			$SQL_DBCONF['pwd']	= '234qwe234';
+			$SQL_DBCONF['name']	= 'landcom_granddev';	
+		}
+		if (strstr($_SERVER['SERVER_NAME'], '.l3')) {		
+			$_CONF['CorePath']	= "D:\openserver\lib\sited_core3";
+			$SQL_DBCONF['user']     = 'root';
+			$SQL_DBCONF['pwd']      = '';
+			$SQL_DBCONF['name']     = 'grandnn';
+		}		
+		$_CONF['SMS']['project'] 	= 'grandnn.com';
+		$_CONF['SMS']['key'] 		= '2743a71f00d0e';
+		$_CONF['SMS']['from'] 		= 'Grandnn.com';
+		$_CONF['arr_met'] = array("serebro" => 'Серебро', "serebro_925" => 'Серебро 925', "zoloto" => 'Золото', "zoloto_585" => 'Золото 585', "zoloto_750" => 'Золото 750');
+		$_CONF['ins'] = array(''=>'Все вставки',
+			'noins'=>'Без вставок',
+			'diamonds'=>'Бриллианты',
+			'rhinestone'=>'Фианиты',
+			'pearls'=>'Жемчуг',
+			'precious'=>'Драгоценные',
+			'semi-precious'=>'Полудрагоценные',
+			'ornamental'=>'Поделочные'
+		);
+		$_CONF['tagspage'] = array('bu','name','probe','gvstav');

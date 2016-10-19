@@ -1,0 +1,13 @@
+<TABLE ALIGN="CENTER" WIDTH=100% HEIGHT=100% BORDER=0 CELLSPACING=1 CELLPADDING=3>
+<TR>
+  <TD nowrap class=tabzag bgcolor='<?=@$_VOTE['colors']['bgtitle']?>'><B><?=$_VOTE['vote']['title']?></B> </td>
+  <TD align=right>
+<A HREF='/clear/<?=$_VOTE['MODULE_NAME']?>/ask?id=<?=$_VOTE['vote']['id']?>' OnClick="window.open('','Vote','width=150,height=240,resizable=no,scrollbars=yes,menubar=no,status=no')" target=Vote><IMG SRC="<?=$_CORE->CoreModDir?>/images/a_zoom.gif" WIDTH="16" HEIGHT="16" BORDER="0" ALT="просмотреть"></A>
+<A HREF='?loaded=1&id=<?=@$_VOTE['vote']['id']?>'><IMG SRC='<?=$_CORE->CoreModDir?>/images/a_edit.gif' WIDTH='16' HEIGHT='16' BORDER='0' ALT='редактировать'></A>
+<IMG SRC='<?=$_CORE->CoreModDir?>/images/a_delete.gif' WIDTH='16' HEIGHT='16' BORDER='0' ALT='удалить' OnMouseOver="this.style.cursor=(NS?'pointer':'hand');" OnClick='db_del("<?=$_VOTE['vote']['title']?>",<?=@$_VOTE['vote']['id']?>);'>
+  </TD>
+</TR><TR bgcolor='<?=$_VOTE['colors']['over_bglist']?>'>
+  <TD colspan=2 OnMouseover="this.style.backgroundColor='<?=@$_VOTE['colors']['over_bglist']?>'" OnMouseout="this.style.backgroundColor='<?=@$_VOTE['colors']['bglist']?>'">
+  <LI><?=implode("<LI>",$_VOTE['vote']['ans'])?></TD>
+</TR>
+</TABLE>

@@ -1,0 +1,15 @@
+<div class="new">
+<?php
+$i++;
+
+$ar_d = explode("-",$data['date']);
+echo $ar_d[2].' '.$_CORE->CONF['months'][$ar_d[1]];
+
+echo '
+<br>
+<h3>'.$data['name'].'</h3>';
+echo '<p>'.nl2br($data['anons']).'</p>';
+
+?>
+
+</div>

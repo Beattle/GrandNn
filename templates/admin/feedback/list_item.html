@@ -1,0 +1,34 @@
+<?$skin=$record[$GLOBALS[$GLOBALS['table_alias']]['id']];?>
+   <tr>
+<? if (is_array($record)) { $fl=0;?>
+<? foreach ($record as $field_alias => $field_value) if (Out::checkFieldVisibility($field_alias, $GLOBALS['table_alias'])) {$fl++;?>
+	  
+	<td valign=middle width="100%">
+<?if ($fl==1) {?>
+		<img alt=" " src="<?=Main::comm_link('file.gif', $f, $_OBSV['MODULE_NAME'] )?>" >
+		<a id="itemList<?=$iterator?>" href="/<?=$_OBSV['MODULE_NAME']?>/configurator/view?form_id=<?=$skin?>" title="<?=$record['name']?>" 
+			
+			onclick="writeField('EventsCmdRight', getField('dmodel_<?=$skin?>_down_r'));writeField('EventsCmdLeft', getField('dmodel_<?=$skin?>_down_l'));return false;"
+			
+			
+			onfocus="setPointer('<?=$iterator?>');" 
+			<?$iterator++;?>
+		>
+<?}?>
+		<?=$field_value?>
+<?if ($fl==1) {?>
+		</a>
+<?}?>
+	</td>		  
+<?}?>    
+<?}?>
+   </tr>
+<div id="dmodel_<?=$skin?>_down_r" style="position:absolute;visibility:hidden">
+	<img alt=" " src="<?=Main::comm_link('edit.gif', $f, $_OBSV['MODULE_NAME'] )?>" >
+	<a href="/clear/obsv/<?=$GLOBALS['part']?>/edit?id=<?=$record[$GLOBALS[$GLOBALS['table_alias']]['id']]?>" title="Edit" OnClick="ShowPopUp(this.href,500,600,'yes');return false;">Edit</a>
+	<br>
+	<img alt=" " src="<?=Main::comm_link('delete.gif', $f, $_OBSV['MODULE_NAME'] )?>" >
+	<a href="" title="Delete" OnClick="if (confirm('You realy want delete this record?')) location.href='/obsv/<?=$GLOBALS['part']?>/list?delete_id=<?=$record[$GLOBALS[$GLOBALS['table_alias']]['id']]?>'; else return false;">Delete</a>
+</div>
+<div id="dmodel_<?=$skin?>_down_l" style="position:absolute;visibility:hidden">
+</div>

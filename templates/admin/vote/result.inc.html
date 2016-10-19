@@ -1,0 +1,34 @@
+<TABLE WIDTH=100% BORDER=0 CELLPADDING=5 cellspacing=0  style="height:100%">
+<TR style="height:100%"><TD valign=middle <?=$_VOTE['settings']['vtb']?>>
+<?if (!$empty) {?><H1>Результаты голосования</H1><?}?>
+<TABLE Align=center BORDER=0 CELLSPACING=1 CELLPADDING=3 WIDTH=100%>
+<TR>
+  <TD <?=$_VOTE['settings']['vtz']?>colspan=3>
+ <table cellspacing="0" cellpadding="0" border="0" width="100%">
+  <tr>
+   <td nowrap>
+	<div class="na"><?=@$_VOTE['vote']['title']?></div>
+	<div class="na nar"></div>
+   </td>
+   <td width="100%" class="red" align="right"><br></td>
+  </tr>
+ </table>
+  </TD>
+</TR>
+<?
+	foreach( $_VOTE['vote']['ans'] as $k => $v) {
+		$size = ($draw)?ceil( $_VOTE['vote']['ans_votes'][$k] * 100 / $all_count) : 0 ;
+		echo "<TR><TD nowrap>$v</TD><TD ".$_VOTE['settings']['vtb']." width=100% align=left><TABLE BORDER=0 CELLPADDING=2 CELLSPACING=0 WIDTH='$size%' bgcolor='#AAAAAA'><TR><TD ".$_VOTE['settings']['vtz']." WIDTH='$size%'>".$size."%</TD></TR></TABLE></TD></TR>";
+	}
+?>
+<TR><TD <?=$_VOTE['settings']['vtz']?> align=right colspan=3><B>&nbsp;</B></TD></TR>
+</TABLE>
+</TD></TR>
+<?if (!$empty) {?>
+<TR><TD>
+	<TABLE width="100%" cellpadding=0 cellspacing=0 border=0 >
+<td <?=$_VOTE['settings']['vtb']?> nowrap><A HREF='/<?=$_VOTE['MODULE_NAME']?>/all' OnClick="opener.location='/<?=$_VOTE['MODULE_NAME']?>/all'; self.close()" ><< Все</A></TD></td>
+<TD align=right colspan=2  nowrap <?=$_VOTE['settings']['vtb']?>><A HREF='#' OnClick='self.close(); opener.WindowRefresh();'>Закрыть окно >></A></TD></TR>
+</TABLE></TD></TR>
+<?}?>
+</TABLE>

@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0086)http://www.setinn.ru/cms/index.php?module=content&action=setpriority&elem=all&parent=0 -->
+<HTML><HEAD><TITLE>Порядок вывода</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1251">
+
+<SCRIPT language=JavaScript>
+
+
+var f = false;
+ function moveGroupUp (dir)
+ {
+     var list = document.dataForm.answers;
+     var selindex = list.selectedIndex;
+     if((  selindex==-1 )||( dir >= 0 )) { return; }
+     var toindex;
+   for( i=0; i< list.options.length; i++ )
+     if( list.options[i].selected ){
+       selindex = i; 
+       toindex = selindex+dir;
+       if( toindex < 0 ){ return; }
+       var selopt = new Option(list.options[selindex].text,
+                               list.options[selindex].value,
+                               false,
+                               list.options[selindex].selected);
+                             
+       var toopt = new Option(list.options[toindex].text,
+                              list.options[toindex].value,
+                              false,
+                              list.options[toindex].selected);
+       list.options[toindex] = selopt;
+       list.options[selindex] = toopt;    
+     }
+ }
+
+ function moveGroupDown (dir)
+ {
+     var list = document.dataForm.answers;
+     var selindex = list.selectedIndex;
+     if((  selindex==-1 )||( dir <= 0 )) { return; }
+     var toindex;
+   for( i=list.options.length-1; i >= 0; i-- )
+     if( list.options[i].selected ){
+       selindex = i; 
+       toindex = selindex+dir;
+       if( toindex >= list.options.length ){ return; }
+       var selopt = new Option(list.options[selindex].text,
+                               list.options[selindex].value,
+                               false,
+                               list.options[selindex].selected);
+                             
+       var toopt = new Option(list.options[toindex].text,
+                              list.options[toindex].value,
+                              false,
+                              list.options[toindex].selected);
+       list.options[toindex] = selopt;
+       list.options[selindex] = toopt;    
+     }
+ }
+ 
+ function saveData()
+ {   
+     var list = document.dataForm.answers;
+     document.dataForm.data_ordering.value = "";
+	 for( i=0; i< list.options.length; i++ )
+	 {
+		 document.dataForm.data_ordering.value += list.options[i].value+';';
+	 } 
+    return true;  
+ }
+
+     
+ 
+ function saveDefault()
+ {   
+     if( f ){ return; }
+     def = new Array(document.dataForm.answers.options.length);
+     var list = document.dataForm.answers;
+     for( i=0; i< list.options.length; i++ )
+       {   def[i] = list.options[i];
+       }
+     f = true;    
+ } 
+ function Reset()
+ {   
+     var list = document.dataForm.answers;
+     for( i=0; i< list.options.length; i++ )
+       {   list.options[i] = def[i];
+           list.options[i].selected = false;
+       }
+ }
+</SCRIPT>
+
+<META content="MSHTML 6.00.2900.2802" name=GENERATOR></HEAD>
+<BODY onmouseover="saveDefault();"  bgColor=#ffffff leftMargin=0 topMargin=0 marginwidth="0" marginheight="0">
+<TABLE cellSpacing=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE class=popuptitle cellSpacing=20 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD><IMG height=24 alt="" hspace=0 
+            src="<?=KAT::inc_link('d_ordering.gif',$tmp);?>" width=24 align=left> 
+            <H2>Порядок вывода</H2></TD></TR></TBODY></TABLE>
+      <TABLE cellSpacing=20 cellPadding=0 width="100%" border=0>
+        <FORM  name=dataForm method="post" action="<?=$template?><?=$_SERVER['REQUEST_URI']?>?<?=$_SERVER['QUERY_STRING']?>">
+        <INPUT type=hidden value=1 name=closeWindow> 
+        <INPUT type=hidden name=data_ordering> 
+        <TBODY>
+        <TR>
+          <TD>
+            <TABLE class=form cellSpacing=0 cellPadding=0 width="100%" border=0><TBODY>
+              <TR>
+                <TD>
+                  <P>Список статей<SPAN class=star>*</SPAN></P></TD></TR>
+              <TR>
+                <TD>
+<?
+if( !$wC ){
+	
+   global $_KAT, $_CORE, $FORM_DATA, $FORM_ORDER;
+   $search	= @$_REQUEST['form'];
+
+   if (KAT::inc_tpl('search.form.html', $file))
+		   include "$file";
+	   
+   if (!empty($search)) {
+		$_KAT['SEARCH_RES']	= array();
+		KAT::search($search, $FORM_ORDER,999);
+	if (sizeof($_KAT['SEARCH_RES']) > 0) {?>                
+	
+	                <SELECT style="WIDTH: 100%" size=<?=sizeof($_KAT['SEARCH_RES'])?> name=answers multiple> 
+	                
+	<?foreach($_KAT['SEARCH_RES'] as $num => $data){?>
+	            
+	                <OPTION value=<?=$data['alias']?>> <?=$data['name']?></OPTION>
+	                
+	<?}?>    
+	                
+	                </SELECT>
+	                
+	<?}else{
+		
+		if (!isset($_KAT[$_KAT['KUR_ALIAS']]['NOTHING']))
+			echo "<div class=mark>".KAT_ERR_NOT_FOUND."<div><BR>";
+		else 
+			echo $_KAT[$_KAT['KUR_ALIAS']]['NOTHING'];
+			
+	}}}else{		if (KAT::inc_tpl('after_ordering.html', $file))
+					include "$file";
+	}?>                    
+                </TD></TR></TBODY></TABLE>
+            <TABLE class=form cellSpacing=0 cellPadding=0 width="100%" 
+              border=0><TBODY>
+              <TR>
+                <TD class=tdleft><INPUT onclick="moveGroupUp(-1);" type=button value=Поднять name=submit232222></TD>
+                <TD class=tdleft width="100%"><INPUT onclick=moveGroupDown(1); type=button value=Опустить name=submit23222></TD></TR></TBODY></TABLE>
+            <TABLE class=form style="MARGIN-TOP: 20px" cellSpacing=0 
+            cellPadding=0 width="100%" border=0>
+              <TBODY>
+              <TR>
+                <TD class=sep colSpan=5>
+                  <DIV class=sep><SPACER height="1" width="1" 
+                  type="block"></SPACER></DIV></TD></TR>
+              <TR>
+                <TD class=tdleft width="100%"><INPUT type=button value=Отменить onclick="Reset();"></TD>
+                <TD class=tdcenter><INPUT id=Apply onclick="dataForm.closeWindow.value=0;saveData(); dataForm.submit();" type=button value=Применить></TD>
+                <TD class=tdright><INPUT id=Update onclick="dataForm.closeWindow.value=1;saveData();" type=submit value=Сохранить></TD></TR></TBODY></TABLE></TD></TR></FORM></TBODY></TABLE></TD></TR></TBODY></TABLE></BODY></HTML>

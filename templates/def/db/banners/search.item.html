@@ -1,0 +1,9 @@
+<?php
+	if (!empty($data["doc"]) && is_file($FORM_DATA["doc"]["abspath"]."/".$data["doc"])):?>
+		<a href="<?=$data['url']?>"  class=slide style="background: #000 url('<?=$FORM_DATA["doc"]["path"]?>/<?=$data['doc'];?>') no-repeat 0px 50%;">
+			<h2 style="font-size: <?=($data['size']) ? $data['size'] : '26'?>px"><?=$data['name']?></h2>
+			<p style="font-size: <?=($data['size_anons']) ? $data['size_anons'] : '12'?>px"><?=nl2br($data['anons'])?></p>
+			<p><?=($data['price']) ? '<span>'.number_format($data['price'], 0) . '</span> руб.': ''?></p>
+		</a>
+	<?endif;?>
+

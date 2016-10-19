@@ -1,0 +1,81 @@
+<?php 
+
+$obj=new Spsr;
+$city_name = mb_convert_encoding ($GLOBALS['GEO_CITY_NAME'],"utf-8",'windows-1251');
+$obj->xml ='<root xmlns="http://spsr.ru/webapi/Info/GetCities/1.0"> <p:Params Name="WAGetCities" Ver="1.0" xmlns:p="http://spsr.ru/webapi/WA/1.0" /> <GetCities CityName="'.$city_name.'" CountryName="" /> </root>';
+$cityId=$obj->getXmlObject()->City->Cities['City_ID'];
+$cityOwnerID=$obj->getXmlObject()->City->Cities['City_owner_ID'];
+
+$object=new Spsr;
+$object->xml = '
+<root xmlns="http://spsr.ru/webapi/Info/GetSpsrOffices/1.0">
+    <p:Params Name="WAGetSpsrOffices" Ver="1.0" xmlns:p="http://spsr.ru/webapi/WA/1.0"/>
+    <Login SID="6FAE77B9ACA44B049F43B7EBD7861627"/>
+    <GetSpsrOffices CityId="'.$cityId.'" CityOwnerId="'.$cityOwnerID.'"/>
+</root>';
+?>
+<h2><?=Spsr::encodingFromUtf('Адреса пунктов выдачи в вашем городе:');?></h2><?
+foreach ($object->getXmlObject()->SPSROffices->Office as $key=>$office){
+	//echo Spsr::encodingFromUtf($office['CityName']) . '<br>';
+	echo $_COOKIE['GEO_CITY_NAME'] . ', ' . Spsr::encodingFromUtf($office['Address']) . '<br>';
+	echo Spsr::encodingFromUtf($office['WorkTime']) . '<br>';
+	echo 'info@grandnn.com<br>';
+
+	foreach($office->Phone as $phone){
+	echo Spsr::encodingFromUtf($phone['Phone']). '<br>';;
+	}
+
+
+?>
+
+<div id="map<?=$office['id'] ?>" style="width: 100%; height: 400px">
+<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+
+<script type='text/javascript'>
+    ymaps.ready(init);
+    function init(){
+        var geocoder = new ymaps.geocode(
+                // Строка с адресом, который нужно геокодировать
+                '<? echo Spsr::encodingFromUtf($office['CityName']).','. Spsr::encodingFromUtf($office['Address']) ?>',
+                // требуемое количество результатов
+        { results: 1 }
+    );
+        // После того, как поиск вернул результат, вызывается callback-функция
+        geocoder.then(
+                function (res) {
+                    // координаты объекта
+                    var coord = res.geoObjects.get(0).geometry.getCoordinates();
+                    var map = new ymaps.Map('map<?=$office["id"] ?>', {
+                        // Центр карты - координаты первого элемента
+                        center: coord,
+                        // Коэффициент масштабирования
+                        zoom: 7,
+                        // включаем масштабирование карты колесом
+                        behaviors: ['default', 'scrollZoom'],
+                        controls: ['mapTools']
+                    });
+                    // Добавление метки на карту
+                    map.geoObjects.add(res.geoObjects.get(0));
+                    // устанавливаем максимально возможный коэффициент масштабирования - 1
+                    map.zoomRange.get(coord).then(function(range){
+                        map.setCenter(coord, range[1] - 1)
+                    });
+                    // Добавление стандартного набора кнопок
+                    map.controls.add('mapTools')
+                    // Добавление кнопки изменения масштаба
+                            .add('zoomControl')
+                            // Добавление списка типов карты
+                            .add('typeSelector');
+                }
+        );
+    }
+</script></div>
+<hr>
+<? } ?>
+
+<h2><? echo Spsr::encodingFromUtf('Адреса наших магазинов:');?></h2>
+<table class="noborder" style="width:100%; border-width:0px;">
+    <tr>
+        <td><? echo Spsr::encodingFromUtf('Адрес');?></td>
+        <td><? echo Spsr::encodingFromUtf('Режим работы');?></td>
+        <td><? echo Spsr::encodingFromUtf('Телефон');?></td>

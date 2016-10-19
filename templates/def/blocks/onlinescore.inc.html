@@ -1,0 +1,88 @@
+<?php
+	if (!$_CORE->dll_load('class.lProtect'))
+		die ($_CORE->error_msg());
+		$_KAT['onlinescore']['wall_obj'] = new lProtect('/antispam/show');
+	
+	include $_SERVER['DOCUMENT_ROOT']."/modules/db/onlinescore.data.inc.php";
+	global $form, $doc, $doc1,$doc2,$doc3,$doc4,$doc5;
+	$form = array();
+	unset($doc, $doc1,$doc2,$doc3,$doc4,$doc5);
+	$GLOBALS['doc4'] = $GLOBALS['doc1'] = $GLOBALS['doc2'] = $GLOBALS['doc3'] = $GLOBALS['doc4'] = $GLOBALS['doc5'] = '';
+	$csform 	= new cForm($FORM_DATA);
+?>
+<div class="zakaz" style="width: 500px; float: left; margin-top: 0px;">
+
+	<!--<script language="javascript">
+		$(function(){
+			$('select.pretty, input:radio, input:file, input:text, input:submit, input:password, input:button,  textarea').uniform();
+		});
+	</script>-->
+	<script type="text/javascript" src="<?=$_CORE->TEMPLATES.$_CORE->CURR_TPL?>/JS/validate.js"></script>
+
+<form action="/local/onlinescore"  method="POST" enctype="multipart/form-data" name="tform" id="obsv" >
+	<table class="noborder" style="width: 460px;" >
+	<tr>
+		<td colspan="2">
+			<strong>Оставьте заявку и Наш менеджер с Вами свяжется</strong>
+	
+<div id="result">
+	<?=(isset($_GET['good']))?'<h2>Запрос успешно отправлен</h2>':''; ?>
+	<?=(isset($_GET['bad']))?'<h2>Запрос не удалось отправить, проверьте правильность заполнения формы или попробуйте позднее</h2>':'';?>
+</div>
+		</td>
+	</tr>
+	<? 
+	
+		echo $csform->Body_print(); 
+		
+	?>
+	<?  $_KAT['onlinescore']['wall_obj']->out_form(); ?>
+	<tr><td></td><td><div style="width: 190px; float: right; cursor: pointer;" class="btn" id="send_form">отправить</div></td></tr>
+	</table>
+</form>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('#send_form').click(function(){
+		if(!$('#obsv').valid()) return false;
+		$('#obsv').submit();
+		
+	});
+	$("#obsv").validate({
+	    rules: {
+	      'form[fio]': {
+	        required: true,
+	        minlength: 2
+	      },	
+	      'form[mail]': {
+	        required: true,
+	      },
+			'form[phone]': {
+	        required: true,
+			rangelength: [7, 12]
+	      },
+	      'form[cont]': {
+	        required: true,
+	        minlength: 2
+	      }		  
+	    },
+	    messages: {
+	      'form[fio]': {
+	        required: "<br>Пожалуйста, укажите ФИО.",
+	        minlength: "<br>Пожалуйста, введите не менее 2 символов"
+	      },
+		  'form[mail]': {
+	        required: "<br>Пожалуйста, укажите Ваш email для связи."
+	      },
+	      'form[phone]': {
+	        required: "<br>Номер телефона слишком короткий.",
+	        rangelength: "<br>Пожалуйста, введите не менее 7 символов"
+	      },
+		  'form[cont]': {
+	        required: "<br>Пожалуйста, введите описание изделия.",
+	        minlength: "<br>Пожалуйста, введите не менее 2 символов"
+	      }
+	    }
+	});
+});
+</script>
+</div>

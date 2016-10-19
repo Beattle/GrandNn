@@ -1,0 +1,31 @@
+/* common plate & see also*/
+
+table.common a:hover, table.seealso a:hover { color: #c78aa7; }
+
+
+/* color plate */
+
+table.color, table.popuptitle {
+    background-color: #c78aa7;
+}
+table.viewdetails td{
+	padding: 6px 10px 6px 10px;
+}
+table.viewdetails a {
+  display: block;
+  padding: 0px;
+  color: blue;
+}
+.zakaz_view{
+	padding:20px;
+	padding-top: 5px;
+}
+table.basket_list th{
+	padding:5px;
+	background-color: #E5E5E5;
+	color: black;
+}
+table.basket_list td{
+	text-align: center;
+	padding:5px !important;
+}

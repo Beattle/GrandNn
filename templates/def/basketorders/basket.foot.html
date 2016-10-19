@@ -1,0 +1,23 @@
+	<tfoot>
+		<tr align="left">
+			<td></td>
+			<td align="right"><strong>днярюбйю:</strong>&nbsp;&nbsp;</td>
+			<td><strong><span id="summ_delivery"><?=STR::price_sp($data['delivery_summ']);?></span>&nbsp;П.</strong></td>
+			<td></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr align="left">
+			<td></td>
+			<td align="right"><strong>бяецн:</strong>&nbsp;&nbsp;</td>
+			<td><strong><span id="basketSumma"><?=STR::price_sp($data['summ']);?></span>&nbsp;П.</strong></td>
+			<td><strong><span id="basketCounts"><?=$data['counts'];?></span> ЬР.</strong></td>
+			<td>&nbsp;</td>
+		</tr>
+	</tfoot>
+</table>
+<?php if($_SERVER['REQUEST_URI']== '/basketorders'){ ?>
+<br>
+<a  href="/basketorders/checkout" class="btn">
+		нтнплхрэ гюйюг
+</a>
+<? } ?>

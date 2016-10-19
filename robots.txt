@@ -1,0 +1,4 @@
+Host: dev.grandnn.com
+User-agent: *
+Disallow: /
+Disallow: /templates/admin/

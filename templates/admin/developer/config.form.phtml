@@ -1,0 +1,45 @@
+<?global $form;?>
+<? if(!isset($_GET['noheader'])){ ?>
+<table width="100%"  border="0" cellpadding="0" cellspacing="20" class="popuptitle">
+      <tr>
+        <td>
+		<h2>
+        	Настройки модуля <?=$DevApi->modulesList[$_REQUEST['mod']]['name'];?>
+        </h2></td>
+      </tr>
+    </table>
+<? } ?>
+<form action="/clear/developer/set_config" method=post enctype="multipart/form-data" name='db_form'>
+
+<TABLE BORDER=0 width='100%' cellspacing=20 cellpadding=0>
+<tr><td>
+<table width="100%"  border="0" cellpadding="0" cellspacing="0" class="form" style="margin-top:20px">
+<tr>
+  <input type="hidden" name="apply" value="0">
+  <input type="hidden" name="mod" value="<?=$_REQUEST['mod'];?>">
+  <td width="100%" class="tdleft"><input type=submit name="submit" value="Сохранить">&nbsp;<input type="submit" name="submit" onClick="db_form.apply.value=1;db_form.submit();" value="Применить"></td>
+  <td class="tdright" align="right"><input type=reset value="Отменить"></td>
+</tr>
+<tr>
+  <td colspan="3" class="sep"><div class="sep"><spacer type="block" width="1" height="1"></spacer></div></td>
+</tr>
+</TABLE>
+<TABLE BORDER=0 width='100%' cellspacing=1 cellpadding=3 class="form">
+<? $cForm->Body_print();?>
+</table>
+
+<table width="100%"  border="0" cellpadding="0" cellspacing="0" class="form" style="margin-top:20px">
+<tr>
+  <td colspan="3" class="sep"><div class="sep"><spacer type="block" width="1" height="1"></spacer></div></td>
+</tr>
+<tr>
+  <td width="100%" class="tdleft"><input type=submit name="submit" value="Сохранить">&nbsp;<input type="submit" name="submit" onClick="db_form.apply.value=1;db_form.submit();" value="Применить"></td>
+  <td class="tdright" align="right"><input type=reset value="Отменить"></td>
+</tr>
+</TABLE>
+<script type="text/javascript">
+document.db_form['form[name]'].focus();
+</script>
+</FORM>
+</TD></TR></TABLE>
+</td></tr></table>

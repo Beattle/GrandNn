@@ -1,0 +1,23 @@
+<?
+if (isset($_KAT['DOC_PATH'][$_KAT['KUR_ALIAS']])){
+	global $_DOC;
+	$_DOC['RE_TITLE'] = str_replace(array('[',']'),'',$form['name']);
+	$_SERVER['REQUEST_URI'] = $_KAT['DOC_PATH'][$_KAT['KUR_ALIAS']]; // что бы меню выделилось
+	$_DOC['CURRENT'] = $_SERVER['REQUEST_URI'];
+}else{
+	// если это не в подпапках, то CURRENT будет DB значит надо заголовок там поменять
+	global $_KAT;
+	$_KAT['RE_TITLE'] = str_replace(array('[',']'),'',$form['name']);
+}
+?>
+<?if (!empty($form["doc"]) && is_file($FORM_DATA["doc"]["abspath"]."/".$form["doc"])):?>
+			<div class="photobig">
+				<img src="/reimg<?=$FORM_DATA["doc"]["path"]."/x100/".$form["doc"]?>" alt="<?=$form["doc_title"]?>" border="0">
+			<p class="source"><?=$form["doc_title"]?></p>
+			</div>
+<?endif;?>
+
+<b><?=STR::date2word($form['ts'])?></b>
+<p><?=$form['cont']?>
+
+	

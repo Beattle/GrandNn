@@ -1,0 +1,27 @@
+<?global $_STATIST;?>
+<TABLE BORDER=0 cellpadding=2 cellspacing=1 width=100% class="viewdetails">
+<THEAD>
+
+ <tr>
+  <td width="17%" nowrap class="header">Когда</td>
+  <td width="13%" nowrap class="header">Поисковик</td>
+  <td width="35%" class="header">Что искали</td>
+  <td width="35%" class="header">Что нашли</td>
+ </tr>
+
+</THEAD>
+<tbody>
+
+				<?if( !empty($all_data))foreach( $all_data as $data  ){?>
+				  
+ <tr>
+  <td><?=$data['date']?></td>
+  <td><?=$data['search']?></td>
+  <td><?=$data['words']?></td>
+  <td><a href=<?=$data['link']?>><?=substr($data['name'], 0, 40)?></a></td>
+ </tr>
+
+
+				<?}?>		
+</tbody>
+</table>

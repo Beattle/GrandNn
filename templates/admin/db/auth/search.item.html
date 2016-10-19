@@ -1,0 +1,92 @@
+<tr>
+	<td align="center" >
+		<?=$data['author_id']?>
+	</td>
+	<td>
+	     <?// там вывод data[name]
+			 $data['name'] = $data['author_login'];
+	     if ($_CORE->IS_ADMIN && KAT::inc_tpl('kat_admin.submenu.each.inc.php',$f)) include $f?>
+	</td>
+	<td>
+		<?=$data['author_comment']?>
+  </td>
+	<?if (!empty($DATA['author_bd'])){?>
+    <td>
+      <? $age = floor((time() - strtotime($data['author_bd'])) / (365*24*60*60)); ?>
+  		<?=$age?> <?=@STR::age($age);?>
+		</td>
+	<?}?>
+			<?if (!empty($FORM_DATA['balance'])){?>
+	<td>
+		<?=$data["balance"];?>
+		</td>		
+		<?}?>
+	<td>
+	<?global $_REIMG;?>
+	<?if($_REIMG['nginx_mode'] == true){?>
+		<?=($data["doc"]) ? '<a onclick="ShowPopUp(\'/reimg/'.$FORM_DATA["doc"]["path"]."/500x500/".$data["doc"].'\', 500, 500, \'yes\');" href="javascript:;"><img class=docview src="/reimg/'.$FORM_DATA["doc"]["path"]."/x60/".$data["doc"].'" border="0" height=60 /></a>' : '';?>
+		<?=($data["doc1"]) ? '<a onclick="ShowPopUp(\'/reimg/'.$FORM_DATA["doc"]["path"]."/500x500/".$data["doc1"].'\', 500, 500, \'yes\');" href="javascript:;"><img class=docview src="/reimg/'.$FORM_DATA["doc"]["path"]."/x60/".$data["doc1"].'" border="0" height=60 /></a>' : '';?>
+	<?}else{?>
+		<?=($data["doc"]) ? '<a onclick="ShowPopUp(\'/reimg/'.$FORM_DATA["doc"]["path"]."/".$data["doc"].'?500x500\', 500, 500, \'yes\');" href="javascript:;"><img class=docview src="/reimg/'.$FORM_DATA["doc"]["path"]."/".$data["doc"].'?x60" border="0" height=60 /></a>' : '';?>
+		<?=($data["doc1"]) ? '<a onclick="ShowPopUp(\'/reimg/'.$FORM_DATA["doc"]["path"]."/".$data["doc1"].'?500x500\', 500, 500, \'yes\');" href="javascript:;"><img class=docview src="/reimg/'.$FORM_DATA["doc1"]["path"]."/".$data["doc1"].'?x60" border="0" height=60 /></a>' : '';?>
+	<?}?>
+		</td>
+			<?if (!empty($DATA['author_company'])){?>
+	<td>
+		<?=$data["author_company"];?>
+		</td>		
+		<?}?>
+
+<?if (!empty($_CORE->_modules['partners_stat'])) {?>
+	<!-- Партнерство -->
+	<td>
+<?
+		$file = (!empty($data['partner'])) ? 'a_green.gif':'a_red.gif';
+		$path = $_KAT['MODULE_NAME'].'/'.$_KAT['KUR_ALIAS']."/".$data["alias"];
+		$action = "?".((!empty($data['partner'])) ? 'show':'hide')."&field=partner&ajax=1";
+?>
+    <a href="<?='/'.$path.$action;?>" onclick="$('#main_container').load('<?='/clear/'.$path.$action;?>'); return false;"><img src="<?=DOCTXT::inc_link($file, $f);?>" border="0"  /></a>
+	</td>
+<?}?>
+	<?if (!empty($FORM_DATA['MODIFY'])){?>
+    <td>
+      <? if(!empty($data['MODIFY']) ){
+          echo date("d.m.Y H:i:s",$data['MODIFY']);
+        }
+      ?>
+		</td>
+	<?}?>
+	<?if (!empty($FORM_DATA['AUTORISE'])){?>
+    <td>
+      <? if(!empty($data['AUTORISE']) ){
+          echo date("d.m.Y H:i:s",$data['AUTORISE']);
+        }
+      ?>
+		</td>
+	<?}?>
+	<td>
+<?
+		$file = (!empty($data['hidden'])) ? 'a_red.gif':'a_green.gif';
+		$path = $_KAT['MODULE_NAME'].'/'.$_KAT['KUR_ALIAS']."/".$data["alias"];
+		$action = "?".((!empty($data['hidden'])) ? 'show':'hide');
+?>
+    <a href="<?='/'.$path.$action;?>" onclick="$('#main_container').load('<?='/clear/'.$path.$action;?>&ajax=1'); return false;"><img src="<?=DOCTXT::inc_link($file, $f);?>" border="0"  /></a>
+		</td>
+
+</tr>
+
+<div id="newsList<?=$num?>" style="position:absolute;visibility:hidden">
+<b><?=$data["author_login"]?></b><br>
+<?=substr($data["author_name"], 0, 50)?><br>
+<div class=impreview>
+<?if (!empty($data["doc"]) && is_file($FORM_DATA["doc"]["abspath"]."/".$data["doc"]) && $FORM_DATA["doc"]["sub_type"] == 'photo'):?>
+<?if($_REIMG['nginx_mode'] == true){?>
+	<img class=docview src="/reimg/<?=$FORM_DATA["doc"]["path"]."/100/".$item["doc"]?>" alt="<?=$item["name"]?>" border="0"><br>
+<?}else{?>
+	<img class=docview src="/reimg/<?=$FORM_DATA["doc"]["path"]."/".$item["doc"]?>?x100" alt="<?=$item["name"]?>" border="0"><br>
+<?}?>
+<?endif;?>
+</div>
+
+</div>
+

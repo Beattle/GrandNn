@@ -1,0 +1,38 @@
+<TR>
+	<td>
+		<? // там вывод data[name]
+			$data['name'] = 'Заказ №'.$data['id'];
+			if ($_CORE->IS_ADMIN && KAT::inc_tpl('kat_admin.submenu.each.inc.php',$f)) 
+				include $f;
+		?>
+	</td>
+	<td><?=$data['email']?></td>
+	<td><?=$data['phone']?></td>
+	<td><?=$data['cnt']?></td>
+	<td><?=$data['summ']?> p.</td>
+	<td><?=$data['ts']?></td>
+	<td><?	$file = (!empty($data['hidden'])) ? 'a_red.gif':'a_green.gif'; ?>
+		<IMG src="<?=DOCTXT::inc_link($file, $f);?>" border="0" align="left">
+	</td>
+	<? if(isset($_CORE->_modules['basketcrm'])){ ?>
+	<td>
+		<a href="javascript:;" onclick="ShowPopUp('/clear/basketcrm/show?alias=<?=$data['alias']?>', 800, 600, 'yes');">CRM</a>
+	</td>
+	<? } ?>
+</TR>
+
+<div id="newsList<?=$num?>" style="position:absolute;visibility:hidden">
+<b><?=$data["author_login"]?></b><br>
+<?=substr($data["author_name"], 0, 50)?><br>
+<div class=impreview>
+<?if (!empty($data["doc"]) && is_file($FORM_DATA["doc"]["abspath"]."/".$data["doc"]) && $FORM_DATA["doc"]["sub_type"] == 'photo'):?>
+<?if($_REIMG['nginx_mode'] == true){?>
+	<img class=docview src="/reimg/<?=$FORM_DATA["doc"]["path"]."/100/".$item["doc"]?>" alt="<?=$item["name"]?>" border="0"><br>
+<?}else{?>
+	<img class=docview src="/reimg/<?=$FORM_DATA["doc"]["path"]."/".$item["doc"]?>?x100" alt="<?=$item["name"]?>" border="0"><br>
+<?}?>
+<?endif;?>
+</div>
+
+</div>
+

@@ -1,0 +1,35 @@
+	<style>
+		#fancybox-left, #fancybox-right {
+			bottom: auto;
+			top: 0;
+			height: 90%;
+		}
+	</style>
+	<script type="text/javascript" src="<?=$_CORE->TEMPLATES.$_CORE->CURR_TPL?>/JS/jcarousel/jquery.jcarousel.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			<? if( count($_KAT['SEARCH_RES'])>= 4 ){ ?>
+			jQuery('#mycarousel').jcarousel({
+				wrap: 'circular',
+				animation: 'slow',
+				auto: 3,
+				scroll: 4,
+                //size: 4,
+                offset: 1,
+                //visible: 4,
+			});
+			<? } ?>
+			$("a[rel=si_youtube]").fancybox({
+				'padding'		: 0,
+				'width'				: '640',
+				'height'			: '385',
+				'autoScale'			: false,
+				'transitionIn'		: 'none',
+				'transitionOut'		: 'none'/*,
+				'type'				: 'swf'*/
+			});
+			
+		});
+	</script>
+<div  class="search_short_youtube" style="text-align: center;  width: 950px; max-height: 170px; margin-left: 24px;">
+<ol id="mycarousel" class="jcarousel-skin-tango" style="overflow: hidden; height: 170px; width: 932px;margin: 0; padding: 0;">

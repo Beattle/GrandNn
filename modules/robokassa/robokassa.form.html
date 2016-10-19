@@ -1,0 +1,35 @@
+<? 
+if ( empty($_SESSION['SESS_AUTH']['ID']) ) {
+	header ('Location: /auth/login');
+	exit;
+}
+?>
+<?php
+if(empty($_REQUEST['out_summ'])){
+	header ('Location: /robokassa/?error=OutSum');
+	exit;  
+}
+
+$out_summ = $_REQUEST['out_summ'];
+//var_dump();die();
+$shp_item = $_REQUEST['shp_item'] ? $_REQUEST['shp_item'] : $_SESSION['SESS_AUTH']['ID'];
+//$shp_item = json_encode($shp_item);
+$crc  	  = md5("{$_ROBOKASSA['mrh_login']}:$out_summ:{$_ROBOKASSA['inv_id']}:{$_ROBOKASSA['pass_1']}:Shp_item={$shp_item}"); /* формирование кода */
+?>
+<h2>Пополение баланса</h2>
+<p>Пополнение на сумму <?=$out_summ?></p>
+<form action="<?php echo $_ROBOKASSA['robo_url'];?>" id="robokassa" method=POST>
+<input type=hidden name=MrchLogin      value="<?php echo $_ROBOKASSA['mrh_login'];?>">
+<input type=hidden name=OutSum         value="<?php echo $out_summ;?>" readonly>
+<input type=hidden name=InvId          value="<?php echo $_ROBOKASSA['inv_id'];?>">
+<input type=hidden name=Desc           value="<?php echo $_ROBOKASSA['inv_desc'];?>">
+<input type=hidden name=SignatureValue value="<?php echo $crc;?>">
+<input type=hidden name=Shp_item       value="<?php echo $shp_item;?>">
+<input type=hidden name=IncCurrLabel   value="<?php echo $_ROBOKASSA['in_curr'];?>">
+<input type=hidden name=Culture        value="<?php echo $_ROBOKASSA['culture'];?>">
+<input type="submit" value="Пополнение" class=btnenter>
+</form>
+<script type="text/javascript">
+    $('#robokassa').submit();
+	 //$(document).ready(function(){setTimeout(function(){$('#robokassa').submit();},500);});
+</script>

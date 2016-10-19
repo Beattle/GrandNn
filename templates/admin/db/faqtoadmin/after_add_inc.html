@@ -1,0 +1,22 @@
+<?php
+
+if( empty($_REQUEST['form']['alias']) && !empty($form['alias'])){
+	$text = "
+		Обращение из раздела помощь $_SERVER[SERVER_NAME],
+		
+		Вопрос: \t".$form['question'];
+		
+		
+		$text .= "
+		
+		---
+		Эта информация сохранена в системе управления сайтом в разделе 'Помощь'
+		$_SERVER[SERVER_NAME]
+		";
+    	$charset = 'koi8-r';
+    	$headers="MIME-Version: 1.0\nContent-Type: text/plain; charset={$charset};\nContent-transfer-Encoding: 8bit\nX-Mailer: PHP.";
+    	$from   = "From: ".$_SERVER[SERVER_NAME]."\n".$headers;
+    	@mail("service@startupmilk.com", convert_cyr_string ('Вопрос в Support '.$_SERVER[SERVER_NAME],"w", "k"), convert_cyr_string ($text, "w", "k"), $from);
+}
+
+?>

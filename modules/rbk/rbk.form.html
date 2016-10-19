@@ -1,0 +1,49 @@
+<? 
+if ( empty($_SESSION['SESS_AUTH']['ID']) ) {
+	header ('Location: /auth/login');
+	exit;
+}
+?>
+<?php
+if(empty($_REQUEST['out_summ'])){
+	header ('Location: /robokassa/?error=OutSum');
+	exit;  
+}
+$out_summ = $_REQUEST['out_summ'];
+//var_dump();die();
+$shp_item = $_REQUEST['shp_item'] ? $_REQUEST['shp_item'] : $_SESSION['SESS_AUTH']['ID'];
+
+$crc  	  = md5("{$_RBK['eshopId']}::$out_summ:{$_RBK['inv_id']}:{$_RBK['pass_2']}:Shp_item={$shp_item}"); 
+        // новый порядок формирования crc
+        $crc 	= md5($_REQUEST['eshopId'] 
+                		 . "::" . $_REQUEST["recipientAmount"] 
+                		 . '::' . $_REQUEST['recipientCurrency']
+                         . "::" . $_REQUEST['userEmail']
+                         . "::" . $_REQUEST['serviceName']
+                         . '::' . $_REQUEST['orderId']
+                         . '::' . $_REQUEST['userField_1']
+                         . '::' . $_REQUEST['userField_2']
+                         . '::' . $_REQUEST['userField_3']
+                 		 . "::" . $mrh_pass2); 	
+/* формирование кода */
+?>
+<h2>Сейчас вы будете перенаправлены на страницу платежного шлюза "RBK"</h2><br/>
+<p>Пополнение на сумму <?=$out_summ?></p>
+<center><img src="/i/slon.png" alt="Оплата покупки"/></center>
+<form action="<?php echo $_RBK['robo_url'];?>" method="POST" id="form_rbk">
+<input type="hidden" name="eshopId" value="<?=$_RBK['eshopId'];?>" />
+<input type="hidden" name="recipientAmount" value="<?=$out_summ?>"/>
+<input type="hidden" name="recipientCurrency" value="RUR"/>
+<input type="hidden" name="user_email" value="<?=$_SESSION['SESS_AUTH']['LOGIN'];?>"/>
+<input type="hidden" name="successUrl" value="<?=$_RBK['success_url']?>" />
+<input type="hidden" name="failUrl" value="<?=$_RBK['fail_url']?>"/>
+<input type="hidden" name="serviceName" value="<?=$shp_item;?>"/>
+<input type="hidden" name="userField_1" value="" />
+<input type="hidden" name="userField_2" value="" />
+<input type="hidden" name = "userField_3" value="" />
+<input type="submit" class="bnt" value="Перейти" />
+</form>
+<script type="text/javascript">
+    $('#form_rbk').submit();
+	// $(document).ready(function(){setTimeout(function(){$('#form_rbk').submit();},500);});
+</script>

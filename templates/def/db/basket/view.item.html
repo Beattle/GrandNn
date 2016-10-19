@@ -1,0 +1,12 @@
+<? 
+	if((empty($_SESSION['SESS_AUTH']['ID']) && empty($_GET['hash']) ) || ( !empty($_GET['hash']) && $form['printversion']!= mysql_real_escape_string($_GET['hash']) ) )
+		header('location: http://'.$_SERVER['SERVER_NAME'].'/'); ?>
+<div class=zakaz_view>
+<?=$form["cont"]?>
+<? if(!empty($form["comments"])){ ?>
+	<div style="padding-left: 20px;">
+	<h2>Комментарий к заказу</h2>
+	<?=$form["comments"];?>
+	</div>
+<? } ?>
+</div>

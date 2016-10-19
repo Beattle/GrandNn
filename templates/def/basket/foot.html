@@ -1,0 +1,34 @@
+<? global $_CONF;?>
+<tfoot>
+<tr align="left">
+	<td colspan="2" style="width: 670px;">
+		<? 
+		if((int)$min_discount < (int)$_CONF['settings']['discount'] && !isset($_SESSION['_BASKET_DISCOUNT'])){ ?>
+		<span style="float: left; width: 480px;">
+			<b>Как еще снизить стоимость заказа </b>
+			<a title="<?php echo $_CONF['settings']['anons_discount']; ?>" href="/empty/local/promocode" rel="facebox_prom" style="text-decoration: underline;">?</a><br />
+			<form id="form_promo" action="/empty/local/promo_discount" method="post">
+			<input type="text" name="promocode" placeholder="Введите промокод" />
+			<a class="btn" href="#" onclick="$('#form_promo').submit(); return false;" style="display: inline-block;">Обновить цену</a>
+			</form>
+		</span>
+		<? } ?>
+		<span style="float: right; width: 100px;"><b>ВСЕГО:</b>&nbsp;&nbsp;</span>
+
+	</td>
+	<td ><b><?=STR::price_sp($Summ)?>&nbsp;р.</b></td>
+	<td><b><?=$Items?> шт.</b></td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+</tr>
+</tfoot>
+</table>
+<? 
+$delivery = BASKET::get_deliverypay($Summ);
+	if($delivery!== false && $Summ < $delivery['value'] ) { ?><br />
+	<span  style="float: right;">Чтобы получить бесплатную доставку, Вам осталось купить на <span class="gold"><?=STR::price_sp($delivery['value'] - $Summ);?></span> руб.</span><br />
+<? } ?>
+<br>
+<a href="/basket/contact" class="btn" style="float: right;">
+	Оформить заказ
+</a>

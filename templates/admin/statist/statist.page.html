@@ -1,0 +1,23 @@
+<?global $_STATIST; ?>
+<TABLE BORDER=0 cellpadding=2 cellspacing=1 width=100% class="viewdetails">
+<THEAD>
+
+ <tr>
+  <td width="40%" class="header">Время</td>
+  <td width="60%" class="header">IP-адрес посетителя</td>
+ </tr>
+
+</THEAD>
+<tbody>
+
+				<?if( !empty($all_data))foreach( $all_data as $data  ){?>
+				  
+ <tr>
+  <td><?=$data['time']?></td>
+  <td><?=$data['IP']?></td>
+ </tr>
+
+
+				<?}?>		
+</tbody>
+</table>

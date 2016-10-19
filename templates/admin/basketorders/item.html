@@ -1,0 +1,69 @@
+<tr valign="center"  align="left" >
+	<td>
+	<? if(!empty($item['doc'])){ 
+		$ar_doc 	= explode('/',$item['doc']);
+		$name_file 	= array_pop($ar_doc);
+		$ar_doc[] 	='50x50';
+		$ar_doc[] 	= $name_file;
+		$item['doc'] = implode('/',$ar_doc);
+	?>
+		<img src='/reimg<?=$item['doc']?>' />
+	<? } ?>
+	</td>
+	<td>
+		<a href='<?=$item['link'];?>' style="text-decoration:none;">
+			<?=$item['name']?> / <?=$item['alias']?><br>
+<?php
+	$item['anons'] = '';
+$arr_met = array("Ag" => 'Серебро', "Ag 925" => 'Серебро 925', "Au" => 'Золото', "Au 585" => 'Золото 585', "Au 750" => 'Золото 750');
+if(!empty($item['probe']) && !empty($arr_met[$item['probe']])){
+	$item['anons'] .= $arr_met[$item['probe']];
+}
+if(!empty($item['size'])){
+	if(!empty($item['anons']))$item['anons'] .= ", ";
+	$item['anons'] .= "Размер ".$item['size'];
+}
+if(!empty($item['weight'])){
+	if(!empty($item['anons']))$item['anons'] .= ", ";
+	$item['anons'] .= "Вес ".$item['weight'];
+}
+if(!empty($item['ins'])){
+	if(!empty($item['anons']))$item['anons'] .= ", ";
+	$item['anons'] .= "Вставка ".$item['ins'];
+}
+if(!empty($item['anons']))
+	echo "(".$item['anons'].")";
+?>
+		</a>
+	</td>
+	<form action="/clear/basketorders/order?alias=<?=$_GET['alias'];?>#tabs-2" method="post" name="form<?=$i?>">
+	<td>
+		<input type="text" name="purchasing[item_data][full_price]" size='5' value="<?=$item['full_price']?>" class="textField-04">&nbsp;р.
+	</td>
+	<td>
+		<input type="text" name="purchasing[item_data][discount]" size='5' value="<?=$item['discount']?>" class="textField-04">&nbsp;%
+	</td>
+	<td>
+		<?=STR::price_sp($item['full_price']-$item['discount']/100*$item['full_price']);?>&nbsp;р.
+	</td>
+	<td>
+		<input type="hidden" name="purchasing[order_alias]" value="<?=$item['order_alias']?>">
+		<input type="hidden" name="purchasing[id]"  value="<?=$item['id']?>">
+		<input type="text" name="purchasing[count]" id="count_item<?=$item['id']?>" size='5' value="<?=$item['count']?>" class="textField-04">
+	</td>
+	</form>
+	<td>
+		<a href="javascript:;" onclick="$('form[name=form<?=$i?>]').eq(0).submit(); return false;"
+		onMouseOver="document.images['save<?=$i?>'].src='/templates/def/images/icon_save_on.gif'"
+		onMouseOut="document.images['save<?=$i?>'].src='/templates/def/images/icon_save.gif'">
+			<img src="/templates/def/images/icon_save.gif" width="19" height="19" border="0" name='save<?=$i?>' title='Пересчитать изменения'>
+		</a>
+	</td>
+	<td>
+		<a href="javascript:;" onclick="$('#count_item<?=$item['id']?>').val(0);$('form[name=form<?=$i?>]').eq(0).submit(); return false;"
+		onMouseOver="document.images['delete<?=$i?>'].src='/templates/def/images/icon_delete_on.gif'"
+		onMouseOut="document.images['delete<?=$i?>'].src='/templates/def/images/icon_delete.gif'">
+			<img src="/templates/def/images/icon_delete.gif" width="19" height="19" border="0" name='delete<?=$i?>' title='Удалить позицию'>
+		</a>
+	</td>
+</tr>

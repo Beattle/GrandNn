@@ -1,0 +1,56 @@
+	<script language="JavaScript">
+		BasketItems	= <?php echo(empty($_SESSION['_BASKET_ITEMS']))?0:$_SESSION['_BASKET_ITEMS']?>;
+		BasketNames	= <?php echo(empty($_SESSION['_BASKET_NAMES']))?0:$_SESSION['_BASKET_NAMES']?>;
+		BasketSumm	= <?php echo(empty($_SESSION['_BASKET_SUMM']))?0:str_replace(' ','',$_SESSION['_BASKET_SUMM'])?>;
+		function basketWork( oc, nc, p, obj ) {
+			BasketItems	= 0 + BasketItems + nc*1;
+			if (document.getElementById('basketTable')) {
+				document.getElementById('basketTable').style.display = (BasketItems>0) ? 'inline':'none';
+			}
+			writeField('basketItems', BasketItems);
+			if (nc == 0) 	eval('document.all.list'+obj+'[4].value = "";');
+			if(BasketItems>0) $('#img_basket').css('backgroundPosition','bottom');
+			else $('#img_basket').css('backgroundPosition','top');
+			return true;
+		}
+
+		function animate_cart_my (obj)
+		{
+		src = obj.src;
+		
+		if(src == undefined ){
+			src = obj.attr('src');
+			
+		}
+				
+		$('<img src="'+src+'" id="temp_cart_animate" style="z-index: 2000; position: absolute; top:'+Math.ceil($(obj).offset().top)+'px;left:'+Math.ceil($(obj).offset().left)+'px;">').prependTo('body');
+				
+				$('#temp_cart_animate').animate(
+				{
+						top: $('#basketItems').offset().top,
+						left: $('#basketItems').offset().left
+				},
+				700,
+				function() {$('#temp_cart_animate').remove();});
+		}
+</script>
+	<IFRAME name='basket' style="display: none;" width="0" height="0" SRC='' align='center'></IFRAME>
+	<div class="basket">
+		<table class="noborder" >
+			<tr>
+				<td style="padding: 0px 0px 0px 0px; width: 150px;">Ваш заказ <a href="/basket/view"><b id='basketItems' name='basketItems'  ><?=intval(@$_SESSION['_BASKET_ITEMS'])?></b> товар<?=STR::fins_sush($_SESSION['_BASKET_ITEMS'])?></a><br />
+		<a  href="/basket/contact">Оформить заказ</a></td>
+				<td style="padding: 0px 0px 0px 0px; text-align: center;" >
+					<a href="/basket/view">
+						<? if(intval(@$_SESSION['_BASKET_ITEMS'])){ ?>
+						<div id="img_basket" style="margin-top: -12px; height: 70px; width: 58px; background-image: url(/templates/def/img/basket2.png); background-position: bottom; overflow: hidden; display: inline-block;" ></div>
+						<? }else{ ?>
+						<div id="img_basket" style="margin-top: -12px; height: 70px; width: 58px; background-image: url(/templates/def/img/basket2.png); background-position: top; overflow: hidden; display: inline-block;" ></div>
+						<? } ?>
+					</a>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	

@@ -1,0 +1,97 @@
+<? 
+ $DATA = array (
+  'author_login' => 
+  array (
+    'field_name' => 'author_login',
+    'name' => 'auth[author_login]',
+    'title' => 'E-mail',
+    'type' => 'textbox',
+    'must' => '1',
+    'size' => '20',
+    'maxlen' => '128',
+  ),  
+  'author_comment' => 
+  array (
+    'field_name' => 'author_comment',
+    'name' => 'auth[author_comment]',
+    'title' => 'Имя',
+    'type' => 'textbox',
+    'must' => '1',
+    'size' => '20',
+    'maxlen' => '128',
+  ),
+  'author_phone' => 
+  array (
+    'field_name' => 'author_phone',
+    'name' => 'auth[author_phone]',
+    'title' => 'Телефон ',
+    'type' => 'textbox',
+    'must' => '0',
+    'size' => '20',
+    'maxlen' => '128',
+  ), 
+  'author_city' => 
+  array (
+    'field_name' => 'author_city',
+    'name' => 'auth[author_city]',
+    'title' => 'Город ',
+    'type' => 'textbox',
+    'must' => '0',
+    'size' => '20',
+    'maxlen' => '128',
+  ), 
+ 'author_address'	=>
+  array	(
+	'field_name' =>	'author_address',
+	'name' => 'auth[author_address]',
+	'title'	=> 'Адрес',
+	'must' => 0,
+	'maxlen' =>	'65535',
+	'type' => 'textarea',
+	'style'	=> 'width:100%',
+	'rows' => '3',
+  ),
+  'author_passwd' => 
+  array (
+    'field_name' => 'author_passwd',
+    'name' => 'auth[author_passwd]',
+    'title' => 'Пароль',
+    'maxlen' => '25',
+    'must' => '0',
+    'type' => 'password',
+    'size' => '20',
+  ),
+  'author_passwd2' => 
+  array (
+    'field_name' => 'author_passwd2',
+    'name' => 'auth[author_passwd2]',
+    'title' => 'Повтор пароля',
+    'maxlen' => '25',
+    'must' => '0',
+    'type' => 'password',
+    'size' => '20',
+  ),
+/*'partner' => array(
+		'field_name' => 'partner',
+		'name' => 'auth[partner]',
+		'title' => 'Учавствовать в партнерской программе',
+		'must' => 0,
+		'maxlen' => 20,
+		'type' => 'checkbox'
+	)*/
+//'doc' => array(
+//	'field_name' =>	'doc', // должно совпадать с 'name'!!!
+//	'name'	=> 'doc',
+//	'title'	=> 'Аватар',
+//	'maxwidth' => 50,
+//	'maxheight'	=> 70,
+//	'admwidth'	=> 100,
+//	'type'	=> 'photo',
+//	'sub_type'	=> 'photo',
+//	'newname_func'	=> 'get_file_name()',
+//	'path'	=> '/data/auth/',
+//	'abspath'	=> $_SERVER['DOCUMENT_ROOT'].'/data/auth/',
+//	),
+//
+);
+ ?>

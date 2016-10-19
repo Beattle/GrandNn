@@ -1,0 +1,48 @@
+<table style="width: 683px;margin: 0 auto;" cellpadding="0" cellspacing="0" >
+	<tr>
+		<td style="padding-left: 53px;">
+			<table style="width: 600px;min-height: 400px; border: 2px #e3e3e3 solid; border-bottom: 0px;" cellpadding="0" cellspacing="0" bgcolor="#f5f5d6">
+				<tr>
+					<td style="width: 600px;height: 120px;background-color: #000;" bgcolor="#000">
+<? if($_BASKET['printversion']){ ?>
+<a href="http://<?=$_SERVER['SERVER_NAME'].'/print/db/basket/'.$form['alias'].'?hash='.$form['printversion'];?>" style="float: right;margin-right: 10px;margin-top: -13px; color: #cc9933;">Версия для печати</a>
+<? } ?>
+						<table cellpadding="0" cellspacing="0" width="100%" style="width: 100%;">
+							<tr>
+								<td><img style="margin-left: 20px;" src="cid:logo.png" /></td>
+								<td style="width:120px; vertical-align: bottom;">
+									<div style="width:115px; height: 25px;">
+									
+										<a href="http://vk.com/jhgrand" target="_blank" style="margin-left: 10px;text-decoration: none;">
+											<img src="cid:vk.gif" />
+										</a>
+										<a href="http://www.facebook.com/profile.php?id=100004224841896" target="_blank" style="margin-left: 10px;text-decoration: none;">
+											<img src="cid:fb.gif" />
+										</a>
+										<a href="http://www.youtube.com/channel/UCag1J-DthTzFd1j89EvRtKA" target="_blank" style="margin-left: 10px;text-decoration: none;">
+											<img src="cid:yt.gif" />
+										</a>
+									</div>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td style="padding-top: 15px;">
+	<table cellpadding="0" cellspacing="0" border="0" width="100%">
+		<tr>
+			<td class="content" style="font-size: 14px;padding-left: 20px; padding-top:10px;" >
+				<h2>Здравствуйте, <?=@$_POST['BASKET_CONTACTS']['name'];?></h2>
+				<p>Благодарим Вас за заказ! В ближайшее время наш менеджер свяжется с Вами для уточнения деталей.
+				</p>
+			</td>
+		</tr>
+	</table>
+	<?=$data['cont'];?>
+	<? if(!empty($data["comments"])){ ?>
+		<div style="padding-left: 20px;">
+		<h2>Комментарий к заказу</h2>
+		<?=$data["comments"];?></div>
+	<? } ?>
+<?=cmd('blocks/mailfooter');?>

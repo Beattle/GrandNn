@@ -1,0 +1,119 @@
+<? global $_STATIST;?>
+<TABLE cellSpacing=0 cellPadding=0 width="100%">
+  <FORM name=dataFormNew action="/clear/<?=$_SERVER['REQUEST_URI']?>" method=post>
+  <INPUT type=hidden value="0" name=count>
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE class=popuptitle cellSpacing=20 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD ><IMG height=24 alt=" " hspace=0 src="<?=Main::comm_link('module_little.gif', $f, $_STATIST['MODULE_NAME']);?>" width=24 align=left> 
+                 <H2><?=$head?></H2>
+          </TD>
+        </TR>
+        </TBODY>
+</TABLE>
+      <TABLE cellSpacing=20 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <TABLE class=form cellSpacing=0 cellPadding=0 width="100%" 
+              border=0><TBODY>
+              <TR>
+                <TD class=tdleft width="50%">
+                  <P>Выбраная дата</P></TD>
+                <TD class=tdright width="50%">
+<!--                  <P>Дата конца</P>--></TD></TR>
+              <TR>
+                <TD class=tdleft>
+                  <TABLE class=dates cellSpacing=0 cellPadding=0>
+                    <TBODY>
+                    <TR>
+                      <TD class=tdcenter><SELECT name=sDay>
+<?for($i=1; $i<32; $i++){?>
+				<OPTION value="<?=$i?>" <?if($i==$Day)echo "selected";?>><?=$i?></OPTION>
+<?}?>
+</SELECT></TD>
+					<TD class=tdcenter>
+					<SELECT name=sMonth>
+<?for($i=1; $i<12; $i++){?>
+	                   <OPTION value="<?=$i?>"<?if($i==$Month)echo "selected";?>><?=$_STATIST['Month'][$i-1]?></OPTION>
+<?}?>
+					</SELECT></TD>
+                      <TD class=tdright>
+                      <input  name=sYear value="2006">
+					</TD></TR></TBODY></TABLE></TD>
+                <TD class=tdright></TD></TR></TBODY></TABLE>            
+<!--                      <TABLE class=form cellSpacing=0 cellPadding=0 width="100%" border=0><TBODY>
+              <TR>
+                <TD class=tdleft noWrap>
+                  <P>Единицы</P></TD>
+                <TD class=tdcenter noWrap>
+                  <P><INPUT type=radio CHECKED value=1 
+                name=unit>абсолютные</P></TD>
+                <TD class=tdcenter noWrap>
+                  <P><INPUT type=radio value=2 name=unit>% от максимума</P></TD>
+                <TD class=tdright noWrap width="100%">
+                  <P><INPUT type=radio value=3 name=unit>% от 
+              среднего</P></TD></TR></TBODY></TABLE>-->
+</FORM>
+<FORM name = "dataForm" action="/clear/<?=$_SERVER['REQUEST_URI']?>" method=post>
+<INPUT type=hidden value="0" name=curday > 
+
+            <TABLE class=form style="MARGIN-TOP: 20px; MARGIN-BOTTOM: 20px" 
+            cellSpacing=0 cellPadding=0 width="100%" border=0>
+              <TBODY>
+              <TR>
+                <TD class=sep colSpan=5>
+                  <DIV class=sep><SPACER height="1" width="1" 
+                  type="block"></SPACER></DIV></TD></TR>
+              <TR>
+                <TD class=tdleft><INPUT onclick="document.dataForm.curday.value=0; document.dataForm.submit();" type=button value=Сегодня></TD>
+                <TD class=tdcenter><INPUT onclick="document.dataForm.curday.value=1; document.dataForm.submit();" type=button value=Вчера></TD>
+                <TD class=tdcenter width=100%><INPUT onclick="document.dataForm.curday.value=7; document.dataForm.submit();" type=button value="7 дней"></TD>
+                <TD class=tdright><INPUT type=button value="Выбранная дата" onclick="document.dataFormNew.submit();"></TD></TR></TBODY></TABLE>
+</FORM>
+            <TABLE class=tabs cellSpacing=0 cellPadding=0 width="100%" 
+              border=0><TBODY>
+              <TR>
+                <TD class=tabcurrent width="20%"><IMG height=16 alt=Таблица 
+                  hspace=0 src="<?=Main::comm_link('stat_table.gif', $f, $_STATIST['MODULE_NAME']);?>" 
+                  width=16 align=left>
+                  <P>Таблица</P></TD>
+                <TD class=tab width="20%"><IMG height=16 alt=Диаграмма 
+                  hspace=0 src="<?=Main::comm_link('stat_diagram.gif', $f, $_STATIST['MODULE_NAME']);?>" 
+                  width=16 align=left>
+                  <P>Диаграмма</P></TD>
+                <TD class=tab width="20%"><IMG height=16 alt=Гистограмма
+                  hspace=0 src="<?=Main::comm_link('stat_histogram.gif', $f, $_STATIST['MODULE_NAME']);?>" 
+                  width=16 align=left>
+                  <P>Гистограмма</P></TD>
+                <TD class=tab width="20%"><IMG height=16 alt=График hspace=0 
+                  src="<?=Main::comm_link('stat_graph.gif', $f, $_STATIST['MODULE_NAME']);?>" width=16 
+                  align=left>
+                  <P>График</P></TD>
+                <TD class=tab width="20%"><IMG height=16 alt=Димамика hspace=0 
+                  src="<?=Main::comm_link('stat_dynamics.gif', $f, $_STATIST['MODULE_NAME']);?>" width=16 
+                  align=left>
+                  <P>Димамика</P></TD></TR>
+              <TR>
+                <TD class=data colSpan=5>
+		<? if( !empty( $plist ) )echo "<br>".$plist."<br>"; ?>
+<!--		<br>
+		<?if (Main::comm_inc($cont, $f, $_STATIST['MODULE_NAME']))include "$f";?>
+		<br>-->
+		
+<?if( !empty($all_data)){
+	if(Main::comm_inc( 'statist.head.html', $f, $_STATIST['MODULE_NAME']))include "$f";?>
+<?foreach( $all_data as $k=>$data ){?>
+<?if(Main::comm_inc( 'statist.item.html', $f, $_STATIST['MODULE_NAME']))include "$f";?>
+<?}if(Main::comm_inc( 'statist.foot.html', $f, $_STATIST['MODULE_NAME']))include "$f";
+}?>
+
+
+		<?// if( !empty( $listday ) )echo "<br>".$listday."<br>";?>
+</td></tr></tbody></table>
+
+		
+

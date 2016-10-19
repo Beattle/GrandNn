@@ -1,0 +1,115 @@
+<?
+
+if (isset($_KAT['DOC_PATH'][$_KAT['KUR_ALIAS']])){
+
+	global $_DOC;
+
+	$_DOC['RE_TITLE'] = str_replace(array('[',']'),'',$form['name']);
+
+	$_SERVER['REQUEST_URI'] = $_KAT['DOC_PATH'][$_KAT['KUR_ALIAS']]; // что бы меню выделилось
+
+	$_DOC['CURRENT'] = $_SERVER['REQUEST_URI'];
+
+}else{
+
+	// если это не в подпапках, то CURRENT будет DB значит надо заголовок там поменять
+
+	global $_KAT;
+
+	$_KAT['RE_TITLE'] = str_replace(array('[',']'),'',$form['name']);
+
+}
+
+?>
+
+		<div class="fs14">
+
+			<!-- Картинка -->
+			<!-- test -->
+      <div style="width: 310px; float: right;">
+
+			<?if (!empty($form["doc"]) && is_file($FORM_DATA["doc"]["abspath"]."/".$form["doc"])):?>
+
+				<a href="<?=$FORM_DATA["doc"]["path"]."/".$form["doc"]?>" rel=facebox><img class="imgrad" src="/reimg<?=$FORM_DATA["doc"]["path"]."/350/".$form["doc"]?>" alt="<?=$form['title']?>"></a>
+
+			<?endif;?>
+
+			<?if (!empty($form["doc2"]) && is_file($FORM_DATA["doc2"]["abspath"]."/".$form["doc2"])):?>
+
+				<a href="<?=$FORM_DATA["doc2"]["path"]."/".$form["doc2"]?>" rel=facebox><img class="imgrad" src="/reimg<?=$FORM_DATA["doc2"]["path"]."/350/".$form["doc2"]?>" alt="<?=$form['title']?>"></a>
+
+			<?endif;?>
+
+			<?if (!empty($form["doc3"]) && is_file($FORM_DATA["doc3"]["abspath"]."/".$form["doc3"])):?>
+
+				<a href="<?=$FORM_DATA["doc3"]["path"]."/".$form["doc3"]?>" rel=facebox><img class="imgrad" src="/reimg<?=$FORM_DATA["doc3"]["path"]."/350/".$form["doc3"]?>" alt="<?=$form['title']?>"></a>
+
+			<?endif;?>
+
+		</div>
+
+		<div style="float: left; width: 550px;">
+
+			<!-- Содержание -->
+
+			<?
+
+			$tmp = trim(str_replace("&nbsp;", '', $form['cont']));
+
+			if (!empty($tmp) && !in_array($tmp, array('<p></p>', ''))) echo $form['cont'];
+
+			?>
+
+		</div>
+
+			<? if($form['code']){ ?>
+
+<iframe width="480" height="360" frameborder="0" src="http://www.youtube.com/embed/<?=$form['code'];?>?rel=0">
+
+</iframe><br /><br />
+
+	<script type="text/javascript">
+
+		$(document).ready(function() {
+
+			$("a[rel=si_youtube]").fancybox({
+
+				'padding'		: 0,
+
+				'width'				: '640',
+
+				'height'			: '385',
+
+				'autoScale'			: false,
+
+				'transitionIn'		: 'none',
+
+				'transitionOut'		: 'none',
+
+				'type'				: 'swf'
+
+			});
+
+			
+
+		});
+
+	</script>
+
+			<? } ?>
+
+			<!-- Файл -->
+
+			<?if (!empty($form["doc1"]) && is_file($FORM_DATA["doc1"]["abspath"]."/".$form["doc1"])):?>
+
+				<a href="<?=$FORM_DATA["doc1"]["path"]."/".$form["doc1"]?>" target=_blank><?=($form['doc1_title']) ? $form['doc1_title'] : 'Загрузить файл'?> (<?=@sprintf("%.0fK",(filesize($FORM_DATA['doc1']['abspath'].'/'.$form['doc1']) / 1024));?>)</a>
+
+			<?endif;?>
+
+			<?=($form['nonformat']) ? "<div class=noformat>".$form['nonformat']."</div>	":''?>
+
+			
+
+			<? if($form['cont']) echo "<hr>" ?>
+
+		</div>

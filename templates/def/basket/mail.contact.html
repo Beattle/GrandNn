@@ -1,0 +1,17 @@
+			<table cellpadding="0" cellspacing="0" border="0" width="100%">
+				<tr>
+					<td class="content" style="font-size: 14px;padding-left: 20px; padding-bottom: 20px;">
+						<h2>Данные доставки</h2>
+						<p>
+						Заказчик: <span class="txtbk" style="font-size: 16px;font-style: italic;	font-weight: bold;"><?=@$_POST['BASKET_CONTACTS']['name']?></span><br />
+						Мобильный телефон: <span class="txtbk" style="font-size: 16px;font-style: italic;	font-weight: bold;"><?=@$_POST['BASKET_CONTACTS']['phone']?></span><br />
+						E-mail: <span class="txtbk" style="font-size: 16px;font-style: italic;	font-weight: bold;"><?=@$_POST['BASKET_CONTACTS']['email']?></span><br />
+						Город: <span class="txtbk" style="font-size: 16px;font-style: italic;	font-weight: bold;"><?=@$_POST['BASKET_CONTACTS']['city']?></span><br />
+						<? if(!empty($_POST['BASKET_CONTACTS']['address'])){ ?>
+						Адрес доставки: <span class="txtbk" style="font-size: 16px;font-style: italic;	font-weight: bold;"><?=@$_POST['BASKET_CONTACTS']['address']?></span><br />
+						<? } ?>
+						Способ доставки: <span class="txtbk" style="font-size: 16px;font-style: italic;	font-weight: bold;"><?=@$_POST['BASKET_DELIVERY']['delivery_type']?></span><br />
+						</p>
+					</td>
+				</tr>
+			</table>

@@ -1,0 +1,19 @@
+
+<tr>
+	<td>
+		<?=STR::taging_a($data['name'],"/contacts/".$_KAT['MODULE_NAME'].'/'.$_KAT['KUR_ALIAS'].'/'.$data["alias"].$url_add)?>
+	<?if (!empty($data["doc"]) && is_file($FORM_DATA["doc"]["abspath"]."/".$data["doc"])):?>
+		<div class="photo">
+			<a href="<?="/contacts/".$_KAT['MODULE_NAME'].'/'.$_KAT['KUR_ALIAS'].'/'.$data["alias"].$url_add;?>">
+			<img src="/reimg<?=$FORM_DATA["doc"]["path"]."/150/".$data["doc"]?>"  style="border-width: 0" />
+			</a>
+		</div>
+	<?endif;?>
+	</td>
+	<td>
+		<?=$data['schedule']?>
+	</td>
+	<td>
+		<?=$data['phone']?>
+	</td>
+</tr>

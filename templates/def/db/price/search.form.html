@@ -1,0 +1,13 @@
+<?
+if (empty($search))
+	$search = "searching";
+
+global $_PROJECT;
+if (empty($_PROJECT['PATH_2_CONTENT'])) {
+		$_PROJECT['PATH_2_CONTENT'][0]	= array(
+			'name'	=> $_KAT['TITLES'][$_KAT['KUR_ALIAS']] ,
+			'path'	=> '/'.$_KAT['KUR_ALIAS'].'/'
+		);
+}
+
+?>

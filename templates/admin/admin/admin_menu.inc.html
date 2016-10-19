@@ -1,0 +1,49 @@
+<SCRIPT>
+function go (){window.location = 'http://<?=$_SERVER['SERVER_NAME']?>'+document.fModule.module.value;}
+</SCRIPT>
+<style type="text/css">
+table.commontop_admin { background-color: #333; font-family: tahoma, sans-serif; font-size: 16px; }
+table.commontop_admin td { padding: 0;height: 60px; color: #FFFFFF; font-family: tahoma, sans-serif; font-size: 11px; vertical-align: MIDDLE;}
+select.select_admin { font-family: tahoma, sans-serif; font-size: 11px; vertical-align: MIDDLE;}
+select.select_admin option.optadm_delimeter{ font-weight: bold; }
+table.commontop_admin td.label_admin { padding-left: 0px; }
+table.commontop_admin td.shift_admin { padding-right: 10px; }
+table.commontop_admin td.left_admin { padding: 0 10px 0 15px;  font-size: 150%}
+table.commontop_admin td img { padding-right: 3px; vertical-align: middle;}
+
+table.commontop_admin a { color: #FFFFFF; font-size: 11px; }
+table.commontop_admin a p { padding: 5px 0px 0px 29px; font-size: 11px; margin: 0px; color:#FFF; }
+table.commontop_admin img { border: 0px; }
+</style>
+
+		<form name=fModule>
+	<table width="100%"  border="0" cellpadding="0" cellspacing=0  class="commontop_admin">
+		<tr>
+        <td class="left_admin" nowrap>
+            <img src="/templates/admin/startupmilkcms.png" alt="<?=$form["land"]?>" width="117" height="24" border="0" hspaces=0 vspaces=0 align=left>
+        </td>
+		<td class="shift_admin">Модуль: </td><td><select name="module" onchange='go()' class=select_admin>
+            <?foreach ($_PROJECT['ADM_MENU'] as $path => $val ){ 
+				if($val[2]=='delimeter'){ ?>
+					<option disabled="disabled" value="" class="optadm_delimeter" ><?=$val['1']?></option>
+			<?	}else{
+			?>
+                <option value="<?=$path?>" <?=(strstr($_SERVER['REQUEST_URI'], $val[2]))?'selected':''?> ><?=$val['1']?></option> <!-- <?=$val[2]?>-->
+            <? 	}
+			}?>
+            </select> </td>
+
+		<td class="label_admin"><a href="javascript:go();"><img src="/templates/admin/go.gif" alt="Перейти" width="24" height="24" border="0"></a>
+            
+		</td>
+        <td width=100% class="label_admin">Переключить дизайн  <?=cmd("/admin/template")?></td>
+				<td class="shift_admin"><a href="/admin/logout"><img src="/templates/admin/exit.gif" alt="Выйти" width="24" height="24" hspace="0" vspace="0" align="left"><p>Выйти</p></a></td>
+
+				<td class="shift_admin"><a href="/db/faqtoadmin/"><img src="/templates/admin/help_global.gif" alt="Помощь" width="24" height="24" hspace="0" vspace="0" align="left"><p>Помощь</p></a></td>
+				
+        </tr>
+    </table>
+	</td>
+      </tr>
+    </table>
+		</form>

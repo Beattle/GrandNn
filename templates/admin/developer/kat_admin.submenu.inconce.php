@@ -1,0 +1,3 @@
+<?
+echo "<SCRIPT>CUTTED_KAT='".@$_SESSION['KAT']['CUTTED_ITEM_ALIAS']."';</SCRIPT>";
+?>

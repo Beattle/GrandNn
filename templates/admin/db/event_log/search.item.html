@@ -1,0 +1,44 @@
+<TR>
+	<TD>
+	     <?// там вывод data[name]
+	     if ($_CORE->IS_ADMIN && KAT::inc_tpl('kat_admin.submenu.each.inc.php',$f)) include $f?>
+	</TD>
+	<TD>
+	<?=$data['from_auth']?>
+	<TD>
+	<?=STR::date2word($data['ts'])?>
+		</TD>
+		<td><?
+		$file = (!empty($data['hidden'])) ? 'a_red.gif':'a_green.gif';
+		?><IMG src="<?=
+		DOCTXT::inc_link($file, $f);
+		?>" border="0" align="left">
+		</td>
+
+</TR>
+<?global $_REIMG;?>
+<div id="newsList<?=$num?>" style="position:absolute;visibility:hidden">
+<b><?=$data["name"]?></b><br>
+<?=strip_tags(substr($data["anons"], 0, 50))?><br><br>
+
+<?
+$path = $_KAT['MODULE_NAME'].'/'.$_KAT['KUR_ALIAS']."/".$data["alias"];
+?>
+<a href="javascript:;" OnClick="ShowPopUp('<?=(!empty($item['link']))?$item['link']:
+'/def/'.$path
+?>?edit', 900, 900, 'yes');" title="<?=$path?>">
+<div class=impreview>
+<?if (!empty($data["doc"]) && is_file($FORM_DATA["doc"]["abspath"]."/".$data["doc"]) && $FORM_DATA["doc"]["sub_type"] == 'photo'):?>
+<?if($_REIMG['nginx_mode'] == true){?>
+	<img class=docview src="/reimg/<?=$FORM_DATA["doc"]["path"]?>/x100/<?=$data["doc"]?>" alt="<?=$data["name"]?>" border="0" style="max-width: 300px;"><br>
+<?}else{?>
+	<img class=docview src="/reimg/<?=$FORM_DATA["doc"]["path"]."/".$data["doc"]?>?x100" alt="<?=$data["name"]?>" border="0" style="max-width: 300px;"><br>
+<?}?>
+<?endif;?>
+</div>
+
+<br>Просмотреть на сайте
+</a>
+
+</div>
+

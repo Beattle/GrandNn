@@ -1,0 +1,26 @@
+<? if(!empty($_SESSION['_BASKET_CONFIRM'])){
+	echo $_SESSION['_BASKET_CONFIRM'];
+	unset($_SESSION['_BASKET_CONFIRM']);
+}
+?>
+<table class="modalbox" style="width: auto; margin-bottom: 15px;">
+	<tr><td  style="border-right: 1px solid #D4A53B; padding-right: 25px;"><a href="/auth/update" style="border-bottom: 1px dashed #D4A53B; text-decoration: none;">Личные данные</a></td>
+		<td  style="padding-left: 25px; padding-right: 25px;"><strong>Ваши заказы</strong></td>
+		<? if($_SESSION['SESS_AUTH']['ALL']['partner']==1){ ?>
+			<td style="padding-left: 25px; border-left: 1px solid #D4A53B;"><a href="/auth/partner_stat" style="border-bottom: 1px dashed #D4A53B; text-decoration: none;">Партнерка</a></td>
+		<? } ?>
+	</tr>
+</table>
+<table ceilpadding=3 ceilspacing=1>
+<tr>
+ <th> Дата</th>
+ <th> Номер заказа</th>
+ <th> Статус</th>
+	<?if (in_array("pay", $_CONF['USED_MODULES'])) { ?>
+ <th> Документы</th>
+ <?}?>
+ <th> Сумма</th>
+ <? if ($_CONF['FEATURES_USED']['basketpay']) { ?>
+ <th> Оплатить</th>
+ <? } ?>
+</tr>

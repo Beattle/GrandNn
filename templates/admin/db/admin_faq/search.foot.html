@@ -1,0 +1,47 @@
+			</ul>
+        </td>
+    	<td width="70%" valign="top"><div id="faq_content"></div></td>
+    </tr>
+<!--	<tr>
+    	<td colspan="2">
+            <table width="100%"  border="0" cellpadding="0" cellspacing="5" >
+                  <tr>
+                    <td>
+                    <h3 style="padding-left:45px;">Магазин компонент</h3></td>
+                  </tr>
+            </table>
+			<br />
+	    </td>
+    </tr>
+	<tr>
+    	<td colspan="2" style="padding:0 49px;">
+    			<?//=cmd('db/admin_market');?>
+    	</td>
+    </tr>
+-->
+	<tr>
+    	<td colspan="2">
+            <table width="100%"  border="0" cellpadding="0" cellspacing="5" >
+                  <tr>
+                    <td>
+                    <h3 style="padding-left:45px;">Видео уроки</h3></td>
+                  </tr>
+            </table>
+			<br />
+	    </td>
+    </tr>
+	<tr>
+    	<td colspan="2" style="padding:0 49px;">
+    			<?=cmd('db/admin_faq_youtube');?>
+    	</td>
+    </tr>
+</table>
+<script language="javascript" type="text/javascript">
+	function sel(id){
+		var num = <?php echo $num; ?>;
+		for(var i=0; i<num; i++){
+			document.getElementById("itemList"+i).style.fontWeight='normal';
+		}
+		document.getElementById('itemList'+id).style.fontWeight='bold';
+	}
+</script>

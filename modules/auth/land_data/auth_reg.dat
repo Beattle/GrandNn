@@ -1,0 +1,62 @@
+<? 
+ $DATA = array (
+  'author_login' => 
+  array (
+    'field_name' => 'author_login',
+    'name' => 'auth[author_login]',
+    'title' => 'E-mail',
+    'type' => 'textbox',
+    'must' => '1',
+    'size' => '20',
+    'maxlen' => '128',
+  ),  
+  'author_comment' => 
+  array (
+    'field_name' => 'author_comment',
+    'name' => 'auth[author_comment]',
+    'title' => 'Имя',
+    'type' => 'textbox',
+    'must' => '1',
+    'size' => '20',
+    'maxlen' => '128',
+  ),
+  'author_phone' => 
+  array (
+    'field_name' => 'author_phone',
+    'name' => 'auth[author_phone]',
+    'title' => 'Телефон ',
+    'type' => 'textbox',
+    'must' => '0',
+    'size' => '20',
+    'maxlen' => '128',
+  ), 
+  'author_passwd' => 
+  array (
+    'field_name' => 'author_passwd',
+    'name' => 'auth[author_passwd]',
+    'title' => 'Пароль',
+    'maxlen' => '25',
+    'must' => '1',
+    'type' => 'password',
+    'size' => '20',
+  ),
+  'author_passwd2' => 
+  array (
+    'field_name' => 'author_passwd2',
+    'name' => 'auth[author_passwd2]',
+    'title' => 'Повтор пароля',
+    'maxlen' => '25',
+    'must' => '1',
+    'type' => 'password',
+    'size' => '20',
+  ),
+	'partner' => array(
+		'field_name' => 'partner',
+		'name' => 'auth[partner]',
+		'title' => '<a href="/db/news/partnerskaya_programma" target="_blank">Участвовать в партнерской программе</a>',
+		'must' => 0,
+		'maxlen' => 20,
+		'type' => 'checkbox'
+	)
+);
+ ?>

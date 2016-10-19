@@ -1,0 +1,59 @@
+<? 
+	$img = (!empty($data["doc"]) && is_file($FORM_DATA["doc"]["abspath"]."/".$data["doc"]))
+					?	$FORM_DATA["doc"]["path"]."/".$data["doc"]
+					: '/templates/def/images/prod-01.jpg';
+
+// после импорта точки могут замениться запятыми
+$data['price'] = str_replace(',','.',$data['price']);
+
+// Цена
+$price = number_format(round($data['price']), 0, '.' , ' ');
+$price_int = round($data['price']);
+$type_icon = array(
+            1=>"premium.png",
+            2=>"akciya.png",
+            3=>"hit.png"
+              );
+$num_item ++;
+?>
+
+
+<div class="cat-tovar">
+<form method="POST" action="/basket/put" target="basket" name="list<?=$data['id']?>">
+				<input type="hidden" name="BASKET[desc]" value="<?=$data['anons']?>">
+				<input type="hidden" name="BASKET[price]" value="<?=intval($price_int)?>">
+				<input type="hidden" name="BASKET[link]" value="/<?=$_KAT['MODULE_NAME']?>/<?=$_KAT['KUR_ALIAS']?>/<?=$data['alias']?>"/>
+				<input type="hidden" name="BASKET[subj]" value="<?=$data['name']?>">
+				<input type="hidden" name="BASKET[doc]" value="<?=$FORM_DATA["doc"]["path"]."/".$data["doc"]?>">
+				<input type="hidden" class="inputboxquantity" size="4" name="BASKET[count_DEL]" value="10">
+				<input type="hidden" name="count_tmp" value="<?=$_SESSION['_BASKET_CONT'][STR::translit($data['name'])]['/'.$_KAT['MODULE_NAME'].'/'.$_KAT['KUR_ALIAS'].'/'.$data['alias'] ]['count']+1?>">
+				<input type="hidden" name="BASKET[count]" value="1"/> 
+</form>
+	<a href="<?=$data['alias']?>">
+		<div class="cat-icon" style="background: url(/reimg/<?=$img?>?140) #fff no-repeat 0 50%; ">
+    <? if(!empty($data["type_icon"])){ ?>
+      <div style="float: right; margin-top: 2px; margin-right: 2px; width: 30px; height: 30px; z-index: 10; position: relative;"><img src="/reimg/templates/def/img/<?=$type_icon[$data["type_icon"]];?>?30x30" /></div>
+    <? } ?>
+		</div>
+		<span style="width: 120px; font-weight: bold; font-size: 13px; display: inline-block; padding: 0px; "><?=$data['madeby']?> <?=$data['artikul']?></span> 
+  <!--  
+	</a>
+  
+	<a href="<?=$data['alias']?>" class="btn card_but" style="width: 120px; height: 34px; font-size: 11px; display: inline-block; padding: 0px; overflow: hidden;"><?=$data['madeby']?> <?=$data['artikul']?></a>
+-->
+  	</a>
+  <? if(!empty($price) ){ ?>
+	<?php
+	/*	<a href="#"><img src="/templates/def/img/add.gif" alt="" width="82" height="25" border="0" class='card_but' onclick="basketWork( document.forms.list<?=$data['id']?>[5].value, document.forms.list<?=$data['id']?>[7].value, 0+<?=($price_int)?$price_int:0?>, <?=$data['id']?> );document.forms.list<?=$data['id']?>.submit();animate_cart_my(this);return false;" style="cursor: hand;" /></a>
+*/
+?>
+		<?php
+	/*<div class="cat-titl"><a href="<?=$data['alias']?>"><?=$data['name']?> <span></span></a></div>*/
+?>
+
+		<div class="cat-price"><span><?=STR::price_sp($price)?> руб.</span></div>
+<? } ?>
+		<!-- button -->
+	<div class="cl"></div>
+</div>
+<?=($num_item%5==0)?'<div class="cl"></div>':'';?>

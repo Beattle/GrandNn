@@ -1,0 +1,15 @@
+<? global $_DMODEL;?>
+<?		
+
+		$guide = new tGuide( $skin, $path, $_DMODEL['PATHTPLS']);
+		
+		$guide ->loadList( $_DMODEL['WHITE_LIST'] );
+		
+		$guide->showMap( '', $_DMODEL['MODULE_NAME'] );
+		
+		if( ($str=$guide->getError())!='' ) echo "<HR>".$str."<HR>";
+		
+?>
+
+	<DIV class=sep><SPACER height="1" width="1" type="block"></SPACER></DIV>
+

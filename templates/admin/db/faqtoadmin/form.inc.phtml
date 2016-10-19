@@ -1,0 +1,79 @@
+<?global $form;
+	$tables = SQL::tlist();
+	if (!in_array((( defined('DB_TABLE_PREFIX') ) ? DB_TABLE_PREFIX : '') . 'faqtoadmin', $tables)){
+		$query = "CREATE TABLE ".(( defined('DB_TABLE_PREFIX') ) ? DB_TABLE_PREFIX : '') . 'faqtoadmin'." (`id`	 bigint(20) NOT NULL auto_increment,
+		`ts`	 timestamp ON UPDATE CURRENT_TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+		`alias`	 varchar(255) NOT NULL default '',
+	UNIQUE KEY `alias` (`alias`) ,
+	`name`	 varchar (400),  
+	`question`	 text, 
+	`cont`	 text, 
+	`hidden`	 varchar (20), 
+ 
+		PRIMARY KEY (`id`))";
+		SQL::query( $query );
+	}
+?>
+<table width="100%"  border="0" cellpadding="0" cellspacing="20" class="popuptitle">
+	<tr>
+		<td><img src="<?=$_CORE->TEMPLATES.$_CORE->CURR_TPL?>/<?=$_KAT['MODULE_NAME']?>/d_folder.gif" alt="" width="24" height="24" hspace="0" vspace="0" align="left">
+			<h2>
+				<?=(!empty($form['name'])?'Подробный просмотр':'Добавление нового вопроса')?>
+			</h2>
+		</td>
+	</tr>
+</table>
+
+
+<p align=center><?=@nl2br($_KAT['ERROR'])?></p>
+<form ACTION="/clear/<?=$_KAT['MODULE_NAME']."/".$_KAT['KUR_ALIAS']."/add?edit"?>" METHOD=POST enctype="multipart/form-data" name='db_form'>
+
+<table BORDER=0 width='100%' cellspacing=20 cellpadding=0>
+<tr><td>
+<table BORDER=0 width='100%' cellspacing=1 cellpadding=3 class="form">
+<? 	
+		echo '<tr style="display: none;">';
+		$_KAT['cForm']->Body_print('id');
+		echo '<tr style="display: none;">';
+		$_KAT['cForm']->Body_print('ts');
+		echo '<tr style="display: none;">';
+		$_KAT['cForm']->Body_print('alias');
+		echo '<tr>';
+		$_KAT['cForm']->Body_print('name');
+		
+		if(!empty($form['question']) && !isset($_REQUEST['request'])){
+			echo '<tr><td>Вопрос:</td><td>'.$form['question'].'</td></tr>';
+		}else{
+			echo '<tr>';
+			$_KAT['cForm']->Body_print('question');
+		}
+	if(isset($_REQUEST['request'])){
+		echo '<tr>';
+		$_KAT['cForm']->Body_print('cont');
+		echo '<tr>';
+		$_KAT['cForm']->Body_print('hidden');
+	}else{
+		if(!empty($form['cont']))
+			echo '<tr><td>Ответ:</td><td>'.$form['cont'].'</td></tr>';
+		echo '<tr><td style="width:100px;"><input type="hidden" name="form[hidden]" value="1" /></td><td></td></tr>';
+	}
+?>
+</table>
+<? if(empty($form['question']) || isset($_REQUEST['request'])){ ?>
+<table width="100%"  border="0" cellpadding="0" cellspacing="0" class="form" style="margin-top:20px">
+<tr>
+  <td colspan="3" class="sep"><div class="sep"><spacer type="block" width="1" height="1"></spacer></div></td>
+</tr>
+<tr>
+  <input type="hidden" name="apply" value="0">
+  <td width="100%" class="tdleft"><input type=submit name="submit" value="Отправить"></td>
+  <td class="tdright" align="right"><input type=reset value="Отменить"></td>
+</tr>
+</table>
+<script type="text/javascript">
+document.db_form['form[question]'].focus();
+</script>
+<? } ?>
+</form>
+</td></tr></table>
+</td></tr></table>

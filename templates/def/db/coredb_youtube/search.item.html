@@ -1,0 +1,9 @@
+<li style="list-style-type:none; float: left; height: 170px;">
+	<div class="searchitem_youtube" style="margin-right: 8px;">
+		<a href="/clear/db/<?=$_KAT['KUR_ALIAS']?>/<?=trim($data['alias'])?>"  rel="si_youtube">
+			<img class="img_youtube" src="http://i3.ytimg.com/vi/<?=trim($data['code'])?>/mqdefault.jpg" width="220" />
+			<div class="play_youtube"></div>
+			<p><?=(empty($data['textlink']))?$data['name']:$data['textlink'];?></p>
+		</a>
+	</div>
+</li>

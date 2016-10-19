@@ -1,0 +1,11 @@
+	</div>
+</div>
+<? 
+if(isset($_BASKET['ERROR']) && !empty($_BASKET['ERROR'])){ ?>
+	<script>
+		$(document).ready(function() {
+			alert('<?=@$_BASKET['ERROR']?>');
+		});
+	</script>
+<? unset($_BASKET['ERROR']); 
+} ?>

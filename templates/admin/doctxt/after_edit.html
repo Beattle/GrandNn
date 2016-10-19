@@ -1,0 +1,13 @@
+<?
+ob_end_clean();
+//ob_end_flush();
+// hader("Location: /doctxt?tree");
+//location.href = '/doctxt?<?=$_SESSION['DOC']['ADM_VIEWSTYLE']
+?>
+
+<script language="javascript" type="text/javascript">
+window.opener.location.href=window.opener.location.href+"&mark=<?=$_SERVER['REQUEST_URI']?>";self.close();
+</script>
+
+
+<?exit;?>

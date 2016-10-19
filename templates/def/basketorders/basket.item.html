@@ -1,0 +1,59 @@
+<tr valign="center"  align="left" height=35 >
+	<td width="100">
+	<? if(!empty($item['doc'])){ 
+		$ar_doc 	= explode('/',$item['doc']);
+		$name_file 	= array_pop($ar_doc);
+		$ar_doc[] 	='50x50';
+		$ar_doc[] 	= $name_file;
+		$item['doc'] = implode('/',$ar_doc);
+	?>
+		<img src='/reimg<?=$item['doc']?>' />
+	<? } ?>
+	</td>
+	<td width="600">
+		<a href='<?=$item['link']?>' style="text-decoration:none;">
+			<?=$item['name']?> / <?=$item['alias']?><br>
+<?php
+	$item['anons'] = '';
+$arr_met = array("Ag" => 'Серебро', "Ag 925" => 'Серебро 925', "Au" => 'Золото', "Au 585" => 'Золото 585', "Au 750" => 'Золото 750');
+if(!empty($item['probe']) && !empty($arr_met[$item['probe']])){
+	$item['anons'] .= $arr_met[$item['probe']];
+}
+if(!empty($item['size'])){
+	if(!empty($item['anons']))$item['anons'] .= ", ";
+	$item['anons'] .= "Размер ".$item['size'];
+}
+if(!empty($item['weight'])){
+	if(!empty($item['anons']))$item['anons'] .= ", ";
+	$item['anons'] .= "Вес ".$item['weight'];
+}
+if(!empty($item['ins'])){
+	if(!empty($item['anons']))$item['anons'] .= ", ";
+	$item['anons'] .= "Вставка ".$item['ins'];
+}
+if(!empty($item['anons']))
+	echo "(".$item['anons'].")";
+?>
+		</a>
+	</td>
+	<td  width="150">
+<? if(!empty($item['discount'])){ ?>
+<span style="text-decoration: line-through; padding-left: 0;"><?=STR::price_sp($item['full_price'])."&nbsp;р.";?></span><br />
+<span class="gold">-<?=$item['discount'];?>%<br />
+	<?=STR::price_sp($item['full_price']-$item['discount']/100*$item['full_price']);?> р.</span>
+<? }else{
+	echo STR::price_sp($item['full_price'])."&nbsp;р.";
+   }
+?>
+	</td>
+	<td  width="100">
+		<?=$item['count']?>
+	</td>
+	<td width="19">
+		<a href="javascript:;" onclick="basketDelProduct(this,'<?=$item['link']?>'); return false;"
+		onMouseOver="document.images['delete<?=$i?>'].src='/templates/def/images/icon_delete_on.gif'"
+		onMouseOut="document.images['delete<?=$i?>'].src='/templates/def/images/icon_delete.gif'">
+			<img src="/templates/def/images/icon_delete.gif" width="19" height="19" border="0" name='delete<?=$i?>' title='Удалить позицию'>
+		</a>
+	</td>
+</tr>

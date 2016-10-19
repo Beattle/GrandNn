@@ -1,0 +1,10 @@
+<?php
+echo '
+ <url>
+ <loc>'.$item['path'].'</loc>
+ <lastmod>'.(!empty($item['ts']) && $item['ts']!='0000-00-00')?$item['ts']:date("Y-m-d", strtotime("-2 days")).'</lastmod>
+ <changefreq>weekly</changefreq>
+ <priority>0.8</priority>
+ </url>
+
+'; ?>

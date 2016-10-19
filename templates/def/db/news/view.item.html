@@ -1,0 +1,28 @@
+<?
+if (isset($_KAT['DOC_PATH'][$_KAT['KUR_ALIAS']])){
+	global $_DOC;
+	$_DOC['RE_TITLE'] = str_replace(array('[',']'),'',$form['name']);
+	$_SERVER['REQUEST_URI'] = $_KAT['DOC_PATH'][$_KAT['KUR_ALIAS']]; // что бы меню выделилось
+	$_DOC['CURRENT'] = $_SERVER['REQUEST_URI'];
+}else{
+	// если это не в подпапках, то CURRENT будет DB значит надо заголовок там поменять
+	global $_KAT;
+	$_KAT['RE_TITLE'] = str_replace(array('[',']'),'',$form['name']);
+}
+?>
+<?if (!empty($form["doc"]) && is_file($FORM_DATA["doc"]["abspath"]."/".$form["doc"])):?>
+			<div class="photobig">
+				<img src="<?=$FORM_DATA["doc"]["path"]."/".$form["doc"]?>" alt="<?=$form["doc_title"]?>" border="0">
+				<p class="source"><?=$form["doc_title"]?></p>
+			</div>
+<?endif;?>	
+	<?=$form["cont"]?>
+	<?=cmd("/connects/seealso_all/db/".$_KAT['KUR_ALIAS'].'/'.$form['alias'])?>
+<?if ($form['ts']):?>
+<script type="text/javascript">ef('sub_title','<p class="comment"><?=STR::date2word($form['ts'])?></p>')</script>
+<?endif;?>
+
+<?if (!empty($form['youtubecode'])) {?>
+<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="640" height="385"><param name="movie" value="http://www.youtube.com/v/<?=$form['youtubecode']?>"><param name="wmode" value="transparent"><embed src="http://www.youtube.com/v/<?=$form['youtubecode']?>" type="application/x-shockwave-flash" width="640" height="385" wmode="transparent"></object>
+<?}?>
+	

@@ -1,0 +1,7 @@
+/* common plate & see also*/
+
+table.common a:hover, table.seealso a:hover { color: #848484; }
+
+
+/* color plate */
+table.color, table.popuptitle { background-color: #848484; }

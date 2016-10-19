@@ -1,0 +1,351 @@
+BODY {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; BACKGROUND-COLOR: white
+}
+BODY {
+	FONT-SIZE: 11px; FONT-FAMILY: tahoma, sans-serif
+}
+TD {
+	FONT-SIZE: 11px; FONT-FAMILY: tahoma, sans-serif
+}
+TH {
+	FONT-SIZE: 11px; FONT-FAMILY: tahoma, sans-serif
+}
+H1 {
+	FONT-WEIGHT: normal; FONT-SIZE: 26px
+}
+H2 {
+	FONT-WEIGHT: normal; FONT-SIZE: 18px
+}
+H3 {
+	FONT-WEIGHT: bold; FONT-SIZE: 12px
+}
+TABLE.common {
+	BACKGROUND-COLOR: #333333
+}
+TABLE.common TD {
+	COLOR: #ffffff
+}
+TH {
+	COLOR: #ffffff
+}
+TABLE.common TD.label {
+	PADDING-LEFT: 5px
+}
+TABLE.common TD.shift {
+	PADDING-LEFT: 20px
+}
+TABLE.common A {
+	COLOR: #ffffff
+}
+TABLE.common A P {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 29px; PADDING-BOTTOM: 0px; PADDING-TOP: 5px
+}
+TABLE.common IMG {
+	BORDER-RIGHT: 0px; BORDER-TOP: 0px; BORDER-LEFT: 0px; BORDER-BOTTOM: 0px
+}
+TABLE.color TD {
+	COLOR: #ffffff
+}
+TH {
+	COLOR: #ffffff
+}
+TABLE.color A {
+	COLOR: #ffffff
+}
+TABLE.color A:hover {
+	COLOR: #333333
+}
+TABLE.color TD.label {
+	PADDING-LEFT: 5px
+}
+TABLE.color TD.modulename {
+	PADDING-LEFT: 10px
+}
+TABLE.color P {
+	MARGIN: 0px
+}
+TABLE.color H1 {
+	MARGIN: 0px
+}
+TABLE.color H2 {
+	MARGIN: 0px
+}
+TABLE.color TD.columnleft {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px
+}
+TABLE.color TD.columnright {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 10px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px
+}
+TABLE.color TR.sep TD {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 10px; PADDING-TOP: 5px
+}
+TABLE.color TR.sep TD DIV.sep {
+	HEIGHT: 1px; BACKGROUND-COLOR: #ffffff
+}
+TABLE.color DIV.action {
+	PADDING-BOTTOM: 5px; WIDTH: 100%
+}
+TABLE.color DIV.action A P {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 21px; PADDING-BOTTOM: 0px; PADDING-TOP: 1px
+}
+TABLE.color DIV.action IMG {
+	BORDER-RIGHT: 0px; BORDER-TOP: 0px; BORDER-LEFT: 0px; BORDER-BOTTOM: 0px
+}
+UL.homescreen {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+}
+UL.homescreen LI {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BACKGROUND: none transparent scroll repeat 0% 0%; FLOAT: left; PADDING-BOTTOM: 0px; MARGIN: 0px 10px 10px 0px; WIDTH: 250px; PADDING-TOP: 0px; LIST-STYLE-TYPE: none; POSITION: relative
+}
+UL.homescreen A {
+	COLOR: #4c4c4c; TEXT-DECORATION: none
+}
+UL.homescreens A:hover {
+	COLOR: #000000
+}
+UL.homescreen A DIV {
+	MARGIN: 5px 0px 0px 54px
+}
+UL.homescreen IMG {
+	BORDER-RIGHT: 0px; BORDER-TOP: 0px; BORDER-LEFT: 0px; BORDER-BOTTOM: 0px
+}
+UL.homescreen P {
+	FONT-WEIGHT: normal; FONT-SIZE: 16px; MARGIN: 0px; VERTICAL-ALIGN: top
+}
+UL.homescreen P.type {
+	FONT-SIZE: 10px; MARGIN: 0px; COLOR: #949494
+}
+UL.homescreen DIV.selected {
+	BACKGROUND-COLOR: #f2f2f2
+}
+TABLE.viewdetails TD {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; PADDING-BOTTOM: 0px; VERTICAL-ALIGN: top; COLOR: #4c4c4c; PADDING-TOP: 5px
+}
+TABLE.viewdetails A {
+	COLOR: #4c4c4c; TEXT-DECORATION: none
+}
+TABLE.viewdetails A:hover {
+	COLOR: #000000
+}
+TABLE.viewdetails A.selected {
+	BACKGROUND-COLOR: #e5e5e5
+}
+TABLE.viewdetails P {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 1px
+}
+TABLE.viewdetails A P {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 21px; PADDING-BOTTOM: 0px; PADDING-TOP: 1px
+}
+TABLE.viewdetails IMG {
+	BORDER-RIGHT: 0px; BORDER-TOP: 0px; BORDER-LEFT: 0px; BORDER-BOTTOM: 0px
+}
+TABLE.viewdetails TD.header {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; BACKGROUND: #e5e5e5; PADDING-BOTTOM: 6px; PADDING-TOP: 6px
+}
+TABLE.viewdetails TD.header A {
+	COLOR: #4c4c4c; TEXT-DECORATION: none
+}
+TABLE.viewdetails TD.header A:hover {
+	COLOR: #000000
+}
+TABLE.viewdetails TD.header A P {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 21px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 1px
+}
+UL.viewtiles {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+}
+UL.viewtiles LI {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BACKGROUND: none transparent scroll repeat 0% 0%; FLOAT: left; PADDING-BOTTOM: 0px; MARGIN: 0px 10px 10px 0px; WIDTH: 250px; PADDING-TOP: 0px; LIST-STYLE-TYPE: none; POSITION: relative
+}
+UL.viewtiles A {
+	COLOR: #4c4c4c; TEXT-DECORATION: none
+}
+UL.viewtiles A:hover {
+	COLOR: #000000
+}
+UL.viewtiles A DIV {
+	MARGIN: 5px 0px 0px 54px
+}
+UL.viewtiles A DIV.element {
+	MARGIN: 5px 0px 0px 74px
+}
+UL.viewtiles IMG {
+	BORDER-RIGHT: 0px; BORDER-TOP: 0px; BORDER-LEFT: 0px; BORDER-BOTTOM: 0px
+}
+UL.viewtiles P {
+	MARGIN: 0px
+}
+UL.viewtiles P.type {
+	FONT-SIZE: 10px; MARGIN: 0px; COLOR: #949494
+}
+UL.viewtiles P.status {
+	FONT-SIZE: 10px; MARGIN: 0px; COLOR: #949494
+}
+UL.viewtiles DIV.selected {
+	BACKGROUND-COLOR: #f2f2f2
+}
+TABLE.details TD {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; PADDING-BOTTOM: 0px; VERTICAL-ALIGN: top; COLOR: #4c4c4c; PADDING-TOP: 5px
+}
+TABLE.details IMG {
+	BORDER-RIGHT: 0px; BORDER-TOP: 0px; BORDER-LEFT: 0px; BORDER-BOTTOM: 0px
+}
+TABLE.details TD.header {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; BACKGROUND: #e5e5e5; PADDING-BOTTOM: 6px; PADDING-TOP: 6px
+}
+TABLE.details TD.header A {
+	COLOR: #4c4c4c; TEXT-DECORATION: none
+}
+TABLE.details TD.header A:hover {
+	COLOR: #000000
+}
+TABLE.details TD.header A P {
+	PADDING-RIGHT: 21px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 1px
+}
+TABLE.seealso TD {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; PADDING-BOTTOM: 0px; VERTICAL-ALIGN: top; COLOR: #4c4c4c; PADDING-TOP: 5px
+}
+TABLE.seealso .find {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 5px
+}
+TABLE.seealso A {
+	COLOR: #4c4c4c; TEXT-DECORATION: underline
+}
+TABLE.seealso A P {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 21px; PADDING-BOTTOM: 0px; PADDING-TOP: 1px
+}
+TABLE.seealso IMG {
+	BORDER-RIGHT: 0px; BORDER-TOP: 0px; BORDER-LEFT: 0px; BORDER-BOTTOM: 0px
+}
+TABLE.seealso TD.header {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; BACKGROUND: #e5e5e5; PADDING-BOTTOM: 6px; PADDING-TOP: 6px
+}
+TABLE.seealso TD.header A {
+	COLOR: #4c4c4c; TEXT-DECORATION: none
+}
+TABLE.seealso TD.header A:hover {
+	COLOR: #000000
+}
+TABLE.seealso TD.header A P {
+	PADDING-RIGHT: 21px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 1px
+}
+TABLE.seealso TD.symlink {
+	BACKGROUND-POSITION: right top; BACKGROUND-ATTACHMENT: fixed; BACKGROUND-IMAGE: url(../../templates/icons/symlink_m.gif); BACKGROUND-REPEAT: no-repeat
+}
+TABLE.seealso TR.strike A {
+	COLOR: #b4b4b4; TEXT-DECORATION: line-through
+}
+TABLE.seealso TR.strike A P {
+	COLOR: #b4b4b4; TEXT-DECORATION: line-through
+}
+TABLE.seealso TR.strike TD.symlink {
+	BACKGROUND-POSITION: right top; BACKGROUND-ATTACHMENT: fixed; BACKGROUND-IMAGE: url(../../templates/icons/symlink_p.gif); BACKGROUND-REPEAT: no-repeat
+}
+INPUT {
+	FONT-SIZE: 11px; COLOR: #4c4c4c; FONT-FAMILY: Tahoma, sans-serif
+}
+SELECT {
+	FONT-SIZE: 11px; COLOR: #4c4c4c; FONT-FAMILY: Tahoma, sans-serif
+}
+TEXTAREA {
+	FONT-SIZE: 11px; COLOR: #4c4c4c; FONT-FAMILY: Tahoma, sans-serif
+}
+TABLE.form P {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; COLOR: #000000; PADDING-TOP: 0px
+}
+TABLE.form TD {
+	PADDING-BOTTOM: 5px; VERTICAL-ALIGN: baseline
+}
+TABLE.form TD.tdright {
+	PADDING-LEFT: 5px
+}
+TABLE.form TD.tdcenter {
+	PADDING-RIGHT: 5px; PADDING-LEFT: 5px
+}
+TABLE.form TD.tdleft {
+	PADDING-RIGHT: 5px
+}
+TABLE.form TD.sep DIV.sep {
+	MARGIN: 0px 0px 15px; HEIGHT: 1px; BACKGROUND-COLOR: #dbdbdb
+}
+TABLE.form .star {
+	COLOR: #ff0000
+}
+TABLE.form TABLE.dates {
+	PADDING-BOTTOM: 0px
+}
+TABLE.opened {
+	MARGIN: 0px 0px 20px
+}
+TABLE.opened .container {
+	DISPLAY: block
+}
+TABLE.opened .switcher {
+	moz-user-select: none
+}
+TABLE.opened .switcher TD.header {
+	BACKGROUND: url(../../templates/icons/panel_close.gif) #c9c9c9 fixed no-repeat right top
+}
+TABLE.closed {
+	MARGIN: 0px 0px 20px
+}
+TABLE.closed .container {
+	DISPLAY: none
+}
+TABLE.closed .switcher {
+	moz-user-select: none
+}
+TABLE.closed .switcher TD.header {
+	BACKGROUND: url(../../templates/icons/panel_open.gif) #e5e5e5 fixed no-repeat right top
+}
+.button {
+	MARGIN-TOP: 10px
+}
+TABLE.tabs IMG {
+	BORDER-RIGHT: 0px; BORDER-TOP: 0px; BORDER-LEFT: 0px; BORDER-BOTTOM: 0px
+}
+TABLE.tabs A {
+	COLOR: #4c4c4c
+}
+TABLE.tabs A:hover {
+	COLOR: #000000
+}
+TABLE.tabs TD.tabcurrent {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; BACKGROUND: #e5e5e5; PADDING-BOTTOM: 6px; PADDING-TOP: 6px; BORDER-BOTTOM: #e5e5e5 2px solid
+}
+TABLE.tabs TD.tabcurrent A {
+	COLOR: #4c4c4c; TEXT-DECORATION: none
+}
+TABLE.tabs TD.tabcurrent A:hover {
+	COLOR: #000000
+}
+TABLE.tabs TD.tabcurrent A P {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 21px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 1px
+}
+TABLE.tabs TD.tab {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; PADDING-BOTTOM: 6px; PADDING-TOP: 6px; BORDER-BOTTOM: #e5e5e5 2px solid
+}
+TABLE.tabs TD.tab A {
+	COLOR: #4c4c4c; TEXT-DECORATION: none
+}
+TABLE.tabs TD.tab A:hover {
+	COLOR: #000000
+}
+TABLE.tabs TD.tab A P {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 21px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 1px
+}
+TABLE.tabs TD.data {
+	BORDER-RIGHT: #e5e5e5 2px solid; PADDING-RIGHT: 15px; PADDING-LEFT: 15px; PADDING-BOTTOM: 15px; BORDER-LEFT: #e5e5e5 2px solid; PADDING-TOP: 15px; BORDER-BOTTOM: #e5e5e5 2px solid
+}
+TABLE.tabs TD.data TD {
+	PADDING-RIGHT: 10px; BORDER-TOP: #e5e5e5 1px solid; PADDING-LEFT: 10px; PADDING-BOTTOM: 5px; PADDING-TOP: 5px; TEXT-ALIGN: right
+}
+TABLE.tabs TD.data TD.header {
+	BORDER-TOP: 0px; BORDER-BOTTOM: #e5e5e5 1px solid; TEXT-ALIGN: left
+}
+TABLE.tabs TD.data TD.name {
+	TEXT-ALIGN: left
+}
+TABLE.popuptitle H2 {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 29px; PADDING-BOTTOM: 0px; MARGIN: 0px; COLOR: #ffffff; PADDING-TOP: 1px
+}

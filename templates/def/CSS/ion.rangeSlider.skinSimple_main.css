@@ -1,0 +1,99 @@
+/* Ion.RangeSlider, Simple Skin
+// css version 1.5.11
+// by Denis Ineshin | ionden.com
+// ===================================================================================================================*/
+
+/* =====================================================================================================================
+// Skin details */
+
+.irs-line-mid,
+.irs-line-left,
+.irs-line-right,
+.irs-diapason,
+.irs-slider {
+}
+
+.irs {
+    height: 40px;
+}
+.irs-with-grid {
+    height: 60px;
+}
+.irs-line {
+    height: 10px;
+    width: 231px;
+	top: 15px;
+	background: yellow;
+}
+.irs-line-left {
+    height: 10px;
+	background: url('/templates/def/images/sliderBackground_main.png') repeat-x -2px 0px;
+}
+.irs-line-mid {
+    height: 10px;
+    background: url('/templates/def/images/sliderBackground_main.png') repeat-x;
+}
+.irs-line-right {
+    height: 10px;
+	background: url('/templates/def/images/sliderBackground_main.png') repeat-x 2px 0px;
+}
+
+.irs-diapason {
+    height: 10px;
+	top: 25px;
+	background: url('/templates/def/images/sliderActiveBackground_main.png') repeat-x;
+}
+
+.irs-slider {
+    width: 21px;
+	height: 21px;
+    top: 19px;
+    background: url('/templates/def/images/calcBulb_main.png') no-repeat;
+    cursor: pointer;
+}
+#irs-active-slider, .irs-slider:hover {
+
+}
+
+.irs-min, .irs-max {
+    color: #c0c0c0;
+    font-size: 10px;
+	line-height: 1.333;
+    text-shadow: none;
+    top: 0; padding: 1px 3px;
+    background: rgba(0,0,0,0.1);
+    border-radius: 3px;
+}
+.lt-ie9 .irs-min, .lt-ie9 .irs-max {
+    background: #3654b0;
+}
+
+.irs-from, .irs-to, .irs-single {
+    color: #000;
+    font-size: 10px;
+	line-height: 1.333;
+    text-shadow: none;
+    padding: 1px 5px;
+    background: rgba(255,255,255,0.8);
+    border-radius: 3px;
+}
+.lt-ie9 .irs-from, .lt-ie9 .irs-to, .lt-ie9 .irs-single {
+    background: #d8dff3;
+}
+
+.irs-grid-pol {
+    background: #777;
+}
+.irs-grid-text {
+    color: #e0e0e0;
+}
+
+#calc .calcSum .irs .irs-fix,
+#calc .calcDays .irs .irs-fix {
+  background: url('/templates/def/images/sliderActiveBackground_main.png') repeat-x;
+  height: 10px;
+  /*width: 231px;*/
+  display: block;
+  position: relative;
+  top: -4px;
+}

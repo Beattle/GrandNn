@@ -1,0 +1,101 @@
+	<script language="JavaScript">
+		function basketWork( obj ) {
+			$.ajax({
+				type: "POST",
+				url: "/empty/basketorders/put",
+				data: $('form[name=list'+obj+']').eq(0).serialize(),
+				success: function(data){
+					var result = JSON.parse ( data );
+					$('#basketItems').text(result.counts);
+					if(result.counts > 0) 
+						$('#img_basket').css('backgroundPosition','bottom');
+					else 
+						$('#img_basket').css('backgroundPosition','top');
+				}
+			});
+			
+			/* BasketItems	= 0 + BasketItems + nc*1;
+			if (document.getElementById('basketTable')) {
+				document.getElementById('basketTable').style.display = (BasketItems>0) ? 'inline':'none';
+			}
+			writeField('basketItems', BasketCounts);
+			if(BasketCounts>0) $('#img_basket').css('backgroundPosition','bottom');
+			else $('#img_basket').css('backgroundPosition','top'); */
+			return true;
+		}
+
+		function basketChangeCount( obj ) {
+			$.ajax({
+				type: "POST",
+				url: "/empty/basketorders/change",
+				data: $('form[name=form'+obj+']').eq(0).serialize(),
+				success: function(data){
+					var result = JSON.parse ( data );
+					$('#basketItems').text(result.counts);
+					$('#basketSumma').text(number_format(result.summ,0,'.',' '));
+					$('#basketCounts').text(result.counts);
+					if($('form[name=form'+obj+']').eq(0).children('input[name*=count]').val()== 0){
+						$('form[name=form'+obj+']').eq(0).parents('tr').eq(0).hide();
+					}
+				}
+			});
+			return true;
+		}
+		
+		function basketDelProduct( el, product ) {
+			if(confirm('Вы уверены что хотите удалить данный товар из корзины?'))
+			$.ajax({
+				type: "POST",
+				url: "/empty/basketorders/del",
+				data: ({link : product}),
+				success: function(data){
+					var result = JSON.parse ( data );
+					$('#basketItems').text(result.counts);
+					$('#basketSumma').text(number_format(result.summ,0,'.',' '));
+					$('#basketCounts').text(result.counts);
+					$(el).parents('tr').eq(0).hide();
+				}
+			});
+			return true;
+		}
+
+		function animate_cart_my (obj)
+		{
+		src = obj.src;
+		
+		if(src == undefined ){
+			src = obj.attr('src');
+			
+		}
+				
+		$('<img src="'+src+'" id="temp_cart_animate" style="z-index: 2000; position: absolute; top:'+Math.ceil($(obj).offset().top)+'px;left:'+Math.ceil($(obj).offset().left)+'px;">').prependTo('body');
+				
+				$('#temp_cart_animate').animate(
+				{
+						top: $('#basketItems').offset().top,
+						left: $('#basketItems').offset().left
+				},
+				700,
+				function() {$('#temp_cart_animate').remove();});
+		}
+</script>
+	<div class="basket">
+		<table class="noborder" >
+			<tr>
+				<td style="padding: 0px 0px 0px 0px; width: 150px;">
+					Ваш заказ <a href="/basketorders"><b id='basketItems' name='basketItems'  ><?=intval(@$_SESSION['_BASKET']['counts'])?></b> товар<?=STR::fins_sush($_SESSION['_BASKET']['counts'])?></a><br />
+		<a  href="/basketorders/checkout">Оформить заказ</a></td>
+				<td style="padding: 0px 0px 0px 0px; text-align: center;" >
+					<a href="/basketorders">
+						<? if(intval(@$_SESSION['_BASKET']['counts'])){ ?>
+						<div id="img_basket" style="margin-top: -12px; height: 70px; width: 58px; background-image: url(/templates/def/img/basket2.png); background-position: bottom; overflow: hidden; display: inline-block;" ></div>
+						<? }else{ ?>
+						<div id="img_basket" style="margin-top: -12px; height: 70px; width: 58px; background-image: url(/templates/def/img/basket2.png); background-position: top; overflow: hidden; display: inline-block;" ></div>
+						<? } ?>
+					</a>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	

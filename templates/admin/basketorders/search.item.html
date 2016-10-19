@@ -1,0 +1,29 @@
+<tr>
+	<td style="line-height: 6px;">
+		<? 
+			echo '<a href="/basketorders/order?alias='.$data["alias"].'" onclick="ShowPopUp(\'/clear/basketorders/order?alias='.$data["alias"].'\',700,450,\'yes\');return false;"  title="Редактировать данные заказа">';
+			echo 'Заказ №'.$data['id'];
+			echo '</a>';
+		?><br />(<?=$data["alias"]?>)
+	</td>
+	<td  align="center">
+		<?=$data['email'];?>
+	</td>
+	<td  align="center">
+		<?=$data['phone'];?>
+	</td>
+	<td  align="center">
+		<?=STR::price_sp($data['summ']);?> p.
+	</td>
+	<td align="center">
+		<?=$data['ts'];?>
+	</td>
+	<td  align="center">
+		<?=$FORM_DATA['status']['arr'][$data['status']];?>
+	</td>
+	<? if(isset($_CORE->_modules['basketcrm'])){ ?>
+	<td>
+		<a href="javascript:;" onclick="ShowPopUp('/clear/basketcrm/show?alias=<?=$data['alias']?>', 800, 600, 'yes');">CRM</a>
+	</td>
+	<? } ?>
+</tr>

@@ -1,0 +1,21 @@
+<?
+if (isset($_KAT['DOC_PATH'][$_KAT['KUR_ALIAS']])){
+	global $_DOC;
+	$_DOC['RE_TITLE'] = str_replace(array('[',']'),'',$form['name']);
+	$_SERVER['REQUEST_URI'] = $_KAT['DOC_PATH'][$_KAT['KUR_ALIAS']]; // что бы меню выделилось
+	$_DOC['CURRENT'] = $_SERVER['REQUEST_URI'];
+}
+?>
+<?if (!empty($form["doc1"]) && is_file($FORM_DATA["doc1"]["abspath"]."/".$form["doc1"])):?>
+			<div class="photobig">
+			<?global $_REIMG;?>
+<?if($_REIMG['nginx_mode'] == true){?>
+				<img src="/reimg<?=$FORM_DATA["doc1"]["path"]."/150/".$form["doc1"]?>" alt="<?=$form["name"]?>" border="0">
+<?}else{?>
+				<img src="/reimg<?=$FORM_DATA["doc1"]["path"]."/".$form["doc1"]?>?150" alt="<?=$form["name"]?>" border="0">
+<?}?>			
+			</div>
+<?endif;?>	
+
+
+	

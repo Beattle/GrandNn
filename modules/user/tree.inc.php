@@ -1,0 +1,3 @@
+<?
+		$_PROJECT['TREE']	= array();
+?>

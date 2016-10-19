@@ -1,0 +1,36 @@
+<?
+if (empty($search))
+	$search = 'searching';
+//if(empty($FORM_DATA)) $FORM_DATA = array();
+//сортировка при выводе в админском режиме added 22.02.06
+    $orderby = (empty( $_GET['orderby'] ))?'none':$_GET['orderby'];
+    if( in_array(  $orderby, array_keys( $FORM_DATA  )))
+	  {  $orderby =' ORDER BY '.$orderby;
+	      //if( @$_GET['desc']==true )  $orderby .=' DESC ';
+        if( !empty($_GET['desc']) ){ // сортировка изменена update 18.10.2012 
+          switch($_GET['desc']){
+            case "up":
+              $orderby .=' DESC ';
+            break;
+            case "down":
+              $orderby .=' ASC ';
+            break;
+            case "site":
+            default:
+              $orderby = 'none';
+            break;
+          }
+        }
+       if($orderby != 'none')
+	     $change_F_ORDER = eregi_replace( "ORDER BY [^[:space:],]+ *( desc| asc)?" , $orderby, $FORM_ORDER );
+	     
+	     if( $FORM_ORDER == $change_F_ORDER )
+	       {  $t=(strpos( $FORM_ORDER, 'LIMIT' )+strpos(  $FORM_ORDER, 'limit' ));
+	       	  if( $t == 0 ) $FORM_ORDER .= $orderby;
+	          else $FORM_ORDER = substr( $FORM_ORDER, 0, $t ).$orderby.substr( $FORM_ORDER, $t );
+	       }  
+	     else $FORM_ORDER = $change_F_ORDER;
+	  }   
+//endof сортировка 	
+	
+?>

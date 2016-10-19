@@ -1,0 +1,17 @@
+<?
+	if ($was) 
+		echo '<div class="line"><spacer type="block" width="1" height="1"></spacer></div>';
+?>
+<div class="block">
+<?if (!empty($data["doc"]) && is_file($FORM_DATA["doc"]["abspath"]."/".$data["doc"])):?>
+	<div class="photo" style="float: left; width: 15%;">
+		<img src="<?='/reimg'.$FORM_DATA["doc"]["path"]."/120/".$data["doc"]?>" border="0">
+	</div>
+<?endif;?>
+	<div class="fr content" style="width:85%;">
+		<h3 style="text-decoration: underline;"><?=$data['name'];?></h3>
+		<p><?=$data['cont']?></p>
+	</div>
+</div>
+<div class="cl"></div>
+<?$was = true;?>

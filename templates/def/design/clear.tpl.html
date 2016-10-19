@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<head><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+  <meta name="robots" content="index, follow">
+
+<?global $_DOC; if ($_DOC['conf']['SEO']) {?>
+	<title><?$title=cmd("current/content/seo_title");
+			if($title!='') {echo $title;}else{echo str_replace(array("[","]"), "", cmd("current/content/title").cmd("db/seo_pages"));}?></title>
+	<META property="og:title" content="<?=cmd("current/content/seo_title")?>"/> 
+	<META name="keywords" content="<?=cmd("current/content/seo_keywords")?>"/>
+	<META name="description" content="<?=cmd("current/content/seo_desc")?>"/>
+<?} else {?>
+	<title><?=str_replace(array("[","]"), "", cmd("current/content/title"))?> - <?=$_CONF['sewtting']['name']?></title>
+<?}?>
+
+	<link rel="stylesheet" href="<?=$_CORE->TEMPLATES.$_CORE->CURR_TPL?>/CSS/style.css" type="text/css">
+	<link rel="stylesheet" href="<?=$_CORE->TEMPLATES.$_CORE->CURR_TPL?>/CSS/update.css" type="text/css">
+    <script language="javascript" src="<?=$_CORE->TEMPLATES.$_CORE->CURR_TPL?>/JS/common.js"  type="text/javascript"></script>
+</head>
+<body>
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-PXND49"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-PXND49');</script>
+<!-- End Google Tag Manager -->
+<script	language="javascript">
+      var params = {
+      		changedEl: "#form_filter select",
+      		visRows: 10,
+      		scrollArrows: true
+      	}
+      	cuSel(params);
+        $("#form_filter .cusel").each(
+		function(){
+			var w = parseInt($(this).width()),
+				w = w + 30;
+				scrollPanel = $(this).find(".cusel-scroll-pane");
+			if(w>=scrollPanel.width())
+			{
+			  	if (w>145){$(this).width(145)}else{
+			  		$(this).width(w);
+			  	}
+				$(this).find(".jScrollPaneContainer").width(w);
+				scrollPanel.width(w);
+			}
+		});
+	</script>
+<?=$CORE_BODY?>
+</body>
+</html>

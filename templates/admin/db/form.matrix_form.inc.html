@@ -1,0 +1,59 @@
+<form action="/clear/<?=$_KAT['MODULE_NAME']."/".$Cmd;?>" method="post"  name="db_form">
+    <table border="0" width="100%" cellspacing="20" cellpadding="0">
+        <tr>
+            <td>
+                <table class="viewdetails">
+                    <tr>
+                        <td></td>
+                        <?php
+                            foreach($dataX as $x){
+                                echo "<td class='header'>{$x['name']}</td>";
+                            }
+                        ?>
+                    </tr>   
+                        <?php
+                            foreach($dataY as $y ){
+                                echo "<tr><td class='header'>{$y['name']}</td>";
+                                foreach($dataX as $x){
+                        ?>
+<?php if ($_REQUEST['type']=='checkbox'){ ?>
+<td title="<?=$x['name']." / ".$y['name']?>">
+    <input type="checkbox" name="form[<?=$x['id'];?>][<?=$y['id'];?>]" value="1" <?=($data[$x['id']][$y['id']])?'checked=""':'';?> />
+</td>
+<?php } else { ?>
+<td title="<?=$x['name']." / ".$y['name']?>">
+    <input style="width:50px;" type="text" name="form[<?=$x['id'];?>][<?=$y['id'];?>]" value="<?=$data[$x['id']][$y['id']];?>" /></td>
+<?php } ?>
+                        <?php
+                                }
+                                echo "</tr>";
+                            }
+                        ?>
+                </table>
+                <table width="100%"  border="0" cellpadding="0" cellspacing="0" class="form" style="margin-top:20px">
+                    <tr>
+                        <td colspan="3" class="sep">
+                            <div class="sep">
+                                <spacer type="block" width="1" height="1"></spacer>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="100%" class="tdleft">
+                            <input type="submit" name="submit" value="Сохранить" />
+                        </td>
+                        <td class="tdright fin" align="right"><input type=reset value="Отменить"></td>
+                    </tr>
+                </table>
+                <?php if ($_REQUEST['type']=='checkbox'){ ?>
+                <input type="hidden" name="form[0][0]" value="1"  />
+                <?php } ?>
+                <input type="hidden" name="id" value="<?=$_REQUEST['id'];?>" />
+                <input type="hidden" name="dbname" value="<?=$_REQUEST['dbname'];?>" />
+            </td>
+        </tr>
+    </table>
+</form>
+
+
+

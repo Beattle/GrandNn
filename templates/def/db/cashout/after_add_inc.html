@@ -1,0 +1,27 @@
+<?php
+global $_CORE, $_SMS, $_CONF;
+if (!$_CORE->dll_load('class.lMail'))
+	die ($_CORE->error_msg());
+	if($form['status'] > 0 ){
+		if($form['status'] == 2){
+			SQL::upd(DB_TABLE_PREFIX.'auth_pers','balance = balance + '.$form['summa'], "author_login = '".$form['mail']."'");
+		}
+		SQL::upd(DB_TABLE_PREFIX.'cashout','hidden = 1', "alias = ".$form['alias']);
+		$dmail = array();
+		$dmail['body']	= "Здравствуйте! <br />
+			Статус Вашей заявки #".$form['name']." был изменен на ".'"'.$FORM_DATA['status']['arr'][$form['status']].'"'."
+		";
+		$dmail['name']		= 'GrandNN';
+		$dmail['email']		= TO;
+		$dmail['subject']	= 'Изменение статуса заявки на вывод средств на '.$_SERVER['HTTP_HOST'];
+		$dmail['type']		= 'html';
+		$dmail['mailto'] 	= $form['mail'];
+		lMail::send($dmail);
+		// отправляем информацию по sms
+		$text = "Статус Вашей заявки #".$form['name']." был изменен на ".'"'.$FORM_DATA['status']['arr'][$form['status']].'"';
+		
+		$text = iconv("windows-1251","UTF-8",$text);
+		$phone = substr(preg_replace('/\D/', '', $form['phone']),-10);
+		$res = $_SMS->sendSMS( $phone , $text , $_CONF['settings']['from'] );
+	}
+?>

@@ -1,0 +1,24 @@
+<?global $_STATIST;?>
+<TABLE BORDER=0 cellpadding=2 cellspacing=1 width=100% class="viewdetails">
+<THEAD>
+
+ <tr>
+  <td width="40%" class="header">Cлова</td>
+  <td width="15%" class="header"><?=$datahead['today']?></td>
+  <td width="15%" class="header"><?=$datahead['yesterday']?></td>
+  <td width="30%" class="header">Всего</td>
+ </tr>
+
+</THEAD>
+<tbody>
+				<?if( !empty($all_data))foreach( $all_data as $data  ){?>
+				  
+ <tr>
+  <td><a href="<?=$data['link']?>" target=<?=$data['link']?>><?=$data['name']?></a></td>
+  <td><?=$data['today']?></td>
+  <td><?=$data['yesterday']?></td>
+  <td><?=$data['count']?></td>
+ </tr>
+				<?}?>		
+</tbody>
+</table>

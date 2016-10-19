@@ -1,0 +1,7 @@
+<?
+global $_USER;
+if ($_USER['NO_DOCTXT_IN_MENU']) {
+	$uri = str_replace('/doctxt/', '/', $uri);
+}
+?>
+<a href="<?=$uri."?".$string."p=".$i?>" title='<?=$i?>'><?=$i?></a>

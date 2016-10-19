@@ -1,0 +1,32 @@
+	<tfoot>
+		<?php if($data['delivery_summ']!==''){ ?>
+		<tr align="left">
+			<td></td>
+			<td align="right"><strong>ДОСТАВКА:</strong>&nbsp;&nbsp;</td>
+			<td><strong><span id="summ_delivery"><?=STR::price_sp($data['delivery_summ']);?></span>&nbsp;р.</strong></td>
+			<td></td>
+			<td>&nbsp;</td>
+		</tr>
+		<?php } ?>
+		<tr align="left">
+			<td></td>
+			<td align="right"><strong>ВСЕГО:</strong>&nbsp;&nbsp;</td>
+			<td><strong><?=STR::price_sp($data['summ']+$data['delivery_summ'])?>&nbsp;р.</strong></td>
+			<td><strong><?=$data['counts']?> шт.</strong></td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+	</tfoot>
+</table>
+<?php 
+global $_CORE;
+	if ($_CORE->comm_inc('contact.html', $file,'basketorders')){
+		include "$file";
+	}
+?>
+<? if(!empty($data["comments"])){ ?>
+	<div style="padding-left: 20px;">
+		<h2>Комментарий к заказу</h2>
+		<?=$data["comments"];?>
+	</div>
+<? } ?>

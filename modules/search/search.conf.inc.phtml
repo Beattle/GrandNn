@@ -1,0 +1,33 @@
+<?
+
+$_SEARCH['TITLE'] 		= 'Карта сайта';
+$_SEARCH['TITLE_EN'] 	= 'Search';
+$_SEARCH['PATH'] 		= '/'.$_SEARCH['MODULE_NAME'].'/';
+
+$_SEARCH['PARTS']	= array( 
+//"/ofitsialnyiy_razdel/" 		=> array('name' => 'doctxt', 'next' => array('/db/norm_akts' => "db")), не пашет
+//"/"				=> 'doctxt',
+"about/" => 'doctxt',
+"sobyitiya/" => 'db',
+"izobrazheniya/" => 'db',
+"faylyi/" => 'db',
+"news/" => 'db',
+//"hobbies/howto/db/howto/"			=> 'db',
+);
+
+/* HELP 
+
+Для правильного поиска в разделах DB надо что бы структура данных была настроены соответственно, 
+ибо ищет как если бы поисковый запрос по попал в раздел по полям: name, anons, cont
+
+для этого можно в данные по этим полям добавить следующие условия:
+
+		'logic' => 'OR',
+		'search' => " LIKE '%%%s%%'",
+
+*/ 
+
+ 
+
+
+?>

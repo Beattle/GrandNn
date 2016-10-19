@@ -1,0 +1,17 @@
+<TABLE BORDER=0 cellpadding=2 cellspacing=1 width=100% class="viewdetails"><THEAD>
+<thead>
+<TR><TD colspan=2 align=center><?=@$_DOC['ERROR']?></TD>
+
+<div id="doc_adm_menu" style="visibility:hidden;position:absolute">
+<?=@$ADDISHION ?>
+</div>
+<div id="doc_adm_seealso" style="position:absolute;visibility:hidden">
+<a href="/<?=$_DOC['MODULE_NAME']?>?list">Сменить режим отображения (списком)</a>
+</div>
+<script language="javascript" type="text/javascript">
+writeField('CreateCmdLeft', getField('doc_adm_menu'));
+writeField('SeeAlso', getField('doc_adm_seealso'));
+</script>
+
+</TR>
+</THEAD><TBODY>

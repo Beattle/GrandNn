@@ -1,0 +1,607 @@
+<?php 
+global $_CORE, $_CONF, $_KAT;
+
+function showloop($form){
+	if(SQL::getval('count(*)', DB_TABLE_PREFIX.'showloope','name = '.$form['num_series'].' AND noloop = 0')) return true;
+	if(SQL::getval('count(*)', DB_TABLE_PREFIX.'showloope','name = '.$form['num_series'].' AND noloop = 1')) return false; 
+	if($form['date_add'] > strtotime('2015-01-01')){
+		if(strpos($form['name'],'Цепь')!== false) return false;
+		if(strpos($form['name'],'Браслет')!== false) return false;
+		if(strpos($form['name'],'Гайтан')!== false) return false;
+		return true;
+	}
+	return false;
+}
+
+	if(empty($_CORE->CLEAR_VERSION) && !empty($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], $_SERVER['SERVER_NAME'])!== false ){ ?>
+<a href="<?=$_SERVER['HTTP_REFERER'];?>">Вернуться в каталог</a><br><br>
+<?php } ?>
+<?php /*$name_one = trim(str_replace($form['artikul'],'',$form['name']));
+?>
+<h1><?=$name_one;?> 
+	<?php if(!empty($form['probe'])){
+		if( strstr($name_one,'Обручальное') || strstr($name_one,'обручальное') )$name_one = 'обручальное';
+		$wordform = SQL::getval('wordform',DB_TABLE_PREFIX.'type_products',"(hidden != 1 OR hidden IS NULL) AND name_one like '%%".$name_one."%%'",'',0);
+		if(strstr($form['probe'],'Au')){
+			switch($wordform){
+				case 0:
+					echo "золотой ";
+				break;
+				case 1:
+					echo "золотая ";
+				break;
+				case 2:
+					echo "золотое ";
+				break;
+				case 3:
+					echo "золотые ";
+				break;
+			}
+		}elseif(strstr($form['probe'],'Ag')){
+			switch($wordform){
+				case 0:
+					echo "серебрянный ";
+				break;
+				case 1:
+					echo "серебрянная ";
+				break;
+				case 2:
+					echo "серебрянное ";
+				break;
+				case 3:
+					echo "серебрянные ";
+				break;
+			}
+		}
+		echo trim(str_replace(array('Au','Ag'),'',$form['probe']))." пробы";
+	}
+	
+	?>
+</h1>
+<?php
+*/
+$TYPE = 'all_items';
+
+if (isset($_KAT['DOC_PATH'][$_KAT['KUR_ALIAS']])){
+	global $_DOC;
+	$_DOC['RE_TITLE'] = str_replace(array('[',']'),'',$form['name']);
+	$_SERVER['REQUEST_URI_START'] = $_SERVER['REQUEST_URI'] ;
+	//$_SERVER['REQUEST_URI'] = $_KAT['DOC_PATH'][$_KAT['KUR_ALIAS']]; // что бы меню выделилось
+	//$_DOC['CURRENT'] = $_SERVER['REQUEST_URI'];
+	$_KAT['RE_TITLE'] = str_replace(array('[',']'),'',$form['name']);
+
+}else{
+	// если это не в подпапках, то CURRENT будет DB значит надо заголовок там поменять
+	$_KAT['RE_TITLE'] = str_replace(array('[',']'),'',$form['name']);
+}
+
+// корзина
+$av_count = $_SESSION['_BASKET_CONT'][STR::translit($form['name'])]['/'.$_KAT['MODULE_NAME'].'/'.$_KAT['KUR_ALIAS'].'/'.$form['alias'] ]['count'];
+$av_size = $_SESSION['_BASKET_CONT'][STR::translit($form['name'])]['/'.$_KAT['MODULE_NAME'].'/'.$_KAT['KUR_ALIAS'].'/'.$form['alias'] ]['size'];
+if ($av_count > 0) {
+	$add = ($av_count > 1) ? 'ов' : '';
+	$avoska = "В корзине их <b>$av_count</b> шт.</b>";
+}
+
+$form['price'] = str_replace(',','.',$form['price']);
+$form['weight'] = round(str_replace(',','.',$form['weight']),2);
+$form['weight'] = str_replace(',','.',$form['weight']);
+$form['size'] = str_replace(',','.',$form['size']);
+
+// Цена
+$price = $form['full_price'];
+
+// default pic, if first img not filled
+$arr = array('',1,2);
+
+if (!empty($form['doc']) && file_exists($FORM_DATA["doc"]["abspath"]."/".$form['doc']) ){
+	$img_name	= $form['doc'];
+	$img		= $img_arr[]  = $img_name;
+	$first_done= true;
+}
+
+
+// images dance
+$name_for_images = str_replace(array("#"," "),array('','_'),trim(strtolower(STR::translit(str_replace("№",'N',$form["artikul"])))));
+
+for($i = 1; $i < 6; $i++  ){
+	if (is_file($_SERVER['DOCUMENT_ROOT']."/data/db/f_all_items/".$name_for_images.'_'.$i.".jpg")){ 
+		$img_arr[] = $name_for_images.'_'.$i.".jpg";
+	}elseif (is_file($_SERVER['DOCUMENT_ROOT']."/data/db/f_all_items/".$name_for_images.'_'.$i.".JPG")){ 
+		$img_arr[] = $name_for_images.'_'.$i.".JPG";
+	}
+}
+if (empty($img_name)) {
+	$img_name = 'prod-01.jpg';
+}
+
+$type_icon = array(
+				1=>"premium.png",
+				2=>"akciya.png",
+				3=>"hit.png",
+				4=>"new.png"
+			);
+if($form["new"] == 1)
+	$form["type_icon"] = 4;
+/* отключаем проверку на дату обновление фотки 
+if(time() - $form["date_add"] <= 5*24*3600)
+	$form["type_icon"] = 4;
+    */
+	
+$youtube = SQL::getall('*',DB_TABLE_PREFIX.'youtube_products',"1 AND (hidden != 1 OR hidden IS NULL) AND code!='' AND name = '".$form['artikul']."'");
+
+$form['anons'] = '';
+$arr_met = array("Ag" => 'Серебро', "Ag 925" => 'Серебро 925', "Au" => 'Золото', "Au 585" => 'Золото 585', "Au 750" => 'Золото 750');
+if(!empty($form['probe']) && !empty($arr_met[$form['probe']])){
+	$form['anons'] .= $arr_met[$form['probe']];
+}
+if(!empty($form['size'])){
+	if(!empty($form['anons']))$form['anons'] .= ", ";
+	$form['anons'] .= "Размер ".$form['size'];
+}
+if(!empty($form['weight'])){
+	if(!empty($form['anons']))$form['anons'] .= ", ";
+	$form['anons'] .= "Вес ".$form['weight'];
+}
+if(!empty($form['ins'])){
+	if(!empty($form['anons']))$form['anons'] .= ", ";
+	$form['anons'] .= "Вставка ".$form['ins'];
+}
+?>
+<?php if($form['hidden']!=1){ ?>
+<!-- Basket part --> 
+<form method="post" action="/basketorders/put" name="list<?=$form['id']?>">
+	<input type="hidden" name="BASKET[link]" 	value="/catalog/<?=$form['alias']?>">
+	<input type="hidden" name="BASKET[doc]" 	value="<?=$FORM_DATA["doc"]["path"]."/".$form["doc"]?>">
+	<input type="hidden" name="BASKET[alias]" 	value="<?=$form['alias']?>">
+	<input type="hidden" name="BASKET[tab]" 	value="<?=$_KAT['KUR_ALIAS'];?>">
+	<input type="hidden" name="BASKET[count]" 	value="1">
+</form>
+<?php } ?>
+<div class=view_shop>
+
+	<!-- item image -->
+	<div class=imgblock>
+		<!-- main -->
+    <?php if(!empty($form["type_icon"])){ ?>
+      <div style="float: right; margin-bottom: -100px; margin-top: 10px; margin-right: 10px; width: 95px; height: 95px; z-index: 10; position: relative;"><img src="/reimg/templates/def/img/95x95/<?=$type_icon[$form["type_icon"]];?>" /></div>
+    <?php } ?>
+  	<style>
+		/* these styles are for the demo, but are not required for the plugin */
+		.zoom {
+			display:inline-block;
+			position: relative;
+-moz-border-radius: 10px;
+-webkit-border-radius: 10px;
+-khtml-border-radius: 10px;
+border-radius: 10px;
+behavior: url(pie.htc);
+position: relative\9;
+
+		}
+		
+		/* magnifying glass icon */
+		.zoom:after {
+			content:'';
+			display:block; 
+			width:33px; 
+			height:33px; 
+			position:absolute; 
+			top:0;
+			right:0;
+			background:url(/templates/def/JS/zoom-master/icon.png);
+		}
+
+		.zoom img {
+			display: block;
+		}
+
+	/*	.zoom img::selection { background-color: transparent; }*/
+
+	</style>
+		<div class="cat-shdw">
+		<?php
+		$loopa = showloop($form);
+		if($loopa){
+			$path = "/empty/local/images/";
+		}else{
+			$path = $FORM_DATA["doc"]["path"]."/";
+		}
+		if (sizeof($img_arr) > 0) foreach($img_arr as $key => $img) { ?>
+			<a class="<?=($loopa)?'zoom':'';?>" style="<?=($key>0)?'display: none;':'';?>" href="<?=$path.$img?>" rel="<?=($loopa)?'loopa':'facebox_img1';?>" id="img<?=$key;?>">
+				<img src="/reimg<?=$FORM_DATA["doc"]["path"]."/460/".$img; ?>" class="browseProductImage" title="Ювелирный дом Гранд : <?=$form['name']?>" alt="Ювелирный дом Гранд : <?=$form['name']?>" border="0">
+			</a>
+			<?php if($loopa){ ?>
+			<script>
+			$(document).ready(function(){
+				$('#img<?=$key;?>').zoom({
+					url: '/reimg<?=$FORM_DATA["doc"]["path"]."/1380/".$img?>'
+				});
+			});
+			</script>
+			<?php } ?>
+		<?php }
+?>
+<?php 	$show_sizes = false;
+	if(strpos($form['name'],'Цепь')!== false || strpos($form['name'],'Колье')!== false || strpos($form['name'],'Гайтан')!== false) $show_sizes = true;
+	if($show_sizes){ ?>
+			<a style="display: none;" href="/templates/def/images/sizes1.jpg" rel="facebox_img1" id="img<?=($key+1);?>">
+				<img src="/reimg/templates/def/images/460/sizes1.jpg" class="browseProductImage"  border="0">
+			</a>
+			<a style="display: none;" href="/templates/def/images/sizes2.jpg" rel="facebox_img1" id="img<?=($key+2);?>">
+				<img src="/reimg/templates/def/images/460/sizes2.jpg" class="browseProductImage"  border="0">
+			</a>
+	<?php } ?>
+		</div>
+
+		<div class=small>
+		<?php // more images
+
+		if (sizeof($img_arr) > 1 || (sizeof($img_arr) == 1 && $show_sizes) ) foreach($img_arr as $k => $im) { ?>
+			<a href="javascript:;" onclick="javascript: show_img_new(<?=$k;?>);return false;" >
+				<div class="smallimg" style="background: #000 url('/reimg<?=$FORM_DATA["doc"]["path"]."/95/".$im;?>') no-repeat 50% 50%; margin-bottom: 10px;" >&nbsp;</div>
+			</a>
+		<?php } ?>
+		<?php if($show_sizes){ ?>
+			<a href="javascript:;" onclick="javascript: show_img_new(<?=($k+1);?>);return false;" >
+				<div class="smallimg" style="background: #000 url('/reimg/templates/def/images/95/sizes1.jpg') no-repeat 50% 50%; margin-bottom: 10px;" >&nbsp;</div>
+			</a>
+			<a href="javascript:;" onclick="javascript: show_img_new(<?=($k+2);?>);return false;" >
+				<div class="smallimg" style="background: #000 url('/reimg/templates/def/images/95/sizes2.jpg') no-repeat 50% 50%; margin-bottom: 10px;" >&nbsp;</div>
+			</a>
+		<?php } ?>
+		<?php if( is_array($youtube) && count($youtube) ) { ?>
+		<?php	foreach($youtube as $tube){
+		?>
+			<div class="searchitem_youtube" style="margin: 0; margin-top: 0px; margin-bottom: 10px; width: 95px; margin-left: -27px; overflow: hidden; border: 1px solid #453107; border-radius: 3px;">
+				<a href="/clear/db/youtube_products/<?=$tube['alias'];?>"  rel="si_youtube">
+					<img class="img_youtube" src="http://i3.ytimg.com/vi/<?=trim($tube['code'])?>/mqdefault.jpg" height="95" />
+					<div class="play_youtube"></div>
+				</a>
+			</div>
+		<?php
+			}
+		}
+		?>
+		<div class="cl"></div>
+		</div>
+		<div id="ya_share1" style="text-align: right;"></div>
+		<script>
+		new Ya.share({
+		        element: 'ya_share1',
+		        elementStyle: {
+		            'type': 'button',
+		            'border': false,
+		            'quickServices': ['yaru','vkontakte','facebook','gplus', 'twitter','odnoklassniki','moimir','lj']
+		        },
+		        link: 'http://<?=$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI_START'];?>',
+			<?php if (!empty($form['discount'])){ ?>
+				description: '<?=$form['name'];?>\nРазмер <?=$form['size']?>, масса <?=$form['weight']?> гр.\nЦена <?=number_format(ceil($price-$price*$form['discount']/100), 0, '.', ' ')?> руб',
+			<?php }else{ ?>
+		        description: '<?=$form['name'];?>\nРазмер <?=$form['size']?>, масса <?=$form['weight']?> гр.\nЦена <?=number_format($price, 0, '.', ' ')?> руб',
+   			<?php } ?>
+		        image: 'http://<?=$_SERVER['HTTP_HOST'].'/reimg/data/db/f_all_items/460/'.$form['doc']; ?>'
+		});
+		</script>
+	</div>
+	<div class='base_info'>
+		<table border=0 >
+		<?php if ($form['nalich'] && !$_COOKIE['GEO_NONHOME']){?>
+		<tr><td colspan="2" nowrap class="white" style="cursor: pointer;" onclick="document.location = '<?php if($form['nalich']==2) { ?>http://grandnn.com/contacts/db/contacts/ul_rodionova_d17<?php } ?><?php if($form['nalich']==1) { ?>http://grandnn.com/contacts/db/contacts/pr_gagarina_d66<?php } ?>'"><?=$FORM_DATA['nalich']['arr'][$form['nalich']]?>
+		<?php if($form['nalich']==1) echo " тел. 465-00-68"; ?>
+		<?php if($form['nalich']==2) echo " тел. 432-53-50"; ?>
+		</td></tr>
+		<?php } ?>
+		<?php if ($form['artikul']){?>
+		<tr><td style="width: 160px;"><b>Артикул</b><td  nowrap class="white"><?=$form['artikul']?>
+		<?php } ?>
+		<?php if ($form['madeby']){?>
+		<tr><td><b>Производитель</b><td nowrap class="white"><?=$form['madeby']?>
+		<?php } ?>
+		<?php if ($form['probe']){?>
+		<tr><td><b>Проба</b><td nowrap class="white"><?=$form['probe']?>
+		<?php } ?>
+		<?php if ($form['ins']){?>
+		<tr><td ><b>Вставка</b><td class="white" style="font-size: 15px;"><?=str_replace(' ,','<br>',$form['ins'])?>
+		<?php } ?>
+		<?php if ($form['weight']){?>
+		<tr><td><b>Масса</b><td class="white"><?=$form['weight']?> гр.
+		<?php } ?>
+		<?php if ($form['size']){?>
+		<tr>
+			<td <?php	if(strstr(mb_strtolower($form['name']), 'кольцо') ){ ?> style="border: none; padding-bottom: 0px;"<?php } ?>><b>Размер</b></td>
+			<td class="white" <?php	if(strstr(mb_strtolower($form['name']), 'кольцо') ){ ?> style="border: none; padding-bottom: 0px;"<?php } ?>><?=$form['size']?></td>
+		<?php } ?>
+		<?php	if(strstr(mb_strtolower($form['name']), 'кольцо') ){ ?>
+		<tr>
+			<td colspan="2">
+				<a href="/clear/info/sovetyi_po_podboru/kak_pravilno_vyibrat_razmer/" rel="facebox_size">Как правильно выбрать размер?</a>
+		<?php	} ?>
+		<?php if ($form['width']){?>
+		<tr>
+			<td ><b>Ширина</b></td>
+			<td class="white" ><?=$form['width']?> мм</td>
+		<?php } ?>
+		<?php if ($form['height']){?>
+		<tr>
+			<td ><b>Высота</b></td>
+			<td class="white" ><?=$form['height']?> мм</td>
+		<?php } ?>
+			<?php if (!empty($form['discount'])){ ?>
+			<tr><td><b>Цена</b><td class="white" style="text-decoration: line-through;"><?=number_format($price, 0, '.', ' ')?> руб.
+			<tr><td><b>Размер скидки</b><td class="gold">- <?=number_format(($price*$form['discount']/100), 0, '.', ' ')?> руб. (<?=$form['discount']?> %)
+			<?php if ($form['price'] && strstr( mb_strtolower($form['ins']),'бриллиант')=== false  && false){ ?>
+			<tr><td><b>Цена за грамм с учетом скидки</b><td class="white"><?=number_format(ceil($form['price']-$form['price']*$form['discount']/100), 0, '.', ' ')?> руб.
+			<?php } ?>
+			<tr><td ><b>Цена с учетом скидки</b><td class="gold" style="font-size: 18px;"><?=number_format(ceil($price-$price*$form['discount']/100), 0, '.', ' ')?> руб.<br />
+				<a href="/clear/info/bonusnaya_programma/" rel="facebox_bonus" style="font-size: 12px;" class="gold"><?=ceil(0.03*($price-$price*$form['discount']/100));?> рублей на бонусную карту</a>
+			<?php }else{ ?>
+			<?php if ($form['price'] && strstr( mb_strtolower($form['ins']),'бриллиант')=== false ){ ?>
+			<tr><td><b>Цена за грамм</b><td class="white"><?=number_format($form['price'], 0, '.' , ' ')?> руб.
+			<?php } ?>
+			<tr><td><b>Цена</b><td class="white"><?=number_format($price, 0, '.', ' ')?> руб.<br />
+			<a href="/clear/info/bonusnaya_programma/" rel="facebox_bonus" style="font-size: 12px;" class="gold"><?=ceil(0.03*$price);?> рублей на бонусную карту</a>
+			<?php } ?>
+		<?php if (!empty($form['num_series'])){?>
+		<tr><td><b>Серия номенклатуры</b><td class="white"><?=$form['num_series']?>
+		<?php } ?>
+		<?php
+		// for opt
+		if ($_SESSION['SESS_AUTH']['ALL']['partner']) {
+		?>
+			<?php if ($form['price_opt']){?>
+			<tr><td class="white"><b>Цена за грамм (опт)</b><td class="white"><?=number_format($form['price_opt'], 0, '.' , ' ')?> руб.
+			<?php } ?>
+			<?php if ($form['price_opt'] && $form['weight']){?>
+			<tr><td class="white"><b>Средняя цена (опт)</b><td class="white"><?=number_format($price, 0, '.', ' ')?> руб.
+			<?php } ?>
+		
+		<?php } ?>
+
+		</table>
+	<div class=cl style="margin-top: 10px;"></div>
+	<?php if($form['hidden']!=1){ ?>
+	<?php
+	$bron = SQL::getval('tip', DB_TABLE_PREFIX.'bron', "name = '".$form['num_series']."' AND begin <= '".date('Y-m-d')."' AND end >= '".date('Y-m-d')."'");
+		//print_r($bron);
+		if ( $bron == 0 ){
+?>
+		<?php if ( $form['status'] == 0 ){ ?>
+<?php if ($price){ // было form['price'] поэтому не всегда покзывалось 09.06.2014 ?>	 
+	<!-- button 
+	onclick="basketWork( document.forms.list<?=$form['id']?>[5].value, document.forms.list<?=$form['id']?>[7].value, 0+<?=($price)?$price:0?>, <?=$form['id']?> );document.forms.list<?=$form['id']?>.submit();animate_cart_my(this);return false;" style="cursor: hand;" 
+	-->
+	
+<!-- 		<img src="/templates/def/img/add.gif" class="button" width="189" id=add height="34" border="0" 
+			onclick="basketWork(<?=$form['id']?>);animate_cart_my(this);return false;" style="cursor: hand; display: none;"
+			onmousedown="try { rrApi.addToBasket(<?=$form['alias']?>) } catch(e) {}"> -->
+		
+	<a href="javascript:;" onclick="basketWork(<?=$form['id']?>);return false;" style="cursor: hand;"
+			onmousedown="try { rrApi.addToBasket(<?=$form['alias']?>) } catch(e) {}" class=btn>В корзину</a>
+
+<?php } 
+}elseif($form['status'] == 1 ){ ?>
+	<strong>Забронировано</strong>
+<?php }
+}elseif($bron == 1 ){ ?>
+	<strong>Забронировано</strong>
+<?php }elseif($bron == 2 ){ ?>
+	<strong>Рассрочка</strong>
+
+<?php
+	}
+		
+	/*<br />
+		<a href="/clear/info/credit/" rel="facebox_credit">Купить в кредит без переплат</a>*/
+?>
+		<br /><br>
+		<a href="/clear/info/kupit_lyuboe_ukrashenie_v_rassrochku/" rel="facebox_credit">Купить в рассрочку без переплат</a>
+		<p>
+		На товар можно оформить доставку
+<?php } ?>
+	</div>
+
+	<!-- Описание -->
+	<?php if ($form['cont']) { ?>
+		<p style="clear: left"><?=$form['cont']?></p>
+	<?php } ?>
+	<?php 
+	$cont = SQL::getval('cont',DB_TABLE_PREFIX.'description', "name = '".$form['artikul']."' AND  (hidden != 1  OR hidden IS NULL) ");
+	if(!empty($cont)){ ?>
+		<p style="clear: left"><?=$cont;?></p>
+	<?php } ?>
+	<?php 
+    if($form['type_id'] == 17){
+        $arrZodiaki = array('Овен','Телец','Близнецы','Рак','Лев','Дева','Весы','Скорпион','Стрелец','Козерог','Водолей','Рыбы');
+        $lowName = strtolower($form['name']);
+        foreach($arrZodiaki as $zodiak){
+            if(stripos($lowName,strtolower($zodiak))!== false){
+                $cont = SQL::getval('cont',DB_TABLE_PREFIX.'zodiaki', " name = '".$zodiak."' AND  (hidden != 1  OR hidden IS NULL) ");
+                break;
+            }
+        }
+        
+	if(!empty($cont)){ ?>
+		<p style="clear: left"><?=$cont;?></p>
+	<?php } } ?>
+
+<?php
+	//$_CORE->BODY_REQUEST_URI
+	$tmp = $form['id'];	
+?>
+<?=cmd("/connects/seealso_all/db/".$_KAT['KUR_ALIAS'].'/'.$form['alias'])?>
+<?php//="<div>".cmd("/connects/concerned/db/".$_KAT['KUR_ALIAS'].'/'.$form['alias'])."</div>"; ?>
+<div class=cl></div>
+	<?php
+	$form['id'] = $tmp;
+
+	// если есть связка, а она есть у товаров другого типа
+	if (!empty($TYPE)) {
+	
+if(empty($_CORE->CLEAR_VERSION)){
+		$res = $keys_x = $keys_y = '';
+		
+		// для нового стиля отображения всех элементов
+		if ($TYPE == "all_items") {
+		
+			// выберем все товары с таким же артикулом
+			$arr = SQL::getall(DB_TABLE_PREFIX . "items.*, ".DB_TABLE_PREFIX . "basket2items.status as status", DB_TABLE_PREFIX.$_KAT['TABLES'][$_KAT['KUR_ALIAS']]." LEFT JOIN ".DB_TABLE_PREFIX . "basket2items ON ".DB_TABLE_PREFIX . "items.alias = ".DB_TABLE_PREFIX . "basket2items.item_alias ", "artikul = '".$form['artikul']."' AND (hidden != 1 OR hidden IS NULL) AND doc!='' ", 'ORDER BY price', DEBUG);
+			
+			if (!empty($arr) ) {
+
+				echo '<h2>Товары</h2><div class="zakaz">';
+				echo "<div class=block><table width=100% class=ins style='width: 888px;'>";
+				echo "<tr align=center  class=head><td width=80>Размер<td>Вес<td>В наличии<td>Артикул<td>Цена<td>";
+				foreach ($arr as $v) { ?>
+				<tr>
+					<td><?=$v['size'];?>
+					<td><?=$v['weight'];?>
+					<td><?=$FORM_DATA['nalich']['arr'][$v['nalich']];?>
+					<td><?=$v['artikul'];?>
+					<td nowrap title="Цена">
+					
+						<?php 	if(empty($v['discount'])){ 
+								echo number_format($v['full_price'], 0, '.' , ' ')." р.";
+							}else{ ?>
+								<span style="text-decoration: line-through; font-size: 12px;">
+									<?=number_format($v['full_price'], 0, '.' , ' ')." р.";?>
+								</span><br />
+								<?php
+								echo number_format(ceil($v['full_price']-$v['full_price']*$v['discount']/100), 0, '.' , ' ')." р.";
+							}
+						?>
+						
+<!-- Basket part --> 
+<?php
+$v['anons'] ='';
+if(!empty($v['probe']) && !empty($arr_met[$v['probe']])){
+	$v['anons'] .= $arr_met[$v['probe']];
+}
+if(!empty($v['size'])){
+	if(!empty($v['anons']))$v['anons'] .= ", ";
+	$v['anons'] .= "Размер ".$v['size'];
+}
+if(!empty($v['weight'])){
+	if(!empty($v['anons']))$v['anons'] .= ", ";
+	$v['anons'] .= "Вес ".$v['weight'];
+}
+if(!empty($v['ins'])){
+	if(!empty($v['anons']))$v['anons'] .= ", ";
+	$v['anons'] .= "Вставка ".$v['ins'];
+}
+?>
+<form method="post" action="/basketorders/put" name="list<?=$v['id']?>">
+	<input type="hidden" name="BASKET[link]" 	value="/catalog/<?=$v['alias']?>">
+	<input type="hidden" name="BASKET[doc]" 	value="<?=$FORM_DATA["doc"]["path"]."/".$v["doc"]?>">
+	<input type="hidden" name="BASKET[alias]" 	value="<?=$v['alias']?>">
+	<input type="hidden" name="BASKET[tab]" 	value="<?=$_KAT['KUR_ALIAS'];?>">
+	<input type="hidden" name="BASKET[count]" 	value="1">
+</form>
+				<td>
+				
+<?php
+	$bron1 = SQL::getval('tip', DB_TABLE_PREFIX.'bron', "name = '".$v['num_series']."' AND begin <= '".date('Y-m-d')."' AND end >= '".date('Y-m-d')."'");
+
+		if ( $bron1 == 0 ){
+?>
+				<?php if($v['status']==0){ ?>
+
+				<a href="javascript:;">
+					<img src="/templates/def/img/zakaz_115.png" class="button" width="80" border="0"  onclick="basketWork( <?=$v['id']?> ); animate_cart_my(this); return false;" style="cursor: hand;">
+				</a>
+				<?php }elseif($v['status']==1){ ?>
+					Забронированно
+					<?php }
+					}elseif($bron1 == 1 ){ ?>
+			<strong>Забронировано</strong>
+					<?php }elseif($bron1 == 2 ){ ?>
+			<strong>Рассрочка</strong>
+		<?php } ?>
+				<?php
+				}
+				echo "</tbody></table></div>";
+				echo "</div>";
+			}
+		}
+		}
+	} // $TYPE
+
+	?>
+	
+
+	<?php// str_replace('/inside', $form['alias'], $_KAT['DOC_PATH'][$_KAT['KUR_ALIAS']])?>
+	<div class=cl></div>
+
+</div>
+
+
+</div>
+<?php 
+if(empty($_CORE->CLEAR_VERSION)){
+	$_REQUEST['num_series'] = $form['num_series'];
+	echo cmd('db/connects_shopitems/any', false, true);
+	unset($_REQUEST['num_series']);
+?>
+<div style="margin-left: -10px;">
+<div class="rr-widget" data-rr-widget-product-id="<?=$form['alias'];?>" data-rr-widget-id="5422b47d6636b10e78c0bc68" data-rr-widget-width="100%"></div>
+</div>
+<?php
+	if(isset($_COOKIE['_grand']['latest'])){
+		$arr_latest = $_COOKIE['_grand']['latest'];
+	}else{
+		$arr_latest = array();
+	}
+	if(is_array($arr_latest) && count($arr_latest) > 0){
+		$arr = array_slice( $arr_latest, 0, 8 );
+		$i=0;
+		$_REQUEST['latest'] = 1;
+		echo cmd('db/all_items/', false, true);
+		unset($_REQUEST['latest']);
+		if(array_search($form['alias'],$arr)=== false){
+			setcookie ("_grand[latest][".$i."]",$form['alias'],time()+3600*24*7,"/");
+			$i++;
+		}
+		foreach($arr_latest as $key => $val){
+			setcookie ("_grand[latest][".$i."]",$val,time()+3600*24*7,"/");
+			$i++;
+		}
+	}else{
+		setcookie ("_grand[latest][0]",$form['alias'],time()+3600*24*7,"/");
+	}
+}
+?>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("a[rel=si_youtube]").fancybox({
+				'padding'		: 0,
+				'width'				: '640',
+				'height'			: '385',
+				'autoScale'			: false,
+				'transitionIn'		: 'none',
+				'transitionOut'		: 'none'
+				/*'type'				: 'swf'http://www.youtube.com/v/<?=trim($tube['code'])?>?version=3&amp;hl=ru_RU&amp;rel=0*/
+			});
+			
+		});
+		function show_img_new(key){
+			if($('#img'+key).css('display')=='none'){
+				$('.cat-shdw a').hide();
+				$('#img'+key).show();
+			}
+		}
+	</script>
+	
+<script type="text/javascript">
+// retailRock
+function rrAsyncInit() {
+try{ rrApi.view(<?=$form['alias'];?>); } catch(e) {}
+}
+REES46.addReadyListener(function () {
+  REES46.pushData('view', {
+    item_id: '<?=$form['artikul']?>',
+    price: '<?=$price;?>',
+    is_available: '1',
+    categories: ['9']
+  });
+});
+</script>

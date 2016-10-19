@@ -1,0 +1,17 @@
+<?$iterator=0;global $_DMODEL;?>
+<div id="dmodel_up_r" style="position:absolute;visibility:hidden">
+			<img alt=" " src="<?=Main::comm_link('add.gif', $f, $module_name )?>">
+			<a title="Новый шаблон" href="/<?=$module_name?>/add?path=<?=$path?>&skin=<?=$skin?>" OnClick="ShowPopUp('/clear/<?=$module_name?>/add?path=<?=$path?>&skin=<?=$skin?>',800,600,'yes');return false;">Новый шаблон</a>
+</div>
+<script language="javascript" type="text/javascript">
+	writeField('CreateCmdLeft', getField('dmodel_up_r'));
+</script>
+
+<TABLE BORDER=0 cellpadding=2 cellspacing=1 width=100% class="viewdetails">
+<THEAD>
+	<tr>
+		<td class="header">Шаблон вывода</td>
+		<td class="header" nowrap>Последнее изменение</td>
+	</TR>
+</THEAD>
+<tbody>

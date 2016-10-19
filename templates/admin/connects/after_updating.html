@@ -1,0 +1,10 @@
+<script language="javascript1.2" type="text/javascript">
+	if( window.opener != null )
+		{	var str = window.opener.location.href;
+			if( str.search('.mark=[^&]*')!= -1 )	str = str.substr(0, str.search('.mark=[^&]*'));
+			//document.write("<br>"+str);
+			if( str.search('\\?')!= -1 )
+					window.opener.location = str+'&mark='+'<?=$path?>';
+			else	window.opener.location = str+'?mark='+'<?=$path?>';
+		}
+</script>

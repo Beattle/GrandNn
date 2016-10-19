@@ -1,0 +1,63 @@
+<table style="width: auto; margin-bottom: 15px;">
+	<tr><td style="border-right: 1px solid #D4A53B; padding-right: 25px;"><a href="/auth/update" style="border-bottom: 1px dashed #D4A53B; text-decoration: none;">Личные данные</a></td>
+		<td style="padding-left: 25px; padding-right: 25px;"><a href="/basketorders/myorders" style="border-bottom: 1px dashed #D4A53B; text-decoration: none;">Ваши заказы</a></td>
+		<? if($_SESSION['SESS_AUTH']['ALL']['partner']==1){ ?>
+			<td style="padding-left: 25px ; border-left: 1px solid #D4A53B;"><strong>Партнерка</strong></td>
+		<? } ?>
+	</tr>
+	</table>
+<h2>Баланс</h2>
+<p><strong>Текущий баланс:</strong> <?=(int)$_SESSION['SESS_AUTH']['ALL']['balance']; ?> руб. </p>
+<p><strong>Заработок за все время:</strong> <?=(int)$data['alltime']['bonus']; ?> руб.</p>
+<p><a href="/clear/blocks/cashout" rel="facebox_cashout">Заказать вывод средств</a></p>
+<div class="zakaz" style="padding: 15px; height: 100px; min-height: 100px;">
+	<p>Текущий баланс - разница между суммой <strong>оплаченных</strong> заказов и суммой выводов<br />
+	Баланс увеличивается по мере оплаты заказов.<br />
+	Время оплаты заказа для заказов с оплатой наличными при получении может достигать от 1 до 6 недель.
+	</p>
+</div>
+<h2>Ссылка</h2>
+<p>
+	Ваша ссылка: <input type="text" value="http://<?=$_SERVER['HTTP_HOST'].'/?prtn='.dechex((int)$_SESSION['SESS_AUTH']['ID']*987)?>" style="width: 250px; text-align: center;" /><br />
+	Вы также можете поставить ссылку на любой товар или раздел, добавляя в конце ссылки ?prtn=<?=dechex((int)$_SESSION['SESS_AUTH']['ID']*987); ?>.<br /><br />
+	Код для вставки у себя на сайте <br />
+	<textarea style="padding: 15px; width: 600px; height: 110px;"><iframe src="http://<?=$_SERVER['HTTP_HOST'];?>/clear/db/partners_vitrina/any?prtn=<?=dechex((int)$_SESSION['SESS_AUTH']['ID']*987); ?>" width="510" height="160" align="left"></iframe></textarea>
+</p>
+<h2>Заказы и посещения</h2>
+<table>
+	<tr>
+		<td></td>
+		<td><strong>Посещений</strong></td>
+		<td><strong>Заказов</strong></td>
+		<td><strong>Заработок</strong></td>
+		<td><strong>Конверсия</strong></td>
+	</tr>
+	<tr>
+		<td>Сегодня</td>
+		<td><?=$data['today']['visits'];?></td>
+		<td><?=$data['today']['orders'] ;?></td>
+		<td><?=$data['today']['bonus'];?></td>
+		<td><?=($data['today']['visits'])?$data['today']['orders']/$data['today']['visits']*100:0;?> %</td>
+	</tr>
+	<tr>
+		<td>Вчера</td>
+		<td><?=$data['yesterday']['visits'];?></td>
+		<td><?=$data['yesterday']['orders'];?></td>
+		<td><?=$data['yesterday']['bonus'];?></td>
+		<td><?=($data['yesterday']['visits'])?$data['yesterday']['orders']/$data['yesterday']['visits']*100:0;?> %</td>
+	</tr>
+	<tr>
+		<td>За этот месяц</td>
+		<td><?=$data['month']['visits'];?></td>
+		<td><?=$data['month']['orders'] ;?></td>
+		<td><?=$data['month']['bonus'];?></td>
+		<td><?=($data['month']['visits'])?$data['month']['orders']/$data['month']['visits']*100:0;?> %</td>
+	</tr>
+	<tr>
+		<td><strong>Всего</strong></td>
+		<td><strong><?=$data['alltime']['visits'];?></strong></td>
+		<td><strong><?=$data['alltime']['orders'];?></strong></td>
+		<td><strong><?=$data['alltime']['bonus'];?></strong></td>
+		<td><strong><?=($data['alltime']['visits'])?$data['alltime']['orders']/$data['alltime']['visits']*100:0;?> %</strong></td>
+	</tr>
+</table>

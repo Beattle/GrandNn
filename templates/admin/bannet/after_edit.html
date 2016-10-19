@@ -1,0 +1,16 @@
+<?
+cmd('local/upd_cat');
+ob_end_clean();
+?>
+
+<script language="javascript" type="text/javascript">
+
+	if( window.opener != null )
+		{	window.opener.location.reload();
+			self.close();
+		}
+	else window.location='/bannet/<?=$_BAN['KUR_ALIAS']?>/?<?=$_SERVER['QUERY_STRING']?>';
+
+</script>
+
+<?exit;?>

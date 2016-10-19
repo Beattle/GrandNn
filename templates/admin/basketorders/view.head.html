@@ -1,0 +1,66 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="20" class="popuptitle">
+	<tbody>
+		<tr>
+			<td>
+				<h2>Заказ № <?=$_GET['alias'];?></h2>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<div class="zakaz_view">
+<link href="/templates/admin/JS/jquery/css/ui-lightness/jquery-ui-1.8.16.custom.css" type="text/css" rel="stylesheet">
+<script src="/templates/admin/JS/jquery/js/jquery-1.6.2.min.js" type="text/javascript"></script><script src="/templates/admin/JS/jquery/js/jquery-ui-1.8.16.custom.min.js" type="text/javascript"></script>
+<script type="text/javascript">	$(document).ready(function(){  $("#tabs").tabs(); }); </script>
+
+<div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+	<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+		<li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active">
+			<a href="#tabs-1">Данные заказа</a>
+		</li>
+		<li class="ui-state-default ui-corner-top">
+			<a href="#tabs-2">Товары</a>
+		</li>
+	</ul>
+	<div id="tabs-1" class="ui-tabs-panel ui-widget-content ui-corner-bottom">
+		<p>
+			<form action="/clear/basketorders/order?alias=<?=$_GET['alias'];?>" method="POST" name="db_form">
+				<table width="100%"  border="0" cellpadding="0" cellspacing="0" class="form" style="margin-top:20px">
+					<tr>
+						<td width="100%" class="tdleft">
+							<input type=submit name="submit" value="Сохранить">
+						</td>
+						<td class="tdright" align="right">
+							<input type=reset value="Отменить">
+						</td>
+					</tr>
+					<tr>
+						<td colspan="3" class="sep">
+							<div class="sep">
+								<spacer type="block" width="1" height="1"></spacer>
+							</div>
+						</td>
+					</tr>
+				</table>
+				<table border=0 width='100%' cellspacing=1 cellpadding=3 class="form">
+					<?php $cForm->Body_print();?>
+				</table>
+				<table width="100%"  border="0" cellpadding="0" cellspacing="0" class="form" style="margin-top:20px">
+					<tr>
+						<td colspan="3" class="sep">
+							<div class="sep">
+								<spacer type="block" width="1" height="1"></spacer>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td width="100%" class="tdleft">
+							<input type=submit name="submit" value="Сохранить">
+						</td>
+						<td class="tdright" align="right">
+							<input type=reset value="Отменить">
+						</td>
+					</tr>
+				</table>
+			</form>
+		</p>
+	</div>

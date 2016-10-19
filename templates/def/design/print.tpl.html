@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<head><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+  <meta name="robots" content="noindex, nofollow"/>
+
+<?global $_DOC; if ($_DOC['conf']['SEO']) {?>
+	<title><?$title=cmd("current/content/seo_title");
+			if($title!='') {echo $title;}else{echo str_replace(array("[","]"), "", cmd("current/content/title").cmd("db/seo_pages"));}?></title>
+<?} else {?>
+	<title><?=str_replace(array("[","]"), "", cmd("current/content/title"))?> - <?=$_CONF['sewtting']['name']?></title>
+<?}?>
+
+	<link rel="stylesheet" href="<?=$_CORE->TEMPLATES.$_CORE->CURR_TPL?>/CSS/print.css" type="text/css">
+</head>
+<body>
+<!-- Top -->
+<div class="l-layout">
+<div class="l-head">
+	<div class="logo"><a href="/"><img src="<?=($_CONF['settings']['doc'])?'/data/db/f_settings/'.$_CONF['settings']['doc']:$_CORE->TEMPLATES.$_CORE->CURR_TPL.'/img/logo.png'?>" alt="<?=$_CONF['settings']['sitename']?>" border="0"></a></div>
+
+	<div class="phone">
+		<table  style="float: right;">
+<tr>
+	<td style="text-align: left;">г. Нижний Новгород,</td>
+	<td style="text-align: right;">ул.Родионова, 17</td>
+</tr>
+<tr>
+	<td style="text-align: left;">г. Нижний Новгород,</td>
+	<td style="text-align: right;">пр.Гагарина, 66</td>
+</tr>
+<tr>
+	<td colspan="2"><b><?=$_CONF['settings']['phone']?></b></td>
+</tr>
+</table>
+<br>
+	
+	</div>
+</div>
+<!-- /Top -->
+<?=$CORE_BODY?>
+
+
+</div>
+</body>
+</html>

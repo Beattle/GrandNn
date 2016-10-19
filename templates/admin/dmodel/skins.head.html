@@ -1,0 +1,18 @@
+<?$iterator=0;?>
+<div id="dmodel_up_r" style="position:absolute;visibility:hidden">
+		<img alt=" " src="<?=Main::comm_link('add.gif', $f, $_DMODEL['MODULE_NAME'] )?>">
+		<a href="/<?=$_DMODEL['MODULE_NAME']?>/newskin?from=<?=$_DMODEL['DEFAULT_SKIN']?>" title="Новый макет" OnClick="ShowPopUp('/clear/<?=$_DMODEL['MODULE_NAME']?>/newskin?from=<?=$_DMODEL['DEFAULT_SKIN']?>',800,600,'yes');return false;">Новый макет</a>
+</div>
+<script language="javascript" type="text/javascript">
+	writeField('CreateCmdLeft', getField('dmodel_up_r'));
+</script>
+
+<TABLE BORDER=0 cellpadding=2 cellspacing=1 width=100% class="viewdetails">
+<THEAD>
+	<tr>
+		<td class="header">Макет дизайна</td>
+		<td class="header" nowrap>Последнее изменение</td>
+		<td class="header" nowrap>Видимость</td>
+	</TR>
+</THEAD>
+<tbody>

@@ -1,0 +1,28 @@
+<tr class="basket_list_item">
+	<td><?=STR::date2word($order['ts'], 'd m')?></td>
+	<td><a href="/clear/basketorders/myorders/<?=$order["alias"];?>" rel=facebox><?='Заказ №'. $order['id']?></a></td>
+	<td><? //=($order['hidden']) ? 'принят' : '<b>исполнен</b>'?>
+	<? echo $FORM_DATA['status']['arr'][$order['status']];?>
+	</td>
+	<?php
+	global $_CONF; 
+	if (in_array("pay", $_CONF['USED_MODULES'])) {?>
+		<td class=pay><a target=_blank href="<?="/pay/go?pay[summ]=".trim($order['summ'])."&pay[partner]=".trim($order['name'])."&pay[name]=Заказ N".$order['alias'],"&pay[num]=".$order['alias']."&pay[date]=".date("Y-m-d")."&name"?> class="schet">счет</a>
+		<a target=_blank href="<?="/pay/akt?pay[summ]=".trim($order['summ'])."&pay[partner]=".trim($order['name'])."&pay[name]=Заказ N".$order['alias'],"&pay[num]=".$order['alias']."&pay[date]=".date("Y-m-d")."&name"?> class="akt">Акт</a>
+		</td>
+	<?}?>
+	<td>
+			<? if(!$order['payed']){ 
+					echo "<span title='сумма заказа'>".(int)$order['summ']."</span> + <span title='сумма за доставку'>".(int)$order['delivery_summ']."</span> = ".((int)$order['summ']+(int)$order['delivery_summ'])." руб";
+			} ?>
+	</td>
+ <?if ( $_CONF['FEATURES_USED']['basketpay']) { ?>
+		<td class=robokassa> 
+			<? if($order['payed']){ 
+				echo '<b>оплачено</b>'; 
+			}elseif($order['status']== 2){ ?>
+				<a href="/rbk/readytopay?out_summ=<?=(int)$order['summ']+(int)$order['delivery_summ'].'&shp_item='.$order['id'];?>">оплатить</a>
+			<? } ?>
+		</td>
+ <?}?>
+</tr>

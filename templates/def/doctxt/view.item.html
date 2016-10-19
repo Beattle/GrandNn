@@ -1,0 +1,121 @@
+<?
+global $_PROJECT;
+if (is_array($_PROJECT['PATH_2_CONTENT']))
+	$cur = end($_PROJECT['PATH_2_CONTENT']);
+if($cur['hidden']) {
+	echo "Материал не опубликован.";
+	return;
+}
+//$content = cmd("doctxt/field/".$form["path"]."/cont");
+?>
+<? 
+	if($cur['path']=='/doctxt/prodazha_zolota/skupka/'){
+		echo "<h2>Расценки для тех, кто хочет продать золото</h2>";
+		echo cmd('/db/price',false,true); 
+		
+		echo '<div style="text-align: center;"><h3>Калькулятор оценки золотых изделий</h3><div class="zakaz" id="form_search" style="width: 440px; margin: 0 auto; height: 240px; overflow: visible;" >'; 
+           echo cmd('/local/calc_gold',false);
+          echo '</div></div>';
+          
+		echo "<h2>Расценки для тех, кто хочет продать серебро</h2>";
+		echo cmd('/db/price_ag',false,true); 
+	}
+	
+	?>
+<? 
+	if($cur['path']=='/doctxt/lombard/tsifrovaya_tehnika/' || $cur['path']=='/doctxt/lombard/onlayn_otsenka/'){ 
+		echo '<div style="float: right; width:500px;margin-top: -20px;">'.cmd('/blocks/onlinescore',false,true)."</div>"; 
+	}
+	?>
+		<div class="fs14">
+		<!-- testt -->
+		      <? 
+        if($cur['path']=='/doctxt/lombard/filial_pr_gagarina_66/'){
+			echo '<div style="float: left; width: 47%; text-align: center;"><h3>Калькулятор оценки золотых изделий</h3><div class="zakaz" id="form_search" style="width: 440px; height: 240px; overflow: visible;" >'; 
+           echo cmd('/local/calc_gold',false);
+          echo '</div></div>';
+        	echo '<div style="float: right; width: 47%; text-align: center;"><h3>Калькулятор переплаты процентов за срок </h3><div class="zakaz" style="width: 440px; height: 240px;" >';
+           $_REQUEST['tariff'] = 1; echo cmd('/local/calc',false); unset($_REQUEST['tariff']); 
+           echo '</div></div><div class="cl"></div>';
+        }
+      ?>
+            <? 
+        if($cur['path']=='/doctxt/lombard/filial_ul_rodionova_17/'){
+			echo '<div style="float: left; width: 47%; text-align: center;"><h3>Калькулятор оценки золотых изделий</h3><div class="zakaz" id="form_search" style="width: 440px; height: 240px; overflow: visible;" >';
+           echo cmd('/local/calc_gold',false);
+           echo '</div></div>';
+			echo '<div style="float: right; width: 47%; text-align: center;"><h3>Калькулятор переплаты процентов за срок </h3><div class="zakaz" style="width: 440px; height: 240px;" >';
+           $_REQUEST['tariff'] = 2; echo cmd('/local/calc',false); unset($_REQUEST['tariff']);
+           echo '</div></div><div class="cl"></div>';
+        }
+      ?>
+			<!-- Картинка -->
+      <div style="width: 360px; float: right;">
+			<?if (!empty($form["doc"]) && is_file($FORM_DATA["doc"]["abspath"]."/".$form["doc"])):?>
+				<a href="<?=$FORM_DATA["doc"]["path"]."/".$form["doc"]?>" rel=facebox><img class="imgrad" src="/reimg<?=$FORM_DATA["doc"]["path"]."/350/".$form["doc"]?>" alt="<?=$form['title']?>"></a>
+			<?endif;?>
+			<?if (!empty($form["doc2"]) && is_file($FORM_DATA["doc2"]["abspath"]."/".$form["doc2"])):?>
+				<a href="<?=$FORM_DATA["doc2"]["path"]."/".$form["doc2"]?>" rel=facebox><img class="imgrad" src="/reimg<?=$FORM_DATA["doc2"]["path"]."/350/".$form["doc2"]?>" alt="<?=$form['title']?>"></a>
+			<?endif;?>
+			<?if (!empty($form["doc3"]) && is_file($FORM_DATA["doc3"]["abspath"]."/".$form["doc3"])):?>
+				<a href="<?=$FORM_DATA["doc3"]["path"]."/".$form["doc3"]?>" rel=facebox><img class="imgrad" src="/reimg<?=$FORM_DATA["doc3"]["path"]."/350/".$form["doc3"]?>" alt="<?=$form['title']?>"></a>
+			<? endif;?>
+      </div>
+			<!-- Содержание -->
+			<?
+			$tmp = trim(str_replace("&nbsp;", '', $form['cont']));
+			if (!empty($tmp) && !in_array($tmp, array('<p></p>', ''))) echo $form['cont'];
+			?>
+			<!-- Файл -->
+			
+			<? if(!empty($form["doc1"]) && is_file($FORM_DATA["doc1"]["abspath"]."/".$form["doc1"])){ 
+					if($cur['path']!='/doctxt/info/partnerskaya_programma/'){
+				?>
+				<a href="<?=$FORM_DATA["doc1"]["path"]."/".$form["doc1"]?>" target=_blank><?=($form['doc1_title']) ? $form['doc1_title'] : 'Загрузить файл'?> (<?=@sprintf("%.0fK",(filesize($FORM_DATA['doc1']['abspath'].'/'.$form['doc1']) / 1024));?>)</a>
+			<? 		}else{ ?>
+				<a href="<?=$FORM_DATA["doc1"]["path"]."/".$form["doc1"]?>" target=_blank><?=($form['doc1_title']) ? $form['doc1_title'] : 'Публичная оферта'?> (<?=@sprintf("%.0fK",(filesize($FORM_DATA['doc1']['abspath'].'/'.$form['doc1']) / 1024));?>)</a>
+			<?		}
+				} ?>
+<? 
+	if($cur['path']=='/doctxt/lombard/tsifrovaya_tehnika/' || $cur['path']=='/doctxt/lombard/onlayn_otsenka/'){ ?>
+		<div class="zakaz" style="float: left; width: 350px; margin-top: 15px; line-height: 30px;  padding: 15px; min-height: 114px;  clear: inherit;">
+Мы готовы оценить Ваш предмет залога через WhatsApp
+<img src="/templates/def/img/whatsapp.png" style="margin-bottom: -7px; width: 28px;height: 28px;">, Viber <img src="/templates/def/img/viber.png" style="margin-bottom: -8px; height: 30px; ">, Telegram <img src="/templates/def/img/telegram.png" style="margin-bottom: -4px; width: 24px;"><br>Контактные номера <a href="tel:+79307014564" title="">+7 (930) 701-45-64</a> <br> <a href="tel:+79308083342" style="margin-left: 152px;" title="">+7 (930) 808-33-42</a>
+</div>
+	<?
+	}
+	?>
+		
+			<?=($form['nonformat']) ? "<div class=noformat>".$form['nonformat']."</div>	":''?>
+			
+      <? 
+        if($cur['path']=='/doctxt/lombard/filial_pr_gagarina_66/'){
+           echo cmd("/db/contacts/pr_gagarina_d66", false,true);
+        }
+      ?>
+                  
+      <? 
+        if($cur['path']=='/doctxt/lombard/filial_ul_rodionova_17/'){
+           echo cmd("/db/contacts/ul_rodionova_d17", false,true);
+        }
+      ?>
+      <? 
+        if($cur['path']=='/doctxt/lombard/rastsenki_na_zoloto_i_serebro/'){
+      		echo '<div class="cl"></div>
+				<h3>Золото</h3>';
+           echo cmd('/db/price',false,true); ?>
+           <p style="text-align: center;">
+           <a href="http://grandnn.com/lombard/filial_ul_rodionova_17/">ЗДЕСЬ</a> Вы можете рассчитать переплату</p>
+           <? echo '<h3>Серебро</h3>';
+           echo cmd('/db/price_ag',false,true); 
+        }
+      ?>
+      
+		<? 
+		if($cur['path']=='/doctxt/lombard/vopros_otvet/'){
+		   echo cmd('/obsv/form',false,true); 
+		}
+		?>
+			<? if($form['cont'] && strpos($_SERVER['REQUEST_URI'],'/catalog/') === false) echo "<hr>" ?>
+		</div>
+		<? //echo "<pre>"; print_r($_SERVER); echo "</pre>"; ?>

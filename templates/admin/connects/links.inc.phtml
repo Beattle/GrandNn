@@ -1,0 +1,185 @@
+
+<SCRIPT language=JavaScript>
+function lview(){
+	var str = '';
+	for ( i=0; i<max; i++)
+	{	n = order[i];
+		if(names[n]!='')
+		  {		if( names[n].search('<strike>')!= -1 )	  		str += "<li style=\"color:darkgray\"> "+names[n]+" <img onclick=\"changeold('"+n+"','"+names[n]+"')\" src=\"/templates/admin/connects/links.gif\" alt=\"Вернуть связь\" title=\"Вернуть связь\"></li>";
+		  		else
+		  		if( typeof(from[n]) =='undefined' )
+		  			str += "<li style=\"color:gray;\">"+names[n]+
+		  				"<img onclick=\"change('"+n+"','"+names[n]+"')\" src=\"/templates/admin/connects/unlinks.gif\" alt=\"Рассоединить\" title=\"Рассоединить\"> <img onclick=\"MoveUp("+i+")\" src=\"/templates/admin/connects/up_connects.gif\" alt=\"Поднять на одну позицию\" title=\"Поднять на одну позицию\"> <img onclick=\"MoveDown("+i+")\" src=\"/templates/admin/connects/down_connects.gif\" alt=\"Опустить на одну позицию\" title=\"Опустить на одну позицию\"></li>";
+		  		else
+		  			str += "<li noWrap style=\"color:darkgray\"> "+names[n]+" "+from[n]+"<img onclick=\"change('"+n+"','"+names[n]+"')\" src=\"/templates/admin/connects/unlinks.gif\" alt=\"Рассоединить\" title=\"Рассоединить\"> <img onclick=\"MoveUp('"+i+"')\" src=\"/templates/admin/connects/up_connects.gif\" alt=\"Поднять на одну позицию\" title=\"Поднять на одну позицию\" > <img onclick=\"MoveDown("+i+")\" src=\"/templates/admin/connects/down_connects.gif\" alt=\"Опустить на одну позицию\" title=\"Опустить на одну позицию\"></li>";
+		  }
+	}
+	ef('connects', '<ol>'+str+'</ol>');
+}
+
+function del( link )
+{	for( i=0; i<max; i++ )	if( order[i] == link ) break;
+	for( j=i+1; j<max; j++)	order[j-1] = order[j];
+	max--;
+}
+
+function is_in_array(link)
+{	var f = false;
+	for( i=0; i<max; i++ )	if( order[i] == link ){ f=true; break; }
+	return f;
+}
+
+function MoveUp( num ){
+	if( num>0 ){		var tmp = order[num-1];
+						order[num-1] = order[num];
+						order[num] = tmp;
+	}
+	lview();
+}
+function MoveDown( num ){
+	if( num<max-1 ){	var tmp = order[num+1];
+						order[num+1] = order[num];
+						order[num] = tmp;
+	}
+	lview();
+}
+
+function change ( link, name ){
+	if(( typeof(from[link])!='undefined'))
+			names[link] = '<strike>'+names[link]+'</strike>';
+	else 	
+			{	names[link] = '';	del( link );	}
+	if( typeof(document.forms.conn['s['+link+']'])!='undefined' )
+			document.forms.conn['s['+link+']'].checked = false;
+	add_add(link);
+	lview();
+}
+
+function del_del(link)
+{		var dele = document.dataForm.del.value.replace( link+";", "" );
+		if( dele == document.dataForm.del.value ) document.dataForm.add.value += link+";";
+		else document.dataForm.del.value = dele;
+}
+function add_add(link)
+{		var add = document.dataForm.add.value.replace( link+";", "" );
+		if( add == document.dataForm.add.value ) document.dataForm.del.value += link+";";
+		else document.dataForm.add.value = add;
+}
+
+function change1 ( link, name ){
+	if( document.forms.conn['s['+link+']'].checked  == true ){
+		names[link] = name;
+		del_del(link);
+		if( !is_in_array(link) ){	order[max] = link;max++;	}
+	}else {
+		if( typeof(from[link])!='undefined' )
+			names[link] = '<strike>'+names[link]+'</strike>';
+		else {	names[link] = '';del( link );	}
+		add_add(link);
+	}
+	lview();
+}
+
+function changeold( link, name ){
+	if( typeof(document.forms.conn['s['+link+']'])!='undefined' )
+			document.forms.conn['s['+link+']'].checked = true;
+	names[link] = name.substring(8, name.length-9);
+	del_del(link);
+	lview();
+}
+
+function save_order()
+{    	document.dataForm.order.value = "";
+ 		for( i=0; i< max; i++ )
+	 	document.dataForm.order.value += order[i]+";";
+		return true;  
+}
+</SCRIPT>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" class="common">
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE class=popuptitle cellSpacing=20 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD><IMG height=24 alt=" " hspace=0 src="<?=Main::comm_link('d_connects.gif', $f, $_CONNECTS['MODULE_NAME']);?>" width=24 align=left> 
+            <H2>Редактирование связей для: <?=CONNECTS::get_name_by_alias($path);?></h2>
+            <br>
+            <P id=modulePath class=path><DIV class="h2" id=elementTitle>&nbsp;
+            <?
+            $tmp = $_SERVER['REQUEST_URI'];
+            global $_USER;
+            $_USER['path_prefix'] = '/clear/'.$_CONNECTS['MODULE_NAME'].'/process?path='.$path.'&node=';
+            $_REQUEST['node'] = $node;
+          
+            echo cmd("user/content/path");
+            
+            $_SERVER['REQUEST_URI'] = $tmp;         
+            ?>
+          </TD>
+        </TR>
+        </TBODY>
+</TABLE>
+      <TABLE cellSpacing=20 cellPadding=0 width="100%" border=0 class=content>
+        <TBODY>
+        <TR>
+          <TD>
+            <TABLE class=form cellSpacing=0 cellPadding=0 width="100%" border=0><TBODY>
+              <TR>
+                <TD>
+                  <P>Связи<SPAN class=star>*</SPAN></P></TD></TR>
+              <TR>
+                <TD>
+                
+<?		global $str_names, $str_from, $_KAT, $_CORE, $str_order, $i;
+
+		if( $action == 'close' )
+		if (Main::comm_inc('after_saving.html', $file,$_CONNECTS['MODULE_NAME']))	include "$file";
+		
+		if( $action == 'apply' )
+		if (Main::comm_inc('after_updating.html', $file,$_CONNECTS['MODULE_NAME']))	include "$file";
+		
+		if (!isset($_KAT))	include $_CORE->ROOT.$_CORE->DIRMODS.'db/conf.inc.php';
+		
+			$i=0;
+		CONNECTS::load_links($path, $_CONNECTS['links']);
+		if (!empty($_CONNECTS['links']) && is_array($_CONNECTS['links'])){
+			foreach ($_CONNECTS['links'] as $link => $v)
+			{	
+				$name = $v['name'];
+				$str_order .= " order[".$i++."] = '".$link."'; ";
+				$str_names .= " names['".$link."'] = '".$name."'; ";
+				$str_from .= "  from['".$link."'] = '<A href=/clear/".$_CONNECTS['MODULE_NAME']."/process?path=".$path."&node=".CONNECTS::from_where($link)."><img src=\"/templates/admin/connects/src.gif\" border=0 title=\"Источник\" alt=\"Источник\"></a> ';";
+			}
+		}else {$str_names = '';$str_order=''; $str_from='';}
+		
+		$list = CONNECTS::get_list($node);
+		if (Main::comm_inc('head.html', $f, $_CONNECTS['MODULE_NAME']))				include "$f";
+		if (is_array($list))
+			foreach ($list as $v)
+				if (Main::comm_inc('item.html', $f, $_CONNECTS['MODULE_NAME']))		include "$f";
+		else 	$_CONNECTS['ERROR'] = 'Пусто';
+		if (Main::comm_inc('foot.html', $f, $_CONNECTS['MODULE_NAME']))				include "$f";
+?>
+
+	<DIV class=sep><SPACER height="1" width="1" type="block"></SPACER></DIV>
+	<FORM  name=dataForm method="post" action="/clear<?=$_SERVER['REQUEST_URI']?>?<?=$_SERVER['QUERY_STRING']?>">
+        <INPUT name=add		type=hidden value=""	>
+        <INPUT name=del		type=hidden value=""	>
+        <INPUT name=path	type=hidden value="<?=$path?>"	>
+        <INPUT name=order	type=hidden value=""			>
+        <INPUT name=action	type=hidden value=""			>
+
+        <TABLE class=form style="MARGIN-TOP: 20px" cellSpacing=0 cellPadding=0 width="100%" border=0>
+              <TBODY>
+              <TR><TD class=sep colSpan=5><DIV class=sep><SPACER height="1" width="1" type="block"></SPACER></DIV></TD></TR>
+              <TR>
+                <TD class=tdleft width="100%">
+                <INPUT name=reset type=submit value=Отменить onclick="document.dataForm.action.value='reset';"></TD>
+                <TD class=tdcenter><INPUT name=apply onclick="save_order();document.dataForm.action.value='apply';" type=submit value=Применить></TD>
+                <TD class=tdright> <INPUT name=save onclick="save_order();document.dataForm.action.value='close';" type=submit value=Сохранить></TD>
+              </TR>
+              </TBODY>
+        </TABLE>
+	</FORM>
+</BODY></HTML>

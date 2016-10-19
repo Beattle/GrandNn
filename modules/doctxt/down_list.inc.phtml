@@ -1,0 +1,26 @@
+<?
+global $FORM_DATA, $_USER;
+foreach ($_DOC['SUBTREE']['next'] as $data) if (empty($data['hidden'])){
+
+		if ($_USER['NO_DOCTXT_IN_MENU']) {
+			$data['path'] = str_replace('/doctxt/', '/', $data['path']);
+		}
+
+	if (DOCTXT::inc_tpl('down_list.item.html', $file)){
+		include "$file"; 
+	}else{
+		?>
+	<p><a href='<?=$data['path']?>' title='<?=$data['name']?>'><?=Main::short($data['name'], 80,1)?></a></p>
+<?	
+	}//if
+}	
+
+echo ($was) ? '</ul>' :'';
+
+?>
+<?php
+if 	( 	$_SERVER['REQUEST_URI'] == '/doctxt/lombard/' ){ 
+	echo "<hr>".cmd("db/whywe",false,true);
+	echo "<span style='font-size: 10px;'>Ломбард «Гранд Золото» занимает лидирующую позицию среди ломбардов Нижнего Новгорода. У нас Вы можете заложить Ваше изделие и получить необходимую сумму всего в течение нескольких минут. Мы гарантируем самую высокую оценку Вашего изделия и самые низкие проценты. Ломбард «Гранд Золото» - всегда надежный выбор!</span>";
+}
+?>

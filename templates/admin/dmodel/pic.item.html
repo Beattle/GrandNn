@@ -1,0 +1,44 @@
+<? $tmp_file = str_replace(".", "_", $file);?>
+<tr>
+	<td valign=middle width="100%">
+		<img alt=" " src=<?=Main::comm_link('file.gif', $f, $module_name )?>?>
+		<a id="itemList<?=$iterator?>" href="/clear/<?=$module_name?>/seeimg?path=<?=$file?>&skin=<?=$skin?>" title="изображение <?=$file?>"
+
+			onclick="writeField('EventsCmdLeft', getField('dmodel_<?=$tmp_file?>_down_l'));writeField('LeftPreview', getField('dmodel_<?=$tmp_file?>_d'));writeField('EventsCmdRight', getField('dmodel_<?=$tmp_file?>_down_r'));return false;"
+			
+			ondblclick="ShowPopUp(this.href,800,600,'yes');"
+			
+			onfocus="setPointer('<?=$iterator?>');"
+<?$iterator++;?>
+		>
+			<?=$file?>
+		</a>
+	</td>
+	<td>
+		<?=$date?>
+	</td>
+</tr>
+
+	<div id="dmodel_<?=$tmp_file?>_down_l" style="position:absolute;visibility:hidden">
+			<img alt=" " src="<?=Main::comm_link('edit.gif', $f, $module_name )?>">
+			<a title="<?=$title?>" href="/clear/<?=$module_name?>/seeimg?path=<?=$file?>&skin=<?=$skin?>" OnClick="ShowPopUp('/clear/<?=$module_name?>/seeimg?path=<?=$file?>&skin=<?=$skin?>',800,600,'yes');return false;">Редактировать</a>
+	</div>
+
+	<div id="dmodel_<?=$tmp_file?>_d" style="position:absolute;visibility:hidden">
+		<?=str_replace(";", "<br>", $title)?>
+	</div>
+
+	<div id="dmodel_<?=$tmp_file?>_down_r" style="position:absolute;visibility:hidden">
+			<img alt=" " src="<?=Main::comm_link('delete.gif', $f, $module_name )?>">
+			<a title="<?=$title?>" href="/<?=$module_name?>/delimg?path=<?=$file?>&skin=<?=$skin?>" OnClick="return confirm('Чо, правда удалить?');">Удалить</a>
+	</div>
+
+<!--
+<tr>
+<td>
+<?=$file?>
+</td>
+<td>
+<?=$date?>
+</td>
+</tr>-->

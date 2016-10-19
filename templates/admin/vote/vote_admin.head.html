@@ -1,0 +1,10 @@
+<H1>Администрирование опросов</H1>
+<SCRIPT>
+function db_del(name, id){ // js
+if (confirm("Вы уверены что хотите удалить опрос \n"+name+"\n")) {
+document.location.href	= "http://"+location.host+location.pathname+"?del=1&id="+id;
+return true;
+}else
+return false;
+}
+</script>

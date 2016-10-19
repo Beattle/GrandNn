@@ -1,0 +1,28 @@
+<TR>
+	<TD>
+	     <?// там вывод data[name]
+			 $data['name'] = $data['user_tranzak'];
+	     if ($_CORE->IS_ADMIN && KAT::inc_tpl('kat_admin.submenu.each.inc.php',$f)) include $f?>
+	</TD>
+	<TD><?=date("H:i d.m.Y", $data['time'])?>
+	<TD><?=$data["ip"];?>
+	<TD><?=$data["inv_id"];?>
+	<TD><a href="/db/basket/?form[id]=<?=$data["shp_item"]?>" target=_blank>#<?=$data["shp_item"];?></a>
+	<TD><?=$data["summa"];?>р.
+</TR>
+
+<div id="newsList<?=$num?>" style="position:absolute;visibility:hidden">
+<b><?=$data["author_login"]?></b><br>
+<?=substr($data["author_name"], 0, 50)?><br>
+<div class=impreview>
+<?if (!empty($data["doc"]) && is_file($FORM_DATA["doc"]["abspath"]."/".$data["doc"]) && $FORM_DATA["doc"]["sub_type"] == 'photo'):?>
+<?if($_REIMG['nginx_mode'] == true){?>
+	<img class=docview src="/reimg/<?=$FORM_DATA["doc"]["path"]."/100/".$item["doc"]?>" alt="<?=$item["name"]?>" border="0"><br>
+<?}else{?>
+	<img class=docview src="/reimg/<?=$FORM_DATA["doc"]["path"]."/".$item["doc"]?>?x100" alt="<?=$item["name"]?>" border="0"><br>
+<?}?>
+<?endif;?>
+</div>
+
+</div>
+

@@ -1,0 +1,23 @@
+<?
+if (empty($search))
+	$search = 'searching';
+//if(empty($FORM_DATA)) $FORM_DATA = array();
+//сортировка при выводе в админском режиме added 22.02.06
+    $orderby = (empty( $_GET['orderby'] ))?'none':$_GET['orderby'];
+    if( in_array(  $orderby, array_keys( $FORM_DATA  )))
+	  {  $orderby =' ORDER BY '.$_KAT['KUR_TABLE'].'.'.$orderby;
+	     if( @$_GET['desc']=='up' )  $orderby .=' DESC ';
+         if( @$_GET['desc']=='down' )  $orderby .=' ASC';
+         
+	     $change_F_ORDER = eregi_replace( "ORDER BY [^[:space:],]+ *( desc| asc)?" , $orderby, $FORM_ORDER );
+	     
+	     if( $FORM_ORDER == $change_F_ORDER )
+	       {  $t=(strpos( $FORM_ORDER, 'LIMIT' )+strpos(  $FORM_ORDER, 'limit' ));
+	       	  if( $t == 0 ) $FORM_ORDER .= $orderby;
+	          else $FORM_ORDER = substr( $FORM_ORDER, 0, $t ).$orderby.substr( $FORM_ORDER, $t );
+	       }  
+	     else $FORM_ORDER = $change_F_ORDER;
+	  }   
+//endof сортировка 	
+	
+?>

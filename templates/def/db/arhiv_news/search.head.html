@@ -1,0 +1,22 @@
+
+<script>
+	$(document).ready(function() {
+	
+		$('.ms_slideDown').bind('click', function() {
+			if($(this).hasClass("ac"))
+			{
+				$('.service-open', this).slideUp(100);
+				$('.ms_slideDown').removeClass('ac');
+			}
+			else
+			{
+				$('.service-open').slideUp(100);
+				$('.service-open', this).slideDown(200);
+				$('.ms_slideDown').removeClass('ac');
+				$(this).addClass('ac');
+			}
+	    });
+
+		
+	});
+</script>

@@ -1,0 +1,115 @@
+<?
+if (!empty($_REQUEST['price_from'])) {
+	$FORM_WHERE .= " AND 1*price * REPLACE(weight, ',', '.') >= '".$_REQUEST['price_from']."'";
+}
+if (!empty($_REQUEST['price_to'])) {
+  $FORM_WHERE .= " AND 1*price * REPLACE(weight, ',', '.') <= '".$_REQUEST['price_to']."'";
+}
+
+$arr_katsize = array('koltsa_1','brasletyi_bu','kole_bu','tsepi_t','pechatki_1','koltsa_3', 'brasletyi_3','kole','tsepi_1','pechatki_2');
+
+$FORM_FROM = " as t1 ";
+
+
+$add_where = "";
+//if(in_array($_KAT['KUR_ALIAS'],$arr_katsize)!==false){ 
+  if (!empty($_REQUEST['size_from'])) {
+    $_REQUEST['size_from'] = str_replace(",",".",$_REQUEST['size_from']);
+    $add_where = "(SELECT count(*) FROM ".DB_TABLE_PREFIX.$_KAT[$_KAT['KUR_ALIAS']]["matrix_table"][$TYPE."_opt"] . " as v, ".DB_TABLE_PREFIX.$TYPE."_size as db1 WHERE v.id_db1 = db1.id AND v.item_id = t1.id  AND 1*db1.name >= ".$_REQUEST['size_from']." AND 1*db1.name > 0 ) ";
+    $FORM_WHERE .= " AND ((1*size >= ".$_REQUEST['size_from']." AND 1*size > 0) OR ".$add_where." > 0)";    
+  }
+  if (!empty($_REQUEST['size_to'])) {
+    $_REQUEST['size_to'] = str_replace(",",".",$_REQUEST['size_to']);
+    $add_where = "(SELECT count(*) FROM ".DB_TABLE_PREFIX.$_KAT[$_KAT['KUR_ALIAS']]["matrix_table"][$TYPE."_opt"] . " as v1, ".DB_TABLE_PREFIX.$TYPE."_size as db2 WHERE v1.id_db1 = db2.id AND v1.item_id = t1.id  AND 1*db2.name <= ".$_REQUEST['size_to']." AND 1*db2.name > 0 ) ";
+    $FORM_WHERE .= " AND ((1*size <= ".$_REQUEST['size_to']." AND 1*size > 0) OR ".$add_where." > 0)";    
+  }
+//}
+//получим минимальный и максимальный размеры в самом каталоге 
+$arr_size = SQL::getall("MIN(REPLACE(size,',','.')*1) as minx, MAX(REPLACE(size,',','.')*1) as maxx", DB_TABLE_PREFIX.$_KAT['KUR_ALIAS'], "size > 0", '', 1);
+$arr_size = $arr_size[0];
+
+// если не пыстые и не существует парамметров для поиска, то установим параметрами поиска
+if (empty($_REQUEST['size_from']) && !empty($arr_size['minx'])) {
+  $_REQUEST['size_from'] = str_replace(",",".",$arr_size['minx']);
+}
+if (empty($_REQUEST['size_to']) && !empty($arr_size['maxx'])) {
+  $_REQUEST['size_to'] = str_replace(",",".",$arr_size['maxx']);
+}
+
+//получим минимальный и максимальный размеры в каталоге матрицы
+$arr_size_opt = SQL::getall("MIN(REPLACE(db1.name,',','.')*1) as minx, MAX(REPLACE(db1.name,',','.')*1) as maxx", DB_TABLE_PREFIX.$_KAT[$_KAT['KUR_ALIAS']]["matrix_table"][$TYPE."_opt"] . ' v, '.DB_TABLE_PREFIX.$TYPE.'_size db1', "v.id_db1 = db1.id AND db1.name > 0", '', DEBUG);
+$arr_size_opt = $arr_size_opt[0];
+// если не пыстые и не существует парамметров для поиска, то установим параметрами поиска
+if (empty($_REQUEST['size_from']) && !empty($arr_size_opt['minx'])) {
+  $_REQUEST['size_from'] = str_replace(",",".",$arr_size_opt['minx']);
+}
+if (empty($_REQUEST['size_to']) && !empty($arr_size_opt['maxx'])) {
+  $_REQUEST['size_to'] = str_replace(",",".",$arr_size_opt['maxx']);
+}
+//SQL::getall('db1.name x, db2.name y, value', DB_TABLE_PREFIX.$_KAT[$_KAT['KUR_ALIAS']]["matrix_table"][$TYPE."_opt"] . ' v, '.DB_TABLE_PREFIX.$TYPE.'_size db1, '.DB_TABLE_PREFIX.$TYPE.'_ins db2', "v.id_db1 = db1.id AND v.id_db2 = db2.id AND v.item_id = '".$form['id']."'", 'ORDER BY y, x', DEBUG);
+if (empty($search))
+	$search = 'searching';
+	
+?>
+
+<?//cmd('/db/'.$FORM_DATA[$TYPE.'_rozn']['DBnameY'].'/');?>
+<?if ($TYPE){ echo cmd('/local/items_ins');?>
+<script>
+$(document).ready(function() {
+  $("#triger_search").toggle(
+    function(){
+      $("#search_spravochnik").show(400);
+			  },
+    function(){
+      $("#search_spravochnik").hide(200);
+	  }
+  );
+});
+</script>
+<? } ?>
+<div class=cl></div>
+
+<form id="form_filter" action='' method=get>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="search_form">
+  <tr>
+    <td align="left" style="width: 429px;">Показывать на странице по <a <?=($_KAT['onpage_def'][$_KAT['KUR_ALIAS']]==20)?'class="sel"':'';?> href="?onpage[<?=$_KAT['KUR_ALIAS']?>]=20">20</a>, <a <?=($_KAT['onpage_def'][$_KAT['KUR_ALIAS']]==50)?'class="sel"':'';?> href="?onpage[<?=$_KAT['KUR_ALIAS']?>]=50">50</a>, <a <?=($_KAT['onpage_def'][$_KAT['KUR_ALIAS']]==75)?'class="sel"':'';?> href="?onpage[<?=$_KAT['KUR_ALIAS']?>]=75">75</a> изделий</td>
+    <td align="left">Выберите диапазон цен 
+от <input type="text" name="price_from" value="<?=$_REQUEST['price_from']?>"/>
+до <input type="text" name="price_to" value="<?=$_REQUEST['price_to']?>"/>&nbsp;руб.&nbsp;&nbsp; </td>
+  </tr>
+  <tr>
+    <td align="left">
+	<!-- В наличии <input type="checkbox" name="form[nalich]" value="1" <?=(!empty($_REQUEST['form']['nalich']))?'checked="checked"':"";?> onchange="$('#form_filter').submit();" /> --></td>
+    <td align="left">Выберите диапазон размеров
+от <input type="text" style="text-align: center;" name="size_from" value="<?=(empty($_REQUEST['size_from']))?$arr_size['minx']:$_REQUEST['size_from'];?>">
+до <input type="text" style="text-align: center;"  name="size_to" value="<?=(empty($_REQUEST['size_to']))?$arr_size['maxx']:$_REQUEST['size_to'];?>"/>&nbsp;<input type="submit" class='btn' value="Выбрать" /></td>
+  </tr>
+</table>
+	<input type="hidden" id="sort_by" name="orderby" value="<?=(!empty($_GET['orderby']))?$_GET['orderby']:'';?>" />
+	<input type="hidden" id="sort_order" name="sort" value="<?=(!empty($_GET['sort']))?$_GET['sort']:'';?>" />
+</form>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('.switcher_link').bind('click', function(){
+		$('#sort_by').val($(this).attr('rel'));
+		if ($("#switch_"+$(this).attr('rel')).hasClass('asc')){
+			$('#sort_order').val('desc');
+		} else {
+			$('#sort_order').val('asc');
+		}
+		$("#form_filter").submit();		
+	});
+<?php if (!empty($_REQUEST['orderby']) && !empty($_REQUEST['sort']) )	{ ?>
+	$("#switch_<?=$_REQUEST['orderby']?>").removeClass('desc').removeClass('asc').addClass("<?=$_REQUEST['sort']?>");
+<?php } ?>
+});
+</script>
+<div class=cl></div>
+		<ul class="b-switcher">
+			<li class="caption">Упорядочить по:</li>
+			<li id="switch_price" class="switcher_sort asc">
+				<i class="switcher_ico"></i> 
+				<span><a class="switcher_link" rel="price" href="javascript:;">цене</a></span>
+			</li>
+		</ul>
+<hr>

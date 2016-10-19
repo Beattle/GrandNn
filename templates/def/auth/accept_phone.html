@@ -1,0 +1,32 @@
+<script type="text/javascript">
+	function accept_phone()
+	{ 
+		$.post(
+		'/empty/auth/accept_phone',
+		$('#accept_phone').serialize(),
+		function(data){
+			$('#login_div').eq(0).html(data);
+		}
+		);
+		return false;
+	}
+</script>
+<div class="modalbox" id="loginDiv">
+	<form method="post" action="/auth/accept_phone" name="auth" id="accept_phone"  onsubmit="accept_phone(); return false;" target="_top">
+		<table>
+		<tr>
+			<td>Введите код высланный на Ваш телефон</td>
+		</tr>
+		<tr>
+			<td><input type="text" name="code" class="form" size="30"></td>
+		</tr>
+		<tr>
+			<td style="text-align: center;"><input type='submit' name=enter value='Отправить' class="btnenter btn" style="display:inline-block;" >
+			</td>
+		</tr>
+		</table>
+		<input type="hidden" name="phone" value="<?=$phone;?>" />
+		<input type="hidden" name="norefresh" value="1" />
+	</form>
+
+</div>

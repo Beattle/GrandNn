@@ -1,0 +1,13 @@
+<tr>
+	<td><? echo 'Заказ №'.$order['alias'];?></td>
+	<td><?=$order['phone']?></td>
+	<td><?=$order['cnt']?></td>
+	<td><?=$order['summ']?> p.</td>
+	<td><?=$order['ts']?></td>
+	<td><?	$file = (!empty($order['hidden'])) ? 'a_red.gif':'a_green.gif'; ?>
+		<IMG src="<?=DOCTXT::inc_link($file, $f);?>" border="0" align="left">
+	</td>
+	<td>
+		<a href="javascript:;" onclick="ShowPopUp('/clear/db/basket/<?=$data['alias']?>?edit', 800, 600, 'yes');">edit</a>
+	</td>
+</tr>

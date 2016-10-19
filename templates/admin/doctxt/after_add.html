@@ -1,0 +1,13 @@
+<?
+ob_end_clean();
+//ob_end_flush();
+// hader("Location: /doctxt?tree");
+//location.href = '/doctxt?<?=$_SESSION['DOC']['ADM_VIEWSTYLE']
+?>
+
+<script language="javascript" type="text/javascript">
+//alert("<?=$_DOC['ERROR']?>"); // почему кстати?
+window.opener.location.reload();self.close();
+</script>
+
+<?exit;?>

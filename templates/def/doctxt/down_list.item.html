@@ -1,0 +1,57 @@
+<?
+if(strpos($_SERVER['REQUEST_URI'],'/catalog/') === false){ 
+	$str 		= str_replace("/doctxt/", "", $data['path']);
+	$data['doc4'] = $_CORE->cmd_pexec('doctxt/field/'.$str.'doc4');
+	$db_suff	= strstr ($str, '/db/');
+	$data['doc'] = $_CORE->cmd_pexec('doctxt/field/'.$str.'doc');
+	$FORM_DATA["doc"]["path"] = str_replace( $db_suff, '', "/data/".$_DOC['MODULE_NAME']."/data".$str);
+	$FORM_DATA["doc"]["abspath"] = str_replace( $db_suff, '', $_SERVER['DOCUMENT_ROOT'].$FORM_DATA["doc"]["path"]);
+//	$data['anons'] = $_CORE->cmd_pexec('doctxt/field/'.$str.'anons');
+//	$data['doc_title'] = $_CORE->cmd_pexec('doctxt/field/'.$str.'doc_title');
+//	$data['title'] = $_CORE->cmd_pexec('doctxt/field/'.$str.'title');
+//	$data['ts'] = $_CORE->cmd_pexec('doctxt/field/'.$str.'ts');
+	
+	# для добавленных внешних ссылок
+	$data['path'] = (empty($data['link'])) ? $data['path'] : $data['link'];
+	if (!$was){
+		global $_CONF;
+			if($_SERVER['REQUEST_URI']=='/doctxt/lombard/'){ 
+				if(empty($_CONF['settings']['hash_n']) || $_CONF['settings']['hash_ndata'] < time() ){
+					$day = date('w');
+					if( $day > 0) $day = 7 - $day;
+					$time = strtotime(date("Y-m-d", time()+3600*24*$day)." 23:59:59");
+					$hash_n = rand(500,880);
+					SQL::upd(DB_TABLE_PREFIX."settings","hash_n = ".$hash_n.", hash_ndata = ".$time );
+					$_CONF['settings']['hash_n'] = $hash_n;
+					$_CONF['settings']['hash_ndata'] = $time;
+				}
+		?>
+				<div style="text-align: center;"><h4>На прошлой неделе <?=$_CONF['settings']['hash_n'];?> клиент<?=STR::fins_sush($_CONF['settings']['hash_n']);?> воспользовались услугами нашего ломбарда</h4></div>
+		<?php
+			}
+		
+		echo '<ul '.(($_SERVER['REQUEST_URI']=='/doctxt/lombard/')?'class="sub_lombard"':'').'>';
+	}
+?>
+<?php
+    if ( $_SERVER['REQUEST_URI'] == '/doctxt/lombard/' ){
+        if( !empty($data['doc4']) && is_file( $FORM_DATA["doc"]["abspath"].'icon/'.$data['doc4'] ) ){ 
+            $data['name'] = '<img src="/reimg'.$FORM_DATA["doc"]["path"].'icon/90x90/'.$data['doc4'].'" /><br />
+                '.$data['name'];
+?>
+        <li>
+        	<b>
+                <?=STR::taging_a($data['name'],$data['path'])?>
+        	</b>
+        </li>
+<?php }
+    }else{ ?>
+        <li>
+        	<b>
+        		<?=STR::taging_a($data['name'],$data['path'])?>
+        	</b>
+        </li>
+<?php } ?>
+<?$was = true;
+}
+?>

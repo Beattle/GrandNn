@@ -1,0 +1,49 @@
+<? global $_DMODEL;?>
+<TABLE cellSpacing=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE class=popuptitle cellSpacing=20 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class="modulename"><IMG height=24 alt=" " hspace=0 src="<?=Main::comm_link('module.gif', $f, $_DMODEL['MODULE_NAME']);?>" width=24 align=left> 
+                 <H2>Добавление шаблона</H2>
+                Макет дизайна: <?=$skin==$_DMODEL['DEF_SKIN']?$_DMODEL['DEF_SKIN_NAME']:$skin?><br>
+          </TD>
+        </TR>
+        </TBODY>
+</TABLE>
+<?if( !empty( $add_model )){?>
+	<FORM  name=<?=$_DMODEL['FORM_NAME']?> method="GET" action="/<?=$_DMODEL['MODULE_NAME']?>/copyskin">
+                <INPUT name=from type="hidden" value="<?=$_DMODEL['DEFAULT_SKIN']?>">
+                <INPUT name=close type="hidden" value="close">
+                <INPUT name=skin type="hidden" value="<?=$skin?>">
+        <TABLE class=form style="MARGIN-TOP: 20px" cellSpacing=0 cellPadding=0 width="100%" border=0>
+              <TBODY>
+              <TR>
+                <TD class=tdleft width="70%">
+                </TD>
+                <TD class=tdcenter width="20%">
+                	<select name="skin_list" style="WIDTH: 100%" onchange="document.<?=$_DMODEL['FORM_NAME']?>.path.value=document.<?=$_DMODEL['FORM_NAME']?>.skin_list.options[document.<?=$_DMODEL['FORM_NAME']?>.skin_list.selectedIndex].value;">
+<?	$tmp_add = '';
+	foreach( $add_model as $k=>$v ){if($tmp_add=='')$tmp_add = $k;?>
+	
+						<option  value="<?=$k?>"><?=basename($k)?></option>
+<?}?>                	
+                	</select>
+                </TD>
+                <INPUT name=path type=hidden value="<?=$tmp_add?>" >
+                <TD class=tdright> <INPUT type=submit value="Создать"></TD>
+              </TR>
+              </TBODY>
+        </TABLE>
+	</FORM>
+<?}else{?>
+<br>
+<br>
+<center>
+<h3>
+Добавление нового шаблона невозможно: так как все шаблоны уже есть:)
+</h3>
+</center>
+<?}?>

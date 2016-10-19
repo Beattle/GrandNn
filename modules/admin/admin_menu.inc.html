@@ -1,0 +1,40 @@
+<SCRIPT>
+function go (){window.location = 'http://<?=$_SERVER['SERVER_NAME']?>'+document.fModule.module.value;}
+</SCRIPT>
+<style type="text/css">
+table.commontop { background-color: #333333; }
+table.commontop td, th { color: #FFFFFF; }
+table.commontop td.label { padding-left: 5px; }
+table.commontop td.shift { padding-left: 20px; }
+
+table.commontop a { color: #FFFFFF; }
+table.commontop a p { padding: 5px 0px 0px 29px; }
+table.commontop img { border: 0px; }
+</style>	
+	<table width="100%"  border="0" cellpadding="0" cellspacing="20" class="commontop">
+		<tr valign="top">
+		<td width="50%"><table  border="0" cellspacing="0" cellpadding="0">
+		<form name=fModule>
+		<tr><td>
+		</td>
+		<td class="shift">Модули:</td>
+		<td class="label">
+		<select name="module">
+		<?foreach ($_PROJECT['ADM_MENU'] as $path => $val ){?>
+			<option value="<?=$path?>" <?=(strstr($_SERVER['REQUEST_URI'], $val[2]))?'selected':''?> ><?=$val['1']?></option> <!-- <?=$val[2]?>-->
+		<?}?>
+		</select>
+		</td>
+		<td class="label"><a href="javascript:go()"><img src="/templates/admin/go.gif" alt="Перейти" width="24" height="24" border="0"></a></td>
+		</tr></form></table></td>
+        <td width="50%"><table width="100%"  border="0" cellpadding="0" cellspacing="0">
+            <tr valign="top">
+			  <td width=100% ><?=cmd("/admin/template")?></td>
+              <td class="shift"><a href="/admin/logout"><img src="/templates/admin/exit.gif" alt="Выйти" width="24" height="24" hspace="0" vspace="0" align="left"><p>Выйти</p></a></td>
+            </tr>
+        </table>
+	
+	
+	</td>
+      </tr>
+    </table>

@@ -1,0 +1,10 @@
+<div class="ndate"><?=$form["ts"]?></div>
+<!-- <H5><img src="/images/arr_r.gif" width="11"	height="11" border="0" alt="" align="center">&nbsp; <?=$form["name"]?></h5> -->
+	<p><?=$form["about"]?>
+<?if (!empty($form["doc"]) && is_file($FORM_DATA["doc"]["abspath"]."/".$form["doc"])):?>
+<p><A HREF="<?=$FORM_DATA["doc"]["path"]."/".$form["doc"]?>">Загрузить файл</A> (<?=sprintf("%.2fK",(filesize($FORM_DATA["doc"]["abspath"]."/".$form["doc"]) / 1024));?>)
+<?endif;?>
+
+
+
+

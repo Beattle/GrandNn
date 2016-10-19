@@ -1,0 +1,305 @@
+<? if(empty($_REQUEST['nextpage'])){ ?>
+<? if(!isset($_REQUEST['good_items'])){ ?>
+</div>
+<? if(!isset($_REQUEST['latest'])){ ?>
+
+<? if($_SERVER['REQUEST_URI']=='/db/all_items/'){
+	
+	$url = str_replace('http://'.$_SERVER['SERVER_NAME'],'',$_SERVER['HTTP_REFERER']);
+	setcookie ("_grand[filter][query]",$_SERVER['QUERY_STRING'],time()+3600,"/");
+	setcookie ("_grand[filter][url]",$url,time()+3600,"/");
+	
+}
+	//echo "<pre>"; print_r($_COOKIE['_grand']['filter']); echo "</pre>";
+?>
+
+
+<div id="Wrapfollow">
+	<div id="follow">
+		<div id="scrollable" class="zakaz research_form" style="margin-top: 15px;">
+		<form>
+		<? $min_item = 3; ?>
+			<p>
+				<i>Вид украшения</i>
+			</p>
+			<ul class="treelist">
+				<?php 
+					if(is_array($vid_arr_new)){
+						$i = 1;
+						$style = $class = '';
+						if(!empty($_GET['form']['name']) && isset($vid_arr_new[$_GET['form']['name']]) ){
+						?>
+						<li><a href="javascript:;" onclick="$('#sel7').val('');$('#sel1').val('');$('#db_filter').click();">сбросить</a></li>
+						<li>
+							<ul>
+								<li><strong><?=$vid_arr_new[$_GET['form']['name']]['name'];?></strong></li>
+							</ul>
+						</li>
+						<?
+						}else{
+							foreach($vid_arr as $key => $vid){
+								if( $i>$min_item ) {$class = 'hide_min'; $style = 'display: none;';}
+					?>
+					<li class="<?=$class;?>" style="<?=$style;?>"><a href="javascript:;" onclick="$('#sel7').val('');$('#sel1').val('<?=$vid['alias'];?>');$('#db_filter').click();"><?=$vid['name'];?></a></li>
+					<?php
+								$i++;
+							}
+						}
+					}
+				?>
+				<?php
+				if($i>($min_item+1)){ ?>
+					<li>
+						<a class="show_all_item" href="javascript:;" onclick="$(this).parent().parent().children('.hide_min').show(300); $(this).hide(); $(this).next().show();">ещё...</a>
+						<a class="hide_all_item" style="display: none;" href="javascript:;" onclick="$(this).parent().parent().children('.hide_min').hide(300); $(this).hide(); $(this).prev().show();">меньше...</a>
+					</li>
+				<?
+				}
+				?>
+			</ul>
+			<? if( !empty($_GET['form']['name']) ){ 
+				$_GET['form']['name']= mysql_real_escape_string($_GET['form']['name']);
+                
+				$sizes_arr = SQL::getall('*',DB_TABLE_PREFIX.'items',"(hidden != 1 OR hidden IS NULL) AND name LIKE '%%".$vid_arr_new[$_GET['form']['name']]['name_one']."%%' AND doc!='' AND doc IS NOT NULL AND `size` > 0",'GROUP BY `size` ORDER BY `size`');
+				if(is_array($sizes_arr) && count($sizes_arr)>0){
+			?>
+			<p>
+				<i>Размер</i>
+			</p>
+			<ul class="treelist">
+				<?php 
+					if(is_array($sizes_arr)){
+						$i = $j = 1;
+						$style = $class = '';
+						if(!empty($_GET['form']['size'])){
+						?>
+						<li><a href="javascript:;" onclick="$('#sel7').val('');$('#db_filter').click();">сбросить</a></li>
+						<li>
+							<ul>
+								<li><strong><?=$_GET['form']['size'];?></strong></li>
+							</ul>
+						</li>
+						<?
+						}else{
+							foreach($sizes_arr as $size){
+								
+								$style = 'display: block; ';
+								if( $i> 9 ) {$class = 'hide_min'; $style = 'display: none;';}
+								echo '<li class="'.$class.'" style="'.$style.' width:35px; height: 15px; float:left;">';
+					?>
+					<a href="javascript:;" onclick="$('#sel7').val('<?=$size['size'];?>');$('#db_filter').click();"><?=$size['size'];?></a>
+					<?php
+								$i++; 
+								echo '</li>';
+							}
+						}
+					}
+				?>
+				<?php
+				if($i>10){ ?>
+					<li class="cl"></li>
+					<li>
+						<a class="show_all_item" href="javascript:;" onclick="$(this).parent().parent().children('.hide_min').show(300); $(this).hide(); $(this).next().show();">ещё...</a>
+						<a class="hide_all_item" style="display: none;" href="javascript:;" onclick="$(this).parent().parent().children('.hide_min').hide(300); $(this).hide(); $(this).prev().show();">меньше...</a>
+					</li>
+				<?
+				}
+				?>
+			</ul>
+			<? } 
+			} ?>
+			<p>
+				<i>Материал</i>
+			</p>
+			<ul class="treelist">
+				<?php
+					if(is_array($arr_met)){
+						$i = 1;
+						$style = $class = '';
+						if(!empty($_GET['form']['probe']) && isset($arr_met[$_GET['form']['probe']]) ){
+						?>
+						<li><a href="javascript:;" onclick="$('#sel3').val('');$('#db_filter').click();">сбросить</a></li>
+						<li>
+							<ul>
+								<li><strong><?=$arr_met[$_GET['form']['probe']];?></strong></li>
+							</ul>
+						</li>
+						<?
+						}else{
+							foreach($arr_met as $key => $val){
+								if( $i>$min_item )  {$class = 'hide_min'; $style = 'display: none;';}
+					?>
+					<li class="<?=$class;?>" style="<?=$style;?>"><a href="javascript:;" onclick="$('#sel3').val('<?=$key;?>');$('#db_filter').click();"><?=$val;?></a></li>
+					<?php
+								$i++;
+							}
+						}
+					}
+				?>
+				<?php
+				if($i>($min_item+1)){ ?>
+					<li>
+						<a class="show_all_item" href="javascript:;" onclick="$(this).parent().parent().children('.hide_min').show(300); $(this).hide(); $(this).next().show();">ещё...</a>
+						<a class="hide_all_item" style="display: none;" href="javascript:;" onclick="$(this).parent().parent().children('.hide_min').hide(300); $(this).hide(); $(this).prev().show();">меньше...</a>
+					</li>
+				<?
+				}
+				?>
+			</ul>
+			<p>
+				<i>Вставка</i>
+			</p>
+			<ul class="treelist">
+				<?php 
+					if(is_array($arr)){
+						$i = 1;
+						$style = $class = '';
+						if(!empty($_GET['form']['gvstav']) && isset($arr[$_GET['form']['gvstav']]) ){
+						?>
+						<li><a href="javascript:;" onclick="$('#sel4').val(0);$('#db_filter').click();">сбросить</a></li>
+						<li>
+							<ul>
+								<li><strong><?=$arr[$_GET['form']['gvstav']];?></strong></li>
+							</ul>
+						</li>
+						<?
+						}else{
+							foreach($arr as $key => $val){
+								if( $i>$min_item ) {$class = 'hide_min'; $style = 'display: none;';}
+								if($key == '') continue;
+					?>
+					<li class="<?=$class;?>" style="<?=$style;?>"><a href="javascript:;" onclick="$('#sel4').val('<?=$key;?>');$('#db_filter').click();"><?=$val;?></a></li>
+					<?php
+								$i++;
+							}
+						}
+					}
+				?>
+				<?php
+				if($i>($min_item+1)){ ?>
+					<li>
+						<a class="show_all_item" href="javascript:;" onclick="$(this).parent().parent().children('.hide_min').show(300); $(this).hide(); $(this).next().show();">ещё...</a>
+						<a class="hide_all_item" style="display: none;" href="javascript:;" onclick="$(this).parent().parent().children('.hide_min').hide(300); $(this).hide(); $(this).prev().show();">меньше...</a>
+					</li>
+				<?
+				}
+				?>
+			</ul>
+			<p>
+				<i>Цена</i>
+			</p>
+			<ul class="treelist">
+				<?php
+					if(is_array($arr_price)){
+						$i = 1;
+						$style = $class = '';
+						if(!empty($_GET['form']['gprice']) && isset($arr_price[$_GET['form']['gprice']]) ){
+						?>
+						<li><a href="javascript:;" onclick="$('#sel5').val('');$('#db_filter').click();">сбросить</a></li>
+						<li>
+							<ul>
+								<li><strong><?=$arr_price[$_GET['form']['gprice']];?></strong></li>
+							</ul>
+						</li>
+						<?
+						}else{
+							foreach($arr_price as $key => $val){
+								if( $i>$min_item ) {$class = 'hide_min'; $style = 'display: none;';}
+					?>
+					<li class="<?=$class;?>" style="<?=$style;?>"><a href="javascript:;" onclick="$('#sel5').val('<?=$key;?>');$('#db_filter').click();"><?=$val;?></a></li>
+					<?php
+								$i++;
+							}
+						}
+					}
+				?>
+				<?php
+				if($i>($min_item+1)){ ?>
+					<li>
+						<a class="show_all_item" href="javascript:;" onclick="$(this).parent().parent().children('.hide_min').show(300); $(this).hide(); $(this).next().show();">ещё...</a>
+						<a class="hide_all_item" style="display: none;" href="javascript:;" onclick="$(this).parent().parent().children('.hide_min').hide(300); $(this).hide(); $(this).prev().show();">меньше...</a>
+					</li>
+				<?
+				}
+				?>
+			</ul>
+			<p>
+				<i>Наличие</i>
+			</p>
+			<ul class="treelist">
+				<?php
+				$arr_nalich = array(
+				'gagarina'=>'В салоне пр. Гагарина 66',
+				'rodionova'=>'В салоне ул. Родионова 17',
+				);
+				
+				if(!empty($_GET['form']['nalich']) ){
+				?>
+				<li><a href="javascript:;" onclick="$('#sel6').val('');$('#db_filter').click();">сбросить</a></li>
+				<li>
+					<ul>
+						<li><strong><?=$arr_nalich[$_GET['form']['nalich']];?></strong></li>
+					</ul>
+				</li>
+				<?
+				}else{
+				?>
+				<li><a href="javascript:;" onclick="$('#sel6').val('gagarina');$('#db_filter').click();">В салоне пр. Гагарина 66</a></li>
+				<li><a href="javascript:;" onclick="$('#sel6').val('rodionova');$('#db_filter').click();">В салоне ул. Родионова 17</a></li>
+				<? } ?>
+			</ul>
+		</form>
+		<div class=cl></div>
+		</div>
+	</div>
+</div> 
+	<div class=cl></div>
+</div>
+<div class=cl></div>
+<script type="text/javascript" src="/templates/def/JS/jquery.scrollFollow.js"></script>
+<script type="text/javascript">
+		$('.objhover').hover(
+			function(){ //over
+				$(this).parents('.cat-tovar').eq(0).children('a').eq(0).show();
+			},
+			function(){ //out
+				$(this).parents('.cat-tovar').eq(0).children('a').eq(0).hide();
+			}
+		);
+	$(document).ready(function(){
+		
+
+		//var RS_height = $(window).height();
+		//$("#scrollable").css("overflow-y","scroll");
+		//$("#scrollable").css("*overflow","scroll");
+
+		var leftside_height = $(".SR_left_side").css("height").replace('px','')< 850 ? '850px' : $(".SR_left_side").css("height");
+		//$(".SR_left_side").css("height", (leftside_height<800? 800 : leftside_height));
+		$("#Wrapfollow").css("height", leftside_height);
+		$("#follow").scrollFollow();
+	});
+      $(document).ready(function(){
+      var params = {
+      		changedEl: "#form_search select",
+      		visRows: 10,
+      		scrollArrows: true
+      	}
+      	cuSel(params);
+         
+        $(".cusel").each(
+function(){
+	var w = parseInt(jQuery(this).width()),
+		scrollPanel = jQuery(this).find(".cusel-scroll-pane");
+	if(w>=scrollPanel.width())
+	{
+	   if (w>145){jQuery(this).width(145)}
+		jQuery(this).find(".jScrollPaneContainer").width(w);
+		scrollPanel.width(w);
+	}
+});
+      });
+</script>
+<? } ?>
+<? } ?>
+
+<? } ?>

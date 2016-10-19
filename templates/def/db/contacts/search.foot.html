@@ -1,0 +1,38 @@
+</tr>
+</table>
+<hr />
+				<!-- Этот блок кода нужно вставить в ту часть страницы, где вы хотите разместить карту (начало) -->
+				<div id="ymaps-map-id_135160686514872646367" style="width: 100%; height: 325px; clear: both;
+				  filter:progid:DXImageTransform.Microsoft.Alpha(opacity=70);
+				  -moz-opacity: 0.7;
+				  -khtml-opacity: 0.7;
+				  opacity: 0.7; text-align: center;
+				"></div>
+				<script type="text/javascript">
+				function fid_135160686514872646367(ymaps) {
+					var map = new ymaps.Map("ymaps-map-id_135160686514872646367", {
+						center: [44.01082589120477, 56.307992413663854],
+						zoom: 12,
+						type: "yandex#map"
+					});
+					map.controls
+						.add("zoomControl")
+						.add("mapTools")
+						.add(new ymaps.control.TypeSelector(["yandex#map", "yandex#satellite", "yandex#hybrid", "yandex#publicMap"]));
+					map.geoObjects
+						.add(new ymaps.Placemark([44.05494098627258, 56.31927546968774], {
+							balloonContent: "<a href='http://grandnn.com/contacts/db/contacts/ul_rodionova_d17'>Ювелирный Салон Гранд<br/>ул.Родионова 17</a>"
+						}, {
+							preset: "twirl#nightDotIcon"
+						}))
+            .add( new ymaps.Placemark([43.981624, 56.282685], {
+              balloonContent: "<a href='http://grandnn.com/contacts/db/contacts/pr_gagarina_d66'>Ювелирный Салон Гранд<br/>пр.Гагарина 66</a>"
+            }, {
+              preset: "twirl#nightDotIcon"
+            }));
+				};
+				</script>
+				<script type="text/javascript" src="http://api-maps.yandex.ru/2.0-stable/?lang=ru-RU&coordorder=longlat&load=package.full&wizard=constructor&onload=fid_135160686514872646367"></script>
+				<!-- Этот блок кода нужно вставить в ту часть страницы, где вы хотите разместить карту (конец) -->
+<hr />
+<? echo $_CORE->cmd_exec(array('obsv','/form')); ?>

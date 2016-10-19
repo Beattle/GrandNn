@@ -1,0 +1,300 @@
+AddDefaultCharset Windows-1251
+SetEnvIfNoCase Content-Type "^multipart/form-data;" "MODSEC_NOPOSTBUFFERING=Do not buffer file uploads"
+#AuthType Basic
+#AuthName "On Test mashine"
+#AuthUserFile c:/phpdev/virtual/real/gov/pwds
+#require valid-user
+
+php_value upload_max_filesize 20M
+php_value post_max_size 20M
+php_value memory_limit 256M
+
+DirectoryIndex core_st.php
+Options All -Indexes
+
+#Action throw /core_st.php
+#
+#<FilesMatch core_st.php>
+#	ForceType application/x-httpd-php
+#</FilesMatch>
+#
+#<FilesMatch "^([^.])+$">
+#	ForceType throw
+#</FilesMatch>
+
+#<Files ~ "(\.(inc|module|pl|sh|ini|sql|theme|engine|xtmpl|proc|func|tests|str|conf|svn-base|tmp)|entries|dir-prop-base|Repositories|Root|scripts|updates)$">
+#  Order deny,allow
+#  Deny from all
+#</Files>
+
+RewriteEngine On
+RewriteBase /
+# new catalog link
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_zolota/koltsa_7
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/au/koltsa/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_zolota/sergi_6
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/au/sergi/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_zolota/podveski_6
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/au/podveski/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_zolota/tsepi_3
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/au/tsepi/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_zolota/brasletyi_5
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/au/brasletyi/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_zolota/krestyi_i_ladanki
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/au/krestyi_i_ladanki/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_zolota/izdeliya_s_brilliantami
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/au/diamonds/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_zolota/koltsa_obruchalnyie
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/au/obruchalnyie_koltsa/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_zolota/znaki_zodiaka_1
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/au/zodiak/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_zolota/broshi_4
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/au/broshi/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_zolota/zazhimyi_dlya_galstuka_3
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/au/zazhimyi_dlya_galstuka/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_zolota/kole_2
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/au/kole/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_zolota/gaytanyi_4
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/au/gaytanyi/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_zolota/pechatki_4
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/au/pechatki/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_zolota/pirsing_4
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/au/pirsing/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_zolota/suveniryi
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/au/suveniryi/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_zolota/ruchki
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/au/ruchki/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/novoe_postuplenie
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/new/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/rasprodazha
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/discount/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_zolota
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/au/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_serebra/koltsa_8
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/ag/koltsa/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_serebra/sergi_7
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/ag/sergi/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_serebra/podveski_7
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/ag/podveski/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_serebra/tsepi_4
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/ag/tsepi/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_serebra/brasletyi_6
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/ag/brasletyi/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_serebra/krestyi_i_ladanki
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/ag/krestyi_i_ladanki/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_serebra/znaki_zodiaka_2
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/ag/zodiak/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_serebra/broshi_5
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/ag/broshi/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_serebra/zazhimyi_dlya_galstuka_4
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/ag/zazhimyi_dlya_galstuka/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_serebra/zaponki_2
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/ag/zaponki/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_serebra/kole_3
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/ag/kole/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_serebra/znachki_2
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/ag/znachki/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_serebra/pirsing_5
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/ag/pirsing/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_serebra/pechatki_5
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/ag/pechatki/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_serebra/gaytanyi_5
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/ag/gaytanyi/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_serebra/busyi_1
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/ag/busyi/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_serebra/suveniryi_1
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/ag/suveniryi/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_serebra/lozhki
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/ag/lozhki/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_serebra/ruchki
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/ag/ruchki/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_serebra/ikonyi
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/ag/ikonyi/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya/izdeliya_iz_serebra
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/ag/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /novyie_ukrasheniya
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/novyie/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_ul_rodinova_d17/koltsa_3
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/rodionova/koltsa/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_ul_rodinova_d17/sergi_3
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/rodionova/sergi/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_ul_rodinova_d17/podveski_3
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/rodionova/podveski/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_ul_rodinova_d17/tsepi_1
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/rodionova/tsepi/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_ul_rodinova_d17/brasletyi_3
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/rodionova/brasletyi/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_ul_rodinova_d17/broshi
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/rodionova/broshi/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_ul_rodinova_d17/izdeliya_s_brilliantami_2
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/rodionova/diamonds/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_ul_rodinova_d17/obruchalnyie_koltsa
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/rodionova/obruchalnyie_koltsa/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_ul_rodinova_d17/znaki_zodiaka
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/rodionova/zodiak/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_ul_rodinova_d17/ladanki
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/rodionova/ladanki/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_ul_rodinova_d17/pechatki_2
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/rodionova/pechatki/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_ul_rodinova_d17/zazhimyi_dlya_galtuka
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/rodionova/zazhimyi_dlya_galstuka/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_ul_rodinova_d17/gaytanyi
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/rodionova/gaytanyi/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_ul_rodinova_d17/pirsingi
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/rodionova/pirsing/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_ul_rodinova_d17/kole_4
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/rodionova/kole/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_ul_rodinova_d17/chasyi
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/rodionova/chasyi/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/novoe_postuplenie
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/new/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/rasprodazha
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/discount/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_ul_rodinova_d17
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/rodionova/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_obschiy/koltsa_1
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/gagarina/koltsa/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_obschiy/sergi_bu
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/gagarina/sergi/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_obschiy/podveski_bu
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/gagarina/podveski/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_obschiy/tsepi_t
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/gagarina/tsepi/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_obschiy/brasletyi_bu
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/gagarina/brasletyi/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_obschiy/izdeliya_s_brilliantami_1
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/gagarina/diamonds/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_obschiy/obruchalnyie_koltsa
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/gagarina/obruchalnyie_koltsa/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_obschiy/znaki_zodiaka
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/gagarina/zodiak/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_obschiy/ladanki
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/gagarina/ladanki/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_obschiy/broshi
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/gagarina/broshi/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_obschiy/kole_bu
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/gagarina/kole/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_obschiy/pechatki_1
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/gagarina/pechatki/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_obschiy/zazhimyi_dlya_galstuka
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/gagarina/zazhimyi_dlya_galstuka/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_obschiy/chasyi
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/gagarina/chasyi/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_obschiy/monetyi_1
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/gagarina/monetyi/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_obschiy/pirsing_1
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/gagarina/pirsing/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_obschiy/zaponki
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/gagarina/zaponki/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_obschiy/znachki
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/gagarina/znachki/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_obschiy/gaytanyi_2
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/gagarina/gaytanyi/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_obschiy/suveniryi_3
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/gagarina/suveniryi/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/komissionnyiy_magazin_obschiy
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/gagarina/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin/prokat_yuvelirnyih_ukrasheniy
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/prokatrassrochka/prokat_ukrasheniy/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} /komissionnyiy_magazin
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/lombard/ [R=301,L]
+
+#RewriteCond %{REQUEST_URI} ^/db/all_items/(.*)$
+#RewriteRule ^(.*)$ http://%{HTTP_HOST}/catalog/%1 [R=301,L]
+
+#RewriteCond %{REQUEST_URI} /robots.txt
+#RewriteRule ^(.*)$ /robotstxt [R=301,L]
+
+# end new catalog link
+RewriteCond %{HTTP_HOST} ^www.grandnn.com$ [NC]
+RewriteRule ^(.*)$ http://grandnn.com/$1 [R=301,L]
+
+RewriteCond %{HTTP_HOST} ^www.msk.grandnn.com$ [NC]
+RewriteRule ^(.*)$ http://msk.grandnn.com/$1 [R=301,L]
+
+RewriteCond %{REQUEST_FILENAME}	!-f
+RewriteRule ^(.*)$  /core_st.php/$1 [NC]

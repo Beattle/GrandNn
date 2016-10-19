@@ -1,0 +1,4 @@
+<a href='/parser/search?DetailNumber=923'>923(TSN)</a>
+<a href='/parser/search?DetailNumber=96458873'>96458873(GENERAL MOTORS)</a>
+<a href='/parser/search?DetailNumber=W7122210'>W7122210(MANN)</a>
+<a href='/parser/search?DetailNumber=SP935'>SP935(ALCO)</a>

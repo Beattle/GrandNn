@@ -1,0 +1,30 @@
+<?$skin=$form_id=$record['form_id'];?>
+<tr>
+	<td valign=middle width="100%">
+		<img alt=" " src="<?=Main::comm_link('skin.gif', $f, $_OBSV['MODULE_NAME'] )?>" >
+		<a id="itemList<?=$iterator?>" href="/<?=$_OBSV['MODULE_NAME']?>/configurator/view?form_id=<?=$skin?>" title="<?=$record['name']?>" 
+			
+			onclick="writeField('EventsCmdRight', getField('dmodel_<?=$skin?>_down_r'));writeField('EventsCmdLeft', getField('dmodel_<?=$skin?>_down_l'));return false;"
+			
+			ondblclick="location.href=this.href;"
+			
+			onfocus="setPointer('<?=$iterator?>');" 
+			<?$iterator++;?>
+		>
+       <?=$record['name']?>  
+		</a>    
+	</td>
+   </tr>
+   
+<div id="dmodel_<?=$skin?>_down_r" style="position:absolute;visibility:hidden">
+		<img alt=" " src="<?=Main::comm_link('edit.gif', $f, $_OBSV['MODULE_NAME'] )?>" >
+		<a href="/clear/<?=$_OBSV['MODULE_NAME']?>/configurator?form_id=<?=$form_id?>" title="Edit" OnClick="ShowPopUp('/clear/<?=$_OBSV['MODULE_NAME']?>/configurator?form_id=<?=$form_id?>',500,800,'yes');return false;">Edit</a>
+		<br>
+		<img alt=" " src="<?=Main::comm_link('delete.gif', $f, $_OBSV['MODULE_NAME'] )?>" >
+		<a href="/obsv/forms?delete_id=<?=$form_id?>" title="Delete" OnClick="if (confirm('You realy want delete this form?')) location.href='/obsv/forms?delete_id=<?=$form_id?>'; else return false;">Delete</a>
+</div>
+<div id="dmodel_<?=$skin?>_down_l" style="position:absolute;visibility:hidden">
+		<img alt=" " src="<?=Main::comm_link('copy.gif', $f, $_OBSV['MODULE_NAME'] )?>" >
+		<a href="/<?=$_OBSV['MODULE_NAME']?>/preview?form_id=<?=$form_id?>" title="Preview" OnClick="ShowPopUp('/clear/<?=$_OBSV['MODULE_NAME']?>/preview?form_id=<?=$form_id?>',800,600,'yes');return false;">Preview</a>
+		<br>
+</div>

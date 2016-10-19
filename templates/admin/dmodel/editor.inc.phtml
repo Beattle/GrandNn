@@ -1,0 +1,89 @@
+<? global $_DMODEL;?>
+<TABLE cellSpacing=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE class=popuptitle cellSpacing=20 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class="modulename"><IMG height=24 alt=" " hspace=0 src="<?=Main::comm_link('module.gif', $f, $_DMODEL['MODULE_NAME']);?>" width=24 align=left> 
+                 <H2>Редактирование шаблона</H2>
+                 <br>
+                Макет дизайна: <?=$skin==$_DMODEL['DEF_SKIN']?$_DMODEL['DEF_SKIN_NAME']:$skin?><br>
+            	Модуль: <?=cmd($path.'module/title')?> (<?=$path?>)
+          </TD>
+        </TR>
+        </TBODY>
+</TABLE>
+      <TABLE cellSpacing=20 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <TABLE class=form cellSpacing=0 cellPadding=0 width="100%" border=0><TBODY>
+              <TR>
+                <TD>
+	<FORM  name=<?=$_DMODEL['FORM_NAME']?> method="post" action="/clear<?=$_SERVER['REQUEST_URI']?>?<?=$_SERVER['QUERY_STRING']?>">
+                
+<?		if( !empty($_DMODEL['FILES'])&&is_array($_DMODEL['FILES']))
+		foreach( $_DMODEL['FILES'] as $k=>$file )
+		{
+				$editor = new tEditor( $file, str_replace(".","_",'editor_'.basename($file)), $_DMODEL['FORM_NAME'], empty($_POST['saveas'])?false:true );
+				if(( !empty($_POST['saveas']) )||( !empty( $_POST['action'] )&&(( $_POST['action']=='apply' )||($_POST['action']=='save' )))) $editor->saveFile( empty($_POST['saveas'])?false:true );
+				
+				$editor->loadFile();
+				
+				$editor->showEdit($_DMODEL['MODULE_NAME']);
+				
+				if( ($str=$editor->getError())!='' ) echo "<HR>".$str."<HR>";
+		}
+		else $err->setError("\$_DMODEL['FILES'] - is not array");
+		if( !empty( $_POST['action'] )&&($_POST['action']=='save' ))
+		if (Main::comm_inc('after_saving.html', $f, $_DMODEL['MODULE_NAME']))include "$f";
+?>
+
+
+        <TABLE class=form style="MARGIN-TOP: 20px" cellSpacing=0 cellPadding=0 width="100%" border=0>
+              <TBODY>
+              <TR><TD class=sep colSpan=5><DIV class=sep><SPACER height="1" width="1" type="block"></SPACER></DIV></TD></TR>
+              <TR>
+              	<INPUT name=action type="hidden" value="none">
+                <TD class=tdleft width="100%">
+                <INPUT name=reset_this type=reset value=Отменить onclick="document.<?=$_DMODEL['FORM_NAME']?>.action.value='reset';"></TD>
+                <TD class=tdcenter><INPUT name=apply_this onclick="document.<?=$_DMODEL['FORM_NAME']?>.newskin.value='';document.<?=$_DMODEL['FORM_NAME']?>.action.value='apply';" type=submit value=Применить></TD>
+                <TD class=tdright> <INPUT name=save onclick="document.<?=$_DMODEL['FORM_NAME']?>.newskin.value='';document.<?=$_DMODEL['FORM_NAME']?>.action.value='save';" type=submit value=Сохранить></TD>
+              </TR>
+              </TBODY>
+        </TABLE>
+
+        <TABLE class=form style="MARGIN-TOP: 20px" cellSpacing=0 cellPadding=0 width="100%" border=0>
+              <TBODY>
+              <TR><TD class=sep colSpan=5><DIV class=sep><SPACER height="1" width="1" type="block"></SPACER></DIV></TD></TR>
+              <TR>
+                <TD class=tdleft>
+ 					<INPUT name=saveas type=submit value="Сохранить&nbspв&nbspмакет">                
+                </TD>
+                <TD class="tdcenter" ><INPUT name=newskin type=input value=''></TD>
+                <TD class="tdright">
+                	<select name="skin_list" style="WIDTH: 100%" onclick="document.<?=$_DMODEL['FORM_NAME']?>.newskin.value=document.<?=$_DMODEL['FORM_NAME']?>.skin_list.options[document.<?=$_DMODEL['FORM_NAME']?>.skin_list.selectedIndex].value;">
+						<option  value="">&nbsp;</option>
+			<?foreach( $skin_list as $k=>$v )if( $v!=$_DMODEL['DEF_SKIN'] ){?>
+						<option  value="<?=$v?>"><?=$v?></option>
+			<?}?>                	
+                	</select>
+                </TD>
+              </TR>
+              <TR>
+                <TD class=tdleft>
+<?if( $skin==$_DMODEL['DEF_SKIN'] ){?>
+                <INPUT name=reset type=submit value="Отменить&nbspна&nbspсайте" onclick="document.<?=$_DMODEL['FORM_NAME']?>.action.value='reset';">
+<?}else{?>
+                <INPUT name=apply onclick="document.<?=$_DMODEL['FORM_NAME']?>.newskin.value='<?=$_DMODEL['DEF_SKIN']?>';" type=submit value=Применить&nbspна&nbspсайте>
+<?}?>			</TD>
+                <td></td>
+                <TD class=tdright>
+                </TD>
+              </TR>
+              </TBODY>
+        </TABLE>
+	</FORM>
+

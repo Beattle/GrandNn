@@ -1,0 +1,95 @@
+<div class=obsv>
+
+<?php if (!empty($_OBSV['ERROR'])) { ?>
+<h4><?=@$_OBSV['ERROR'];?></h4><? } else { ?>
+  <div id="result" ></div>
+	<script type="text/javascript" src="<?=$_CORE->TEMPLATES.$_CORE->CURR_TPL?>/JS/validate.js"></script>
+
+<form action="/obsv/form1" method="POST" name="tform" onsubmit="form_submit(); return false;" id="obsv">
+<!--<h2>Напишите нам</h2>-->
+<h1>Оставить отзыв</h1>
+<input type="hidden" size='40' maxlength=64 id = "obsv[name]" name="obsv[name]" onkeyup="v()" value='<?=time();?>' />
+<input type="hidden" size='40' maxlength=64 name="obsv[email]"  onkeyup="v()" value='<?=$_SESSION['SESS_AUTH']['ALL']['author_login'];?>' >
+<table border="0" class="form-tbl">
+	<tr>
+      <td nowrap="nowrap" width="100" valign="top" valign="top">
+          Ваше имя: <span class=mark>*</span>
+      </td>
+      <td nowrap="nowrap" colspan="2" valign="top" valign="top">
+          
+            <input type="text" size='40' maxlength=64 id = "obsv[person]" name="obsv[person]" onkeyup="v()" value="<?=($_SESSION['SESS_AUTH']['ID']==1)?'Администратор':$_SESSION['SESS_AUTH']['ALL']['author_comment'];?>" />
+          
+      </td>
+  </tr>
+	<tr>
+      <td nowrap="nowrap" colspan="2" valign="top" valign="top">
+          <p>Сообщение <span class=mark>*</span></p>
+          <p><textarea style="width: 509px;" rows=5 cols=60 name="obsv[describe]"><?=@$obsv[describe]?></textarea></p>
+      </td>
+  </tr>
+  <?  $wall->out_form(); ?>
+	<tr>
+      <td colspan="2">
+        <input type="submit" class="btn" onclick="form_submit(); return false;" name="Submit" value='отправить'/>        </td>
+  </tr>
+</table>
+<input type="hidden" name="obsv[ts]" value="<?=time()?>" />
+<input type="hidden" name="response" value="1" />
+<input type="hidden" name="ajax" value="1" />
+</form>
+<script type="text/javascript">
+  function form_submit(){
+  	<? if(!empty($_SESSION['SESS_AUTH']['ID'])){ ?>
+var sdata = $("#obsv").serialize();
+if($("#obsv").valid()){
+  $.ajax({
+    type: "POST",
+    url: "/clear/obsv/form1",
+    data: (sdata),
+    success: function(data){
+      $("#result").html(data/* +" Ваш отзыв добавлен, он будет опубликован после модерации! "*/);
+      $(':input','#obsv').not(':button, :submit, :reset, :hidden').val('');
+      $(':textarea','#obsv') .val('');
+    }
+  });
+}
+  	<? }else{ ?>
+  		alert('чтобы оставить отзыв авторизуйтесь на сайте');
+  	<? } ?>
+return false;
+}
+$(document).ready(function(){
+
+	$("#obsv").validate({
+	    rules: {
+	      'obsv[name]': {
+	        required: true,
+	        minlength: 2
+	      },	
+	      'obsv[person]': {
+	        required: true,
+	      },
+	      'obsv[describe]': {
+	        required: true,
+	        minlength: 2
+	      }		  
+	    },
+	    messages: {
+	      'obsv[name]': {
+	        required: "<br>Пожалуйста, укажите Ваше имя.",
+	        minlength: "<br>Пожалуйста, введите не менее 2 символов"
+	      },
+		  'obsv[person]': {
+	        required: "<br>Пожалуйста, укажите Ваше имя."
+	      },
+		  'obsv[describe]': {
+	        required: "<br>Пожалуйста, введите ваше сообщение.",
+	        minlength: "<br>Пожалуйста, введите не менее 2 символов"
+	      }
+	    }
+	});
+});
+</script>
+<script>m=[1,2,4,5]; function v(){}</script>
+<?}?>
+</div>

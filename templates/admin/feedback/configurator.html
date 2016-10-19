@@ -1,0 +1,63 @@
+<TABLE cellSpacing=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE class=popuptitle cellSpacing=20 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class="modulename"><IMG height=24 alt=" " hspace=0 src="<?=Main::comm_link('module.gif', $f, $_OBSV['MODULE_NAME']);?>" width=24 align=left> 
+                 <H2>Edit&nbsp;<?=$_OBSV['form_name']?></H2>
+                <br>
+          </TD>
+        </TR>
+        </TBODY>
+</TABLE>
+<form name="dbform" action="" method="POST">
+<table border="0" width="40%" cellpadding="0" cellspacing="2">
+ <tbody>
+   <?if (isset($_SESSION['obsv']['table_info']['form_data'])&&is_array($_SESSION['obsv']['table_info']['form_data']))
+   foreach($_SESSION['obsv']['table_info']['form_data'] as $field_alias => $params) if ($field_alias!='id') { ?>
+  <tr>
+   <td width="10%" class="tbl_hd1"><?=$field_alias?></td>
+   <td class="tbl_txt">
+    <table align="left" border="0" width="100%" cellpadding="0" cellspacing="2">
+   <? foreach($params as $param_alias => $param_value) if (in_array($param_alias, $_OBSV['see'])) { ?>
+     <tr>
+      <td width="50%"><b><?=$_OBSV['aliases'][$param_alias]?></b></td>
+      <td><?=(is_array($param_value) AND count($param_value))?implode(', ', $param_value):(($param_alias=='Content Type')?$_OBSV['TextBox']['Content Type'][$param_value]:$param_value)?></td>
+     </tr>
+   <? } ?>
+     <tr>
+      <td width="50%"><b>Mandatory Field</b></td>
+      <td><?=empty($params['must'])?"no":"yes"?></td>
+     </tr>
+     <tr><td><br></td></tr>
+    </table>
+   </td>
+   <td width="5%" class="tbl_txt" align="center">
+    <p><input type="button" name="delete_field" value="DEL" onclick="if (confirm('You realy want delete this field?')) location.href='?form_id=<?=$_REQUEST['form_id']?>&v=delete&f=<?=$field_alias?>'; else return false;"></p>
+   </td>
+  </tr>
+   <? } ?>
+  <tr>
+   <td class="tbl_hd2" align="left">
+   </td>
+  </tr>
+ </tbody>
+</table>
+<TABLE class=form style="MARGIN-TOP: 20px" cellSpacing=0 cellPadding=0 width="100%" border=0>
+      <TBODY>
+      <TR><TD class=sep colSpan=5><DIV class=sep><SPACER height="1" width="1" type="block"></SPACER></DIV></TD></TR>
+      <TR>
+        <TD class=tdleft >
+   <input type="button" onclick="ShowPopUp('/clear/obsv/configurator/add?form_id=<?=$_REQUEST['form_id']?>', 400, 500); return false;" value="Add">
+   </td>
+	 	<td class=tdleft width="100%">
+			<input type="button" value="Preview" onclick="ShowPopUp('/clear/obsv/preview?form_id=<?=$_REQUEST['form_id']?>', 800, 600);return false;"">
+		</td>
+        <TD class=tdright>
+	<input type="submit" name="" value="Cancel" onclick="self.close();">
+   </TD>
+      </TR>
+      </TBODY>
+</TABLE></form>

@@ -1,0 +1,62 @@
+<?
+if (!empty($_REQUEST['price_from'])) {
+	$FORM_WHERE .= " AND 1*price >= '".$_REQUEST['price_from']."'";
+}
+if (!empty($_REQUEST['price_to'])) {
+  $FORM_WHERE .= " AND 1*price  <= '".$_REQUEST['price_to']."'";
+}
+
+$FORM_FROM = " as t1 ";
+
+
+$add_where = "";
+
+if (empty($search))
+	$search = 'searching';
+
+?>
+
+<div class="cl"></div>
+
+<form id="form_filter" action="" method="get">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="search_form">
+  <tr>
+    <td align="left" style="width: 429px;">Показывать на странице по <a <?=($_KAT['onpage_def'][$_KAT['KUR_ALIAS']]==20)?'class="sel"':'';?> href="?onpage[<?=$_KAT['KUR_ALIAS']?>]=20">20</a>, <a <?=($_KAT['onpage_def'][$_KAT['KUR_ALIAS']]==50)?'class="sel"':'';?> href="?onpage[<?=$_KAT['KUR_ALIAS']?>]=50">50</a>, <a <?=($_KAT['onpage_def'][$_KAT['KUR_ALIAS']]==75)?'class="sel"':'';?> href="?onpage[<?=$_KAT['KUR_ALIAS']?>]=75">75</a> изделий</td>
+    <td align="left">Выберите диапазон цен 
+от <input type="text" name="price_from" value="<?=$_REQUEST['price_from']?>"/>
+до <input type="text" name="price_to" value="<?=$_REQUEST['price_to']?>"/>&nbsp;руб.&nbsp;&nbsp; </td>
+  </tr>
+  <tr>
+    <td align="left">
+	В наличии <input type="checkbox" name="form[nalich]" value="1" <?=(!empty($_REQUEST['form']['nalich']))?'checked="checked"':"";?> onchange="$('#form_filter').submit();" /></td>
+    <td align="left">&nbsp;<input type="submit" class='btn' value="Выбрать" /></td>
+  </tr>
+</table>
+	<input type="hidden" id="sort_by" name="orderby" value="<?=(!empty($_GET['orderby']))?$_GET['orderby']:'';?>" />
+	<input type="hidden" id="sort_order" name="sort" value="<?=(!empty($_GET['sort']))?$_GET['sort']:'';?>" />
+</form>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('.switcher_link').bind('click', function(){
+		$('#sort_by').val($(this).attr('rel'));
+		if ($("#switch_"+$(this).attr('rel')).hasClass('asc')){
+			$('#sort_order').val('desc');
+		} else {
+			$('#sort_order').val('asc');
+		}
+		$("#form_filter").submit();		
+	});
+<?php if (!empty($_REQUEST['orderby']) && !empty($_REQUEST['sort']) )	{ ?>
+	$("#switch_<?=$_REQUEST['orderby']?>").removeClass('desc').removeClass('asc').addClass("<?=$_REQUEST['sort']?>");
+<?php } ?>
+});
+</script>
+<div class=cl></div>
+		<ul class="b-switcher">
+			<li class="caption">Упорядочить по:</li>
+			<li id="switch_price" class="switcher_sort asc">
+				<i class="switcher_ico"></i> 
+				<span><a class="switcher_link" rel="price" href="javascript:;">цене</a></span>
+			</li>
+		</ul>
+<hr>

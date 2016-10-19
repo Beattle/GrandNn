@@ -1,0 +1,10 @@
+<?
+//SQL::getall('db1.name x, db2.name y, value', DB_TABLE_PREFIX.$_KAT[$_KAT['KUR_ALIAS']]["matrix_table"][$TYPE."_opt"] . ' v, '.DB_TABLE_PREFIX.$TYPE.'_size db1, '.DB_TABLE_PREFIX.$TYPE.'_ins db2', "v.id_db1 = db1.id AND v.id_db2 = db2.id AND v.item_id = '".$form['id']."'", 'ORDER BY y, x', DEBUG);
+if (empty($search) )
+	$search = 'searching';
+
+$FORM_DATA['doc'] = array(
+			'path'	    => KAT::get_data_link( '/f_all_items', $dir, KAT_LOOKIG_DATA_DIR ),
+			'abspath'	=> KAT::get_data_path( '/f_all_items', $dir, KAT_LOOKIG_DATA_DIR )
+	);
+?>

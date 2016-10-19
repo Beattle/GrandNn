@@ -1,0 +1,114 @@
+<?php 	if(count($this->_dom->DetailInfo) + count($this->DetailInfo1) )
+	{?>
+<table  class="detail" cellspacing="0" cellpadding="0">
+	<tr class="h">
+		<td align="center">
+			Код<br/>
+			товара
+		</td>
+		<td align="center">
+			Фирма<br/>
+			изготовитель
+		</td>
+		<td align="center">
+			Наименование<br/>
+			Описание
+		</td>
+		<td align="center">
+			Цена<br/>
+			(рублей)
+		</td>
+		<td align="center">
+			Срок<br/>
+			(дней)
+		</td>
+		<td>
+			&nbsp;
+		</td>
+	</tr>
+<?php 
+		$isset = array();
+		$k = 0;
+		foreach($this->DetailInfo1 as $v)
+		
+		//for($k=0;$k<$c;$k++)
+		{
+			//$v = $this->_dom->DetailInfo[$k];
+			$dn = (string)$v->detailnumber;
+			if(in_array($dn,$isset)) continue;
+			$isset[] = $dn;
+			$date = $v->pricedate;
+			$date = strtok($date,'T');
+		?>
+			<tr>
+				<td class="l"><?php echo $v->detailnumber;?></td>
+				<td><?php echo $v->maker->name;?></td>
+				<td><?php $str = $this->utf8decode($v->detailname); echo (empty($str))?$v->detailname:$str;?></td>
+				<td title="Последнее изменение цены: <?php echo $date?>"><?php echo $v->price+$v->pricedestination+($v->price+$v->pricedestination)*cmd('doctxt/field/nastroyki/cont')/100;?><br/></td>
+				<td><?php echo $v->days;?></td>
+				<td>
+					<FORM METHOD="POST" ACTION="/basket/put" target="basket" name="list<?php echo $k;?>">
+						<INPUT TYPE="hidden" name="BASKET[desc]" value="<?php echo $v->maker->name;?>">
+						<INPUT TYPE="hidden" name="BASKET[price]" value="<?php echo $v->price+$v->pricedestination+($v->price+$v->pricedestination)*cmd('doctxt/field/nastroyki/cont')/100;?>">
+						<INPUT TYPE="hidden" name="BASKET[link]" value="<?php echo $_SERVER['REQUEST_URI'].'?'.$_SERVER['QUERY_STRING'];?>">
+						<INPUT TYPE="hidden" name="BASKET[subj]" value="<?php echo $v->detailnumber;?>">
+						<input type="hidden" class="inputboxquantity" size="4" name="BASKET[count_DEL]" value="10">
+						<INPUT TYPE="hidden" name="count_tmp" value="1">
+						<input name="BASKET[count]" value="1" type="hidden">
+						<a href="#" OnClick="basketWork( document.forms.list<?php echo $k;?>[5].value, document.forms.list<?php echo $k;?>[6].value, 0+<?php echo $v->price+$v->pricedestination;?>, <?php echo $k;?> ); document.forms.list<?php echo $k?>.submit();return false;" value="В КОРЗИНУ" alt="В КОРЗИНУ" name="inb<?php echo $k;?>" >Купить</a></div>
+					</FORM>
+				</td>
+			</tr>
+		<?$k++;}
+
+		$c = count($this->_dom->DetailInfo);
+		//echo '<pre>';
+		//var_dump($this->_dom->DetailInfo);
+		foreach($this->_dom->DetailInfo as $v)
+		//for($k=0;$k<$c;$k++)
+		{
+			//$v = $this->_dom->DetailInfo[$k];
+			$dn = (string)$v->detailnumber;
+			if(in_array($dn,$isset)) continue;
+			$isset[] = $dn;
+			$date = $v->pricedate;
+			$date = strtok($date,'T');
+		?>
+			<tr>
+				<td class="l"><?php echo $v->detailnumber;?></td>
+				<td><?php echo $v->maker->name;?></td>
+				<td><?php $str = $this->utf8decode($v->detailname); echo (empty($str))?$v->detailname:$str;?></td>
+				<td title="Последнее изменение цены: <?php echo $date?>"><?php echo $v->price+$v->pricedestination+($v->price+$v->pricedestination)*cmd('doctxt/field/nastroyki/cont')/100;?><br/></td>
+				<td><?php echo $v->days;?></td>
+				<td>
+					<FORM METHOD="POST" ACTION="/basket/put" target="basket" name="list<?php echo $k;?>">
+						<INPUT TYPE="hidden" name="BASKET[desc]" value="<?php echo $v->maker->name;?>">
+						<INPUT TYPE="hidden" name="BASKET[price]" value="<?php echo $v->price+$v->pricedestination+($v->price+$v->pricedestination)*cmd('doctxt/field/nastroyki/cont')/100;?>">
+						<INPUT TYPE="hidden" name="BASKET[link]" value="<?php echo $_SERVER['REQUEST_URI'].'?'.$_SERVER['QUERY_STRING'];?>">
+						<INPUT TYPE="hidden" name="BASKET[subj]" value="<?php echo $v->detailnumber;?>">
+						<input type="hidden" class="inputboxquantity" size="4" name="BASKET[count_DEL]" value="10">
+						<INPUT TYPE="hidden" name="count_tmp" value="1">
+						<input name="BASKET[count]" value="1" type="hidden">
+						<a href="#" OnClick="basketWork( document.forms.list<?php echo $k;?>[5].value, document.forms.list<?php echo $k;?>[6].value, 0+<?php echo $v->price+$v->pricedestination;?>, <?php echo $k;?> ); document.forms.list<?php echo $k?>.submit();return false;" value="В КОРЗИНУ" alt="В КОРЗИНУ" name="inb<?php echo $k;?>" >Купить</a></div>
+					</FORM>
+				</td>
+			</tr>
+		<?$k++;}
+	}
+	else {?>
+		<center style="font-size:18px;font-weight: bold">Увы, но по вашему запросу ничего не найдено.</center>
+	<?php }
+?>
+</table>
+<script language=javascript type="text/javascript">
+function basketWork( oc, nc, p, obj ) {
+BasketItems	= 0 + BasketItems + nc*1;
+
+if (document.getElementById('basketTable')) {
+	document.getElementById('basketTable').style.display = (BasketItems>0) ? 'inline':'none';
+}
+ writeField('basketItems', BasketItems);
+ if (nc == 0) 	eval('document.all.list'+obj+'[4].value = "";');
+ return true;
+}
+</script>

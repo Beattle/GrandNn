@@ -1,0 +1,30 @@
+<?global $_STATIST;?>
+<TABLE BORDER=0 cellpadding=2 cellspacing=1 width=100% class="viewdetails">
+<THEAD>
+	<tr>
+		<td width="40%" class="header">Откуда</td>
+		<td width="15%" class="header"><?=$datahead['today']?></td>
+		<td width="15%" class="header"><?=$datahead['yesterday']?></td>
+		<td width="30%" class="header">Всего</td>
+	</TR>
+</THEAD>
+<tbody>
+
+
+				<?if( !empty($all_data)){ foreach( $all_data as $data  )if( ($data['today']!=0)||($data['yesterday']!=0)){?>
+				  
+ <tr>
+ <?if( $data['link']!='' ){?>
+  <td><a href=<?=$data['link']?>><?=$data['name']?></a></td>
+ <?}else{?> 
+  <td><?=$data['name']?></td>
+ <?}?>
+  <td><?=$data['today']?></td>
+  <td><?=$data['yesterday']?></td>
+  <td><?=$data['val']?></td>
+ </tr>
+
+
+				<?}}?>		
+</tbody>
+</table>

@@ -1,0 +1,5 @@
+	<div class="item">
+		<b><?=STR::date2word($data['ts'], 'd m `y')?></b>
+		<?=STR::taging_a($data['name'],"/db/news/".$data["alias"].$url_add)?><BR>
+		<?=$data['anons']?>
+	</div>

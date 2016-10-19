@@ -1,0 +1,15 @@
+<?
+global $_ROBOKASSA;
+if ( empty($_SESSION['SESS_AUTH']['ID']) ) {
+	header ('Location: /auth/login');
+	exit;
+}
+?>
+<div class="modalbox">
+  <h2>Пополнение баланса</h2>
+  <?=(empty($_REQUEST['error']))?"":"<span>не указана сумма</span>"; ?>
+  <form action="/robokassa/readytopay" method="post">
+    <p>Сумма пополнения <input name="out_summ" value="<?=$_REQUEST['out_summ']?>" /></p>
+    <p><input type="submit" value="Пополнить" class="btnenter" /></p>
+  </form>
+</div>

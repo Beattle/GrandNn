@@ -1,0 +1,87 @@
+<?php
+$attach = array(
+	'http://'.$_SERVER['SERVER_NAME'].'/templates/def/images/footer.png',
+	'http://'.$_SERVER['SERVER_NAME'].'/templates/def/images/logo.png',
+	'http://'.$_SERVER['SERVER_NAME'].'/templates/def/images/vk.gif',
+	'http://'.$_SERVER['SERVER_NAME'].'/templates/def/images/fb.gif',
+	'http://'.$_SERVER['SERVER_NAME'].'/templates/def/images/yt.gif'
+);
+global $_CORE, $_SMS, $_CONF;
+if (!$_CORE->dll_load('class.lMail'))
+	die ($_CORE->error_msg());
+	if($form['status'] > 1 ){
+		
+		$_CORE->CURR_TPL = 'def';
+		$dmail = array();
+		$dmail['body']	= cmd('blocks/mailheader').'
+		<table cellpadding="0" cellspacing="0" border="0" width="100%">
+		<tr>
+			<td class="content" style="font-size: 14px;padding-left: 20px; padding-bottom: 20px;">
+			<h2>Здравствуйте, '.$form['user_name'].'</h2>';
+			if($form['status'] == 2){
+			$dmail['body'] .= 
+			'<p>Ваш заказ #'.$form['id'].' готов к отправке. Проверьте еще раз правильность введенных Вами данных.
+			</p>';
+			}
+			if($form['status'] == 3){
+			$dmail['body'] .= 
+			'<p>Ваш заказ #'.$form['id'].' отправлен.
+			</p>';
+			}
+		$dmail['body'] .= 
+			'
+		</td></tr></table>
+		';
+		if($form['status'] == 2){
+		$dmail['body'] .= $form['cont'].'
+				<table cellpadding="0" cellspacing="0" border="0" width="100%">
+				<tr>
+					<td class="content" style="font-size: 14px;padding-left: 20px; padding-bottom: 20px;">
+						<p>
+							Оплатить заказ Вы можете через <a href="http://grandnn.com/db/basket/">личный кабинет</a>.<br />
+							Пожалуйста, в ответном письме сообщите нам о произведенной оплате.<br />
+							Как только деньги поступят на счет,Ваш заказ будет отправлен.
+						</p>
+					</td>
+				</tr>
+				</table>';
+			
+			if(SQL::getval('count(*)',DB_TABLE_PREFIX . 'basket',"email = '".$form['email']."'") > 1){
+				$psw = SQL::getval('author_passwd',DB_TABLE_PREFIX . 'auth_pers',"author_login = '".$form['email']."'");
+				$dmail['body'] .= '
+				<table cellpadding="0" cellspacing="0" border="0" width="100%">
+				<tr>
+					<td class="content" style="font-size: 14px;padding-left: 20px; padding-bottom: 20px;">
+						<p>
+							Напоминаем Ваши авторизационные данные:<br />
+							логин: Ваша почта<br />
+							пароль: '.$psw.'
+						</p>
+					</td>
+				</tr>
+				</table>
+				';
+			}
+		}
+		
+		
+		$dmail['body'] .= cmd('blocks/mailfooter');
+		$dmail['name']	= 'GrandNN';
+		$dmail['email']	= TO;
+		$dmail['subject']	= 'Изменение статуса заказа на '.$_SERVER['HTTP_HOST'];
+		$dmail['type']	= 'html';
+		$dmail['mailto'] = $form['email'];
+		lMail::sendhtml($dmail,$attach);
+		$_CORE->CURR_TPL = 'admin';
+		// отправляем информацию по sms
+		$text = "Статус Вашего заказа #".$form['id']." был изменен на ".'"'.$FORM_DATA['status']['arr'][$form['status']].'"';
+		
+		$text = iconv("windows-1251","UTF-8",$text);
+		$phone = substr(preg_replace('/\D/', '', $form['phone']),-10);
+		$res = $_SMS->sendSMS( $phone , $text , $_CONF['settings']['from'] );
+		
+		//////////////////////////////////////////////////////////
+	}
+		// вместе со статусом заказа меняем и статус товаров
+		SQL::upd(DB_TABLE_PREFIX . 'basket2items', 'status = '.$form['status'], "order_alias = '".$form['alias']."'");
+?>

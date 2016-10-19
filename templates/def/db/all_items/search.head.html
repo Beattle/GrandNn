@@ -1,0 +1,277 @@
+<?php
+	// выбираем товар по дате бронирования
+		$arrbron = SQL::getall('*', DB_TABLE_PREFIX.'bron', "begin <= '".date('Y-m-d')."' AND end >= '".date('Y-m-d')."'");
+		$bronnew = array();
+		if( is_array($arrbron) && count($arrbron) ) {
+			foreach($arrbron as $bron){
+				$bronnew[$bron['name']] = $bron;
+			}
+		}	
+?>
+<?php if(empty($_REQUEST['nextpage'])){ ?>
+<?php if (!isset($_REQUEST['good_items'])) { ?>
+
+<div class=cl></div>
+<?php if (!isset($_REQUEST['latest'])) { ?>
+  <div id="form_search">
+
+  <?if ($TYPE && false){ echo cmd('/local/items_ins');?>
+<script>
+$(document).ready(function() {
+  $("#triger_search").toggle(
+    function(){
+      $("#search_spravochnik").show(400);
+			  },
+    function(){
+      $("#search_spravochnik").hide(200);
+	  }
+  );
+});
+</script>
+<? } ?>
+<? if(!empty($_POST['form']['name'])) $_REQUEST['form']['name'] = $_POST['form']['name']; ?>
+<? if(!empty($_GET['form']['name'])) $_REQUEST['form']['name'] = $_GET['form']['name']; ?>
+<div class=cl></div>  
+  <form method="POST"  name="db_filter" id="form_filter" action="/catalog/" onsubmit="" >
+    <input  type="hidden" name="form[new]" value="<?=(!empty($_GET['form']['new']))?$_GET['form']['new']:'';?>" />
+    <input  type="hidden" name="form[discount]" value="<?=(!empty($_GET['form']['discount']))?$_GET['form']['discount']:'';?>" />
+    <select id="sel1" name="form[name]" onchange="$('#sel7').val(''); up_count();">
+      <option <?=($_REQUEST['form']['name']=='')?'selected="selected"':"";?>  value="">Все украшения</option>
+<?php
+      $vid_arr = SQL::getall('*',DB_TABLE_PREFIX.'type_products','hidden != 1 OR hidden IS NULL','order by prior, name'); // order by prior
+      $vid_arr_new = array();
+      $numVid = 0;
+        foreach($vid_arr as $k=>$vid){
+			$vid_arr_new[$vid['alias']] = $vid;
+			if ($_GET['form']['name']==$vid['alias']) {
+				$sel  = 'selected="selected"';
+				$cat_id = $vid['id'];
+				$cat_name = $vid['name'];
+			}else{
+				$sel = '';
+			}
+          echo '<option value="'.$vid['alias'].'" '.$sel.' '.(($numVid>4)?' style="display: none;" ':'').'>'.$vid['name'].'</option>'."\n";
+          $numVid++;
+            
+        }
+?>
+    </select>
+    <input id="sel7" type="hidden" name="form[size]" value="<?=(!empty($_GET['form']['size']))?$_GET['form']['size']:'';?>" />
+    <select id="sel2" name="form[bu]" onchange="up_count()">
+      <option <?=(!isset($_GET['form']['bu']) || $_REQUEST['form']['bu']==='')?'selected="selected"':"";?>  value="">Все</option>
+      <option <?=($_GET['form']['bu']=='novyie')?'selected="selected"':"";?> value="novyie">Новое</option>
+      <option <?=($_GET['form']['bu']=='lombard')?'selected="selected"':"";?>  value="lombard">б/у</option>
+    </select>
+    <select id="sel3" name="form[probe]" onchange="up_count()">
+      <option value="">Любой материал</option>
+      <?
+        $arr_met = $_CONF['arr_met'];
+        foreach($arr_met as $k=>$met){
+          //echo '<option value="'.$k.'">'.$met.'</option>'."\n";
+          echo '<option '; 
+          if($_REQUEST['form']['probe']==$k) echo 'selected="selected"';
+          echo ' value="'.$k.'">'.$met.'</option>'."\n";
+        }
+        /*$arr_met = SQL::getall("metal",DB_TABLE_PREFIX."view_all", "metal!='' AND (hidden != 1 OR hidden IS NULL)"," GROUP BY metal ORDER BY metal");
+        foreach($arr_met as $k=>$met){
+          echo '<option '; 
+          if($_REQUEST['form']['metal']==$met['metal']) echo 'selected="selected"';
+          echo ' value="'.$met['metal'].'">'.$met['metal'].'</option>'."\n";
+        }*/
+      ?> 
+    </select>
+    <select id="sel4" name="form[gvstav]" onchange="up_count()">
+      <?php
+	     $arr = $_CONF['ins'];
+        
+        foreach($arr as $k=>$v){
+          echo '<option ';
+          if($_REQUEST['form']['gvstav']==$k) echo 'selected="selected"';
+          echo ' value="'.$k.'">'.$v.'</option>'."\n";
+        }
+      ?>
+    </select>
+    <select id="sel5" name="form[gprice]" onchange="up_count()">
+      <option value="">Цена</option>
+<?
+			$arr_price = array(
+				'do_5000'=>'До 5000р.',
+				'5000_10000'=>'5000-10000р.',
+				'10000_20000'=>'10000-20000р.',
+				'20000_50000'=>'20000-50000р.',
+				'bolee_50000'=>'Более 50000р.'
+			);
+        
+        foreach($arr_price as $k=>$v){
+          echo '<option ';
+          if($_GET['form']['gprice']==$k) echo 'selected="selected"';
+          echo ' value="'.$k.'">'.$v.'</option>'."\n";
+        }
+      
+?>
+    </select>
+<select id="sel6" name="form[nalich]" onchange="up_count()" >
+      <option value="" <?=($_GET['form']['nalich']==='')?'selected="selected"':"";?> >Весь каталог</option>
+      <option value="gagarina" <?=($_GET['form']['nalich']=='gagarina')?'selected="selected"':"";?> >В салоне пр. Гагарина 66</option>
+      <option value="rodionova" <?=($_GET['form']['nalich']== 'rodionova')?'selected="selected"':"";?> >В салоне ул. Родионова 17</option>
+    </select>
+
+    <input id="db_filter" class="btn" value="посмотреть украшения"  type="button"  style="width: 191px; font-size: 11px; margin-right: -75px;" />
+ 
+ <!--
+  <input id="onpage" type="hidden" name="onpage[<?=$_KAT['KUR_ALIAS']?>]" value="<?=$_SESSION['onpage_def'][$_KAT['KUR_ALIAS']];?>" />
+    <input type="hidden" name="ajax" value="1" />
+-->
+    <input type="hidden" id="sort_by" name="sort_by" value="<?=(!empty($_REQUEST['sort_by']))?$_REQUEST['sort_by']:'';?>" />
+    <input type="hidden" id="sort_order" name="sort_order" value="<?=(!empty($_REQUEST['sort_order']))?$_REQUEST['sort_order']:'';?>" />
+<br />
+
+	Поиск по артикулу: <input type="text" name="form[artikul]" value="<?=(!empty($_REQUEST['form']['artikul']))?$_REQUEST['form']['artikul']:'';?>" onkeyup="up_count()" /> 
+
+	<input type="hidden" name="alias" value="<?=$_KAT['KUR_ALIAS'];?>">
+
+	<input type="hidden" name="p" id="page_id" value="">
+	<input type="hidden" name="nextpage" id="nextpage" value="">
+
+    </form>
+	<script	language="javascript">
+		$(document).ready(function() {
+			up_count();
+		})
+		function up_count(){
+			$.get(
+			  '/empty/local/get_count_items',
+			  $('#form_search form').serialize(),
+			  function(data){
+			  	$('#form_search input.btn').val(data);
+			  }
+			);
+		}
+	</script>
+
+  </div>
+
+<script>
+	$(document).ready(function() {
+	$('.switcher_link').bind('click', function(){
+		$('#sort_by').val($(this).attr('rel'));
+		if ($("#switch_"+$(this).attr('rel')).hasClass('asc')){
+			$('#sort_order').val('desc');
+		} else {
+			$('#sort_order').val('asc');
+		}
+		$('#page_id').val(1);
+		$('#db_filter').click();
+	});
+
+		$('#db_filter').click(function(){
+		  $('#form_filter').submit();
+          return true;
+			$.fancybox.showActivity();
+			$('#load_content').load(
+				'/empty/db/<?=$_KAT['KUR_ALIAS'];?>/',
+				$('#form_filter').serialize(),
+				function(){
+					$.fancybox.hideActivity();
+					$('#load_content a[rel*=facebox]').fancybox({
+						'padding'					: 	20,
+						'cyclic'					: true,
+						'opacity'					: true,
+						'overlayOpacity'    : 0.7,
+						'overlayColor'      : '#000',
+						'showNavArrows'		: true,
+						'titlePosition'		: 'inside',
+						'autoScale'				: 'true',
+						'scrolling'				: 'no'
+					});
+					
+				}
+			);
+		});
+		$('.cnt_onpage a').click(function(){
+			$('#onpage').val($(this).text());
+			$('#page_id').val(1);
+			$('#db_filter').click();
+			return false;
+		});
+/*		$('.pline a').click(function(){
+			$('#page_id').val($(this).attr('title'));
+			$('#nextpage').val($(this).attr('title'));
+			$.fancybox.showActivity();
+			$.get(
+				'/empty/db/<?=$_KAT['KUR_ALIAS'];?>/',
+				$('#form_filter').serialize(),
+				function(data){
+					$.fancybox.hideActivity();
+					$('.pline a').remove();
+					$('#load_content .search_all_items .SR_left_side').append(
+						data
+					);
+					$('#load_content a[rel*=facebox]').fancybox({
+						'padding'					: 	20,
+						'cyclic'					: true,
+						'opacity'					: true,
+						'overlayOpacity'    : 0.7,
+						'overlayColor'      : '#000',
+						'showNavArrows'		: true,
+						'titlePosition'		: 'inside',
+						'autoScale'				: 'true',
+						'scrolling'				: 'no'
+					});
+					
+				}
+			);
+			return false;
+		});*/
+<?php if (!empty($_REQUEST['sort_by']) && !empty($_REQUEST['sort_order']) )	{ ?>
+	$("#switch_<?=$_REQUEST['sort_by']?>").removeClass('desc').removeClass('asc').addClass("<?=$_REQUEST['sort_order']?>");
+<?php } ?>	
+	});
+</script>
+<?php } ?>
+<div class=cl></div>
+<?php if(isset($_REQUEST['latest'])){
+	echo "<h2>Вы смотрели ранее</h2>";
+} ?>
+<hr>
+	<div class="cl"></div>
+	<?php if (!isset($_REQUEST['latest'])) { ?>
+	<div class="fr" style="margin-right: -75px; margin-bottom: 5px;">
+	<ul class="b-switcher" >
+		<li class="caption" >Сортировать по:</li>
+		<li class="switcher_sort" id="switch_date_add" >
+		<?php if(!empty($_REQUEST['sort_by']) && $_REQUEST['sort_by']==="date_add") { ?> <i class="switcher_ico"></i> <? } ?>
+			<span><a class="switcher_link" rel="date_add" href="javascript:;">дате поступления</a></span>
+		</li>
+		<li class="switcher_sort" id="switch_full_price" >
+		<?php if(!empty($_REQUEST['sort_by']) && $_REQUEST['sort_by']==="full_price") { ?> <i class="switcher_ico"></i> <? } ?>
+			<span><a class="switcher_link" rel="full_price" href="javascript:;">цене</a></span>
+		</li>
+		<li class="switcher_sort" id="switch_size" >
+		<?php if(!empty($_REQUEST['sort_by']) && $_REQUEST['sort_by']==="size") { ?> <i class="switcher_ico"></i> <? } ?>
+			<span><a class="switcher_link" rel="size" href="javascript:;">размеру</a></span>
+		</li>
+		<li class="switcher_sort" id="switch_weight" >
+			<?php if(!empty($_REQUEST['sort_by']) && $_REQUEST['sort_by']==="weight") { ?> <i class="switcher_ico"></i> <? } ?>	
+			<span><a class="switcher_link" rel="weight" href="javascript:;">весу</a></span>
+		</li>
+	</ul>
+	</div>
+	<div class="cl"></div>
+<?
+	if(!empty($_REQUEST['form']['name'])){ ?>
+	<script type="text/javascript">
+		function rrAsyncInit() {
+			try { rrApi.categoryView(<?=$cat_id?>); } catch(e) {}
+		}
+		dataLayer.push({'category_id':<?=$cat_id?>});
+		dataLayer.push({'category_name':'<?=$cat_name?>'}); // <?=$vid['name_one']?>
+	</script>
+<?	} ?>
+	
+	<?php } ?>
+<div class="search_<?=$_KAT['KUR_ALIAS']?> search_list">
+<div class="SR_left_side" style="float: left; width: 810px;">
+	
+<? } ?>
+<? } ?>

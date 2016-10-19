@@ -1,0 +1,143 @@
+<?php	
+
+global $_CORE, $_KAT;
+
+$_KAT['RE_TITLE'] = $form['name'];
+
+// карзина
+$av_count = $_SESSION['_BASKET_CONT'][STR::translit($form['name'])]['/'.$_KAT['MODULE_NAME'].'/'.$_KAT['KUR_ALIAS'].'/'.$form['alias'] ]['count'];
+$av_size = $_SESSION['_BASKET_CONT'][STR::translit($form['name'])]['/'.$_KAT['MODULE_NAME'].'/'.$_KAT['KUR_ALIAS'].'/'.$form['alias'] ]['size'];
+if ($av_count > 0) {
+	$add = ($av_count > 1) ? 'ов' : '';
+	$avoska = "В корзине их <b>$av_count</b> шт.</b>";
+}
+
+// default pic, if first img not filled
+$arr = array('',1,2);
+if (!empty($form['doc']) && file_exists($FORM_DATA["doc"]["abspath"]."/".$form['doc']) ){
+	$img_name = $form['doc'];
+	$first_done= true;
+}else{
+	for($i = 1; $i < 6; $i++  )if (is_file($FORM_DATA["doc".$i]["abspath"]."/".$img_name.$i.'.jpg')){ 
+		$img_name = $img_name.$i.'.jpg';
+		break 1;
+	}
+}
+
+if (empty($img_name)) {
+	$img_name = 'prod-01.jpg';
+}
+?>
+<!-- Basket part --> 
+<FORM METHOD="POST" ACTION="/basket/put" target="basket" name="list<?=$form['id']?>">
+				<INPUT TYPE="hidden" name="BASKET[desc]" value="<?=$form['anons']?>">
+				<INPUT TYPE="hidden" name="BASKET[price]" value="<?=intval($form['price'])?>">
+				<INPUT TYPE="hidden" name="BASKET[link]" value="/<?=$_KAT['MODULE_NAME']?>/<?=$_KAT['KUR_ALIAS']?>/<?=$form['alias']?>">
+				<INPUT TYPE="hidden" name="BASKET[subj]" value="<?=$form['name']?>">
+				<INPUT TYPE="hidden" name="BASKET[doc]" value="<?=$FORM_DATA["doc"]["path"]."/".$form["doc"]?>">
+				<input type="hidden" class="inputboxquantity" size="4" name="BASKET[count_DEL]" value="10">
+				<INPUT TYPE="hidden" name="count_tmp" value="<?=$_SESSION['_BASKET_CONT'][STR::translit($form['name'])]['/'.$_KAT['MODULE_NAME'].'/'.$_KAT['KUR_ALIAS'].'/'.$form['alias'] ]['count']+1?>">
+				<input type="hidden" name="BASKET[count]" value="1"> 
+</form>
+
+<div class=view_shop>
+
+	<!-- item image -->
+	<div class=imgblock>
+		<!-- main -->
+		<div class="cat-shdw">
+			<?if(!empty($form["doc"]) && is_file($FORM_DATA["doc"]["abspath"]."/".$form["doc"])){?>
+				<a href="<?=$FORM_DATA["doc"]["path"]."/".$form["doc"]?>" rel=facebox id=img><img src="/reimg<?=$FORM_DATA["doc"]["path"]."/460/".$form["doc"]?>" class="browseProductImage" title="<?=$form['name']?>" alt="<?=$form['name']?>" border="0"></a>
+			<?}else{?>
+				<a href="<?=$FORM_DATA["doc"]["path"]."/".$form["doc"]?>" rel=facebox id=img><img src="/reimg/templates/def/images/460/prod-01.jpg" width=460 height=350 class="browseProductImage" title="<?=$form['name']?>" alt="<?=$form['name']?>" border="0"></a>
+			<?}?>				
+		</div>
+		<div class=small>
+		<? // more images
+		foreach($arr as $i)if (is_file($FORM_DATA["doc".$i]["abspath"]."/".$form['doc'.$i])){ 
+			echo "<a href=\"javascript: show_img('/reimg".$FORM_DATA["doc".$i]["path"]."/460/".$form['doc'.$i]."')\"><div class=smallimg style='background: #000 url(\"/reimg".$FORM_DATA["doc".$i]["path"]."/95/".$form['doc'.$i]."\") no-repeat 50% 50%;' >&nbsp;</div></a>";
+		}
+		?>
+		</div>
+	</div>
+
+	
+	<div class='base_info'>
+		<table width=378 border=0>
+		<tr><td Width=160><b>Вставка</b><td nowrap><?=$form['ins']?>
+		<tr><td><b>Поизводитель</b><td nowrap><?=$form['madeby']?>
+		<tr><td><b>Вид метала</b><td nowrap><?=$form['metal']?>
+		<tr><td><b>Вес</b><td><?=$form['weight']?> гр.
+		<tr><td><b>Размер</b><td><?=$form['size']?>
+		<tr><td><b>Цена</b><td><?=number_format($form['price'], 0)?> рублей
+		</table>
+	</div>
+	
+	<!-- button -->
+	<a href="#"><img src="/templates/def/img/add.gif" alt="" class=button width="189" height="34" border="0" OnClick="basketWork( document.forms.list<?=$form['id']?>[5].value, document.forms.list<?=$form['id']?>[6].value, 0+<?=$form['price']?>, <?=$form['id']?> );document.forms.list<?=$form['id']?>.submit();animate_cart_my(this);return false;" style="cursor: hand;"></a>
+
+	<!-- Описание -->
+	<?if ($form['cont']) {?>
+		<p><?=$form['cont']?></p>
+	<?}?>
+
+	<div class="cl"></div>
+
+<!--
+	<table style="float: left" class='info'>
+	<? 
+		// розничные цены
+		$arr = SQL::getall('db1.name x, db2.name y, value', DB_TABLE_PREFIX.$_KAT[$_KAT['KUR_ALIAS']]["matrix_table"][$TYPE."_rozn"] . ' v, '.DB_TABLE_PREFIX.$TYPE.'_size db1, '.DB_TABLE_PREFIX.$TYPE.'_ins db2', "v.id_db1 = db1.id AND v.id_db2 = db2.id AND v.item_id = '".$form['id']."'", 'ORDER BY y', DEBUG);
+		$was_y = '';
+		if (is_array($arr)) {
+			foreach ($arr as $k => $val) {
+				$keys_x[$val['x']] = 1;
+				$keys_y[$val['y']] = 1;
+				$res[$val['x']][$val['y']] = $val['value'];
+			}
+			// first row
+			echo "<tr title='Размеры' class='frow'><th>"; foreach ($keys_x as $x =>$v1) echo "<th>".$x;
+			// other
+			foreach ($keys_y as $y => $v) {
+				echo "<tr><th title='Вставки' class='fcol'>".$y;
+				foreach ($keys_x as $x =>$v1) {
+					echo (($res[$x][$y]) ? '<td OnClick="basketWork( document.forms.list'.$form['id'].'[5].value, document.forms.list'.$form['id'].'[6].value, 0+'.$form['price'].', '.$form['id'].' );document.forms.list'.$form['id'].'.submit();animate_cart_my(this);return false;"> <div style="cursor: hand;">'.$res[$x][$y].'&nbsp;руб.</div>' : '<td>');
+				}
+			}
+		}
+	?>
+	</table>
+	
+	<? 
+		$res = $keys_x = $keays_y = '';
+			// Оптовые возможности только для партнеров
+		if ($_SESSION['SESS_AUTH']['ALL']['partner']) {
+			$arr = SQL::getall('db1.name x, db2.name y, value', DB_TABLE_PREFIX.$_KAT[$_KAT['KUR_ALIAS']]["matrix_table"][$TYPE."_opt"] . ' v, '.DB_TABLE_PREFIX.$TYPE.'_size db1, '.DB_TABLE_PREFIX.$TYPE.'_ins db2', "v.id_db1 = db1.id AND v.id_db2 = db2.id AND v.item_id = '".$form['id']."'", 'ORDER BY y', DEBUG);
+			$was_y = '';
+			if (is_array($arr)) {
+				echo '<div class=info><h3>Для партнеров</h3><table>';
+				foreach ($arr as $k => $val) {
+					$keys_x[$val['x']] = 1;
+					$keys_y[$val['y']] = 1;
+					$res[$val['x']][$val['y']] = 'x';
+				}
+				// first row
+				echo "<tr title='Размеры' class='frow'><th>"; foreach ($keys_x as $x =>$v1) echo "<th>".$x;
+				// other
+				foreach ($keys_y as $y => $v) {
+					echo "<tr><th title='Вставки' class='fcol'>".$y;
+					foreach ($keys_x as $x =>$v1) {
+						echo "<td>".$res[$x][$y];
+					}
+				}
+			}
+		}
+	?>
+	</table>
+	
+
+	<?// str_replace('/inside', $form['alias'], $_KAT['DOC_PATH'][$_KAT['KUR_ALIAS']])?>
+	<?=cmd( "/connects/seealso/".$_SERVER['REQUEST_URI'] );?>
+-->
+
+</div>

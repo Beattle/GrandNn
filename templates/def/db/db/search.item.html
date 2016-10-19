@@ -1,0 +1,19 @@
+<?
+	if ($was) 
+		echo '<div class="line"><spacer type="block" width="1" height="1"></spacer></div>';
+?>
+<div class="block">
+<?if (!empty($data["doc"]) && is_file($FORM_DATA["doc"]["abspath"]."/".$data["doc"])):?>
+				<div class="photo">
+					<img src="/reimg<?=$FORM_DATA["doc"]["path"]."/x50/".$data["doc"]?>" alt="<?=$data['doc_title']?>" border="0">
+					<p class="source"><?=$data['doc_title']?></p>
+				</div>
+<?endif;?>	
+				<div class="content">
+					<p class="date"><?=STR::date2word($data['ts'])?></p>
+					<h3><?=STR::taging_a($data['name'],"/".$_KAT['MODULE_NAME'].'/'.$_KAT['KUR_ALIAS'].'/'.$data["alias"].$url_add)?></h3>
+					<p class="comment"><?=$data['title2']?><?=($data['page'])?" Ч стр. ".$data['page']:''?></p>
+					<p><?=$data['anons']?></p>
+				</div>
+			</div>
+<?$was = true;?>

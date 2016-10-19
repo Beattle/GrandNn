@@ -1,0 +1,42 @@
+<?global $form;?>
+<table width="100%"  border="0" cellpadding="0" cellspacing="20" class="popuptitle">
+      <tr>
+        <td><img src="<?=$_CORE->TEMPLATES.$_CORE->CURR_TPL?>/<?=$_DOC['MODULE_NAME']?>/d_folder.gif" alt="" width="24" height="24" hspace="0" vspace="0" align="left"><h2>
+        <?=(!empty($form['title'])?$form['title']:'Добавление документа')?>
+        </h2></td>
+      </tr>
+    </table>
+
+<p align=center><?=@nl2br($_DOC['ERROR'])?></p>
+<FORM ACTION="" METHOD=POST enctype="multipart/form-data" name="db_form">
+<table width="100%"  border="0" cellpadding="0" cellspacing="0" class="form" style="margin-top:20px">
+<tr>
+  <input type="hidden" name="apply" value="0">
+  <td width="100%" class="tdleft"><input type=submit name="submit" value="Сохранить">&nbsp;<input type=submit name="submit" onClick="db_form.apply.value=1; db_form.submit();" value="Применить"></td>
+  <td class="tdright" align="right"><input type=reset value="Отменить"></td>
+</tr>
+<tr>
+  <td colspan="3" class="sep"><div class="sep"><spacer type="block" width="1" height="1"></spacer></div></td>
+</tr>
+<!--<TR><TD>&nbsp;</TD><TD align="left"><INPUT TYPE="submit" name=submit value=save>&nbsp;&nbsp;<INPUT TYPE="reset" value=reset></TD></TR>-->
+</TABLE>
+<TABLE BORDER=0 width='100%' cellspacing=1 cellpadding=3>
+<?$_DOC['cForm']->Body_print();?>
+</table>
+<table width="100%"  border="0" cellpadding="0" cellspacing="0" class="form" style="margin-top:20px">
+<tr>
+  <td colspan="3" class="sep"><div class="sep"><spacer type="block" width="1" height="1"></spacer></div></td>
+</tr>
+<tr>
+  <input type="hidden" name="apply" value="0">
+  <td width="100%" class="tdleft"><input type=submit name="submit" value="Сохранить">&nbsp;<input type=submit name="submit" onClick="db_form.apply.value=1; db_form.submit();" value="Применить"></td>
+  <td class="tdright" align="right"><input type=reset value="Отменить"></td>
+</tr>
+<!--<TR><TD>&nbsp;</TD><TD align="left"><INPUT TYPE="submit" name=submit value=save>&nbsp;&nbsp;<INPUT TYPE="reset" value=reset></TD></TR>-->
+</TABLE>
+<script type="text/javascript">
+db_form['form[title]'].focus();
+</script>
+</FORM>
+</TD></TR></TABLE>
+ 

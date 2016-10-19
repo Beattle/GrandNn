@@ -1,0 +1,67 @@
+<?
+	$transart = str_replace(array("#"," "),array('','_'),trim(strtolower(STR::translit(str_replace("№",'N',$data["artikul"])))));
+	$img = (!empty($data["doc"]) && is_file($FORM_DATA["doc"]["abspath"]."/".$data["doc"])) ?$FORM_DATA["doc"]["path"]."/".$data["doc"] // для классических каталогов
+			: (((is_file($_SERVER['DOCUMENT_ROOT']."/data/db/f_all_items/".$transart.".jpg")) ? "/data/db/f_all_items/".$transart.'.jpg' // для нового способа каталога
+			: ((!empty($data["doc"]) && is_file(KAT::get_data_path( '/f_'.$data["tab"], $dir, KAT_LOOKIG_DATA_DIR )."/".$data["doc"]))  ? KAT::get_data_link( '/f_'.$data["tab"], $dir, KAT_LOOKIG_DATA_DIR )."/".$data["doc"] // для переходного процесса
+						: '/templates/def/images/prod-01.jpg')));
+// после импорта точки могут замениться запятыми
+$data['price'] = str_replace(',','.',$data['price']);
+$data['weight'] = str_replace(array(',','-'),array('.',''),$data['weight']);
+$data['size'] = str_replace(',','.',$data['size']);
+
+// Цена
+$price = $data['full_price'];
+
+$type_icon = array(
+            1=>"premium.png",
+            2=>"akciya.png",
+            3=>"hit.png"
+              );
+$num_item ++;
+
+$data['anons'] = '';
+
+$arr_met = array("Ag" => 'Серебро', "Ag 925" => 'Серебро 925', "Au" => 'Золото', "Au 585" => 'Золото 585', "Au 750" => 'Золото 750');
+if(!empty($data['probe']) && !empty($arr_met[$data['probe']])){
+	$data['anons'] .= $arr_met[$data['probe']];
+}
+if(!empty($data['size'])){
+	if(!empty($data['anons']))$data['anons'] .= ", ";
+	$data['anons'] .= "Размер ".$data['size'];
+}
+if(!empty($data['weight'])){
+	if(!empty($data['anons']))$data['anons'] .= ", ";
+	$data['anons'] .= "Вес ".$data['weight'];
+}
+if(!empty($data['ins']) && $data['ins']!= '<без вставок>'){
+	if(!empty($data['anons']))$data['anons'] .= ", ";
+	$data['anons'] .= "Вставка ".$data['ins'];
+}
+$categoryId = '';
+$arr_name = explode(' ',strtolower($data['name']));
+if($arr_name[1]!= 'обручальное' )
+	$categoryId = $vid_arr_new[$arr_name[0]]['id'];
+else
+	$categoryId = $vid_arr_new['обручальное']['id'];
+if(empty($categoryId)) $categoryId = 99;
+?>
+<offer id="<?=$data['alias'];?>" available="true" >
+	<url><?='http://'.$_SERVER['HTTP_HOST'];?>/db/all_items/<?=$data['alias'];?></url>
+	<price><? 	if (!empty($data['discount'])){ 
+				echo ceil($price-$price*$data['discount']/100);
+			}else{ 
+				echo $price; 
+			} 
+		?></price>
+	<currencyId>RUR</currencyId>
+	<categoryId><?=$categoryId;?></categoryId>
+	<picture><?='http://'.$_SERVER['HTTP_HOST'].$img;?></picture>
+	<store>true</store>
+	<pickup>true</pickup>
+	<name><?=$data['name'];?></name>
+	<description><?=$data['anons'];?></description>
+	<weight><?=str_replace(',','.',$data['weight']/1000);?></weight>
+	<param name="Вес" unit="г"><?=$data['weight'];?></param>
+	<param name="Проба" ><?=$data['probe'];?></param>
+	<param name="Размер"><?=$data['size'];?></param>
+</offer>

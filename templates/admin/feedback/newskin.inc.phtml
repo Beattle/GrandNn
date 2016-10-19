@@ -1,0 +1,39 @@
+<? global $_DMODEL;?>
+<TABLE cellSpacing=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE class=popuptitle cellSpacing=20 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class="modulename"><IMG height=24 alt=" " hspace=0 src="<?=Main::comm_link('module.gif', $f, $_DMODEL['MODULE_NAME']);?>" width=24 align=left> 
+                 <H2>Создать макет на основании макета: <?=$from==$_DMODEL['DEF_SKIN']?$_DMODEL['DEF_SKIN_NAME']:$from?></H2>
+<?if( !empty( $path ) ){?>
+            	Текущий модуль: <?=cmd($path.'module/title')?> (<?=$path?>)
+<?}?>
+          </TD>
+        </TR>
+        </TBODY>
+</TABLE>
+	<FORM  name=<?=$_DMODEL['FORM_NAME']?> method="GET" action="/<?=$_DMODEL['MODULE_NAME']?>/copyskin">
+                <INPUT name=from type="hidden" value="<?=$from?>">
+                <INPUT name=close type="hidden" value="close">
+                <INPUT name=path type="hidden" value="/<?=$path?>">
+        <TABLE class=form style="MARGIN-TOP: 20px" cellSpacing=0 cellPadding=0 width="100%" border=0>
+              <TBODY>
+              <TR>
+                <TD class=tdleft width="100%">
+<!--                	<select name="skin_list" style="WIDTH: 100%" onchange="document.<?=$_DMODEL['FORM_NAME']?>.skin.value=document.<?=$_DMODEL['FORM_NAME']?>.skin_list.options[document.<?=$_DMODEL['FORM_NAME']?>.skin_list.selectedIndex].value;">
+						<option  value="">&nbsp;</option>
+<?foreach( @$skin_list as $k=>$v )if( $v!=$_DMODEL['DEF_SKIN'] ){?>
+						<option  value="<?=$v?>"><?=$v?></option>
+<?}?>                	
+                	</select>-->
+                </TD>
+                <TD class=tdcenter><INPUT name=skin type=input value=''"></TD>
+                <TD class=tdright> <INPUT type=submit value="Создать"></TD>
+              </TR>
+              </TBODY>
+        </TABLE>
+	</FORM>
+

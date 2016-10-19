@@ -1,0 +1,278 @@
+<?php	
+
+global $_CORE, $_KAT;
+
+if (isset($_KAT['DOC_PATH'][$_KAT['KUR_ALIAS']])){
+	global $_DOC;
+	$_DOC['RE_TITLE'] = str_replace(array('[',']'),'',$form['name']);
+	$_SERVER['REQUEST_URI_START'] = $_SERVER['REQUEST_URI'] ;
+	$_SERVER['REQUEST_URI'] = $_KAT['DOC_PATH'][$_KAT['KUR_ALIAS']]; // что бы меню выделилось
+	$_DOC['CURRENT'] = $_SERVER['REQUEST_URI'];
+	$_KAT['RE_TITLE'] = str_replace(array('[',']'),'',$form['name']);
+
+}else{
+	// если это не в подпапках, то CURRENT будет DB значит надо заголовок там поменять
+	$_KAT['RE_TITLE'] = str_replace(array('[',']'),'',$form['name']);
+}
+
+// корзина
+$av_count = $_SESSION['_BASKET_CONT'][STR::translit($form['name'])]['/'.$_KAT['MODULE_NAME'].'/'.$_KAT['KUR_ALIAS'].'/'.$form['alias'] ]['count'];
+$av_size = $_SESSION['_BASKET_CONT'][STR::translit($form['name'])]['/'.$_KAT['MODULE_NAME'].'/'.$_KAT['KUR_ALIAS'].'/'.$form['alias'] ]['size'];
+if ($av_count > 0) {
+	$add = ($av_count > 1) ? 'ов' : '';
+	$avoska = "В корзине их <b>$av_count</b> шт.</b>";
+}
+
+$form['price'] = str_replace(',','.',$form['price']);
+$form['weight'] = str_replace(',','.',$form['weight']);
+$form['size'] = str_replace(',','.',$form['size']);
+
+// Цена
+$price = $form['full_price'];
+
+if (!$price && false) // old method
+$price = (!$_SESSION['SESS_AUTH']['ALL']['partner']) 
+					? round($form['price']*$form['weight'])
+					: round($form['price_opt']*$form['weight']);
+
+// default pic, if first img not filled
+$arr = array('',1,2);
+if (!empty($form['doc']) && file_exists($FORM_DATA["doc"]["abspath"]."/".$form['doc']) ){
+	$img_name = $form['doc'];
+	$first_done= true;
+}
+
+// images dance
+$img = (!empty($form["doc"]) && is_file($FORM_DATA["doc"]["abspath"]."/".$form["doc"])) ?	$FORM_DATA["doc"]["path"]."/".$form["doc"] // для классических каталогов
+		: (((is_file($_SERVER['DOCUMENT_ROOT']."/data/db/f_all_items/".STR::translit($form["artikul"]).".jpg")) ? $_SERVER['DOCUMENT_ROOT']."/data/db/f_all_items/".STR::translit($form["artikul"]).'.jpg' // для нового способа каталога
+		: (!empty($form["doc"]) && is_file(KAT::get_data_path( '/f_'.$form["tab"], $dir, KAT_LOOKIG_DATA_DIR )."/".$form["doc"]))  ? KAT::get_data_link( '/f_'.$form["tab"], $dir, KAT_LOOKIG_DATA_DIR )."/".$form["doc"] // для переходного процесса
+					: '/templates/def/images/prod-01.jpg'));	
+
+//for($i = 1; $i < 6; $i++  ) if (is_file($FORM_DATA["doc".$i]["abspath"]."/".$form['doc'.$i])){ 
+//	$need_other_img = true;
+//}
+
+for($i = 1; $i < 6; $i++  ) if (is_file($_SERVER['DOCUMENT_ROOT']."/data/db/f_all_items/".STR::translit($form["artikul"]).$i.".jpg")){ 
+	$need_other_img = true;
+}
+if (empty($img_name)) {
+	$img_name = 'prod-01.jpg';
+}
+
+$type_icon = array(
+            1=>"premium.png",
+            2=>"akciya.png",
+            3=>"hit.png"
+              );
+
+?>
+<!-- Basket part --> 
+<form METHOD="POST" ACTION="/basket/put" target="basket" name="list<?=$form['id']?>">
+				<INPUT TYPE="hidden" name="BASKET[desc]" value="<?=$form['anons']?>">
+				<INPUT TYPE="hidden" name="BASKET[price]" value="<?=$price?>">
+				<INPUT TYPE="hidden" name="BASKET[link]" value="/<?=$_KAT['MODULE_NAME']?>/<?=$_KAT['KUR_ALIAS']?>/<?=$form['alias']?>">
+				<INPUT TYPE="hidden" name="BASKET[subj]" value="<?=$form['name']?>">
+				<INPUT TYPE="hidden" name="BASKET[doc]" value="<?=$FORM_DATA["doc"]["path"]."/".$form["doc"]?>">
+				<input type="hidden" class="inputboxquantity" size="4" name="BASKET[count_DEL]" value="10">
+				<INPUT TYPE="hidden" name="count_tmp" value="<?=$_SESSION['_BASKET_CONT'][STR::translit($form['name'])]['/'.$_KAT['MODULE_NAME'].'/'.$_KAT['KUR_ALIAS'].'/'.$form['alias'] ]['count']+1?>">
+				<input type="hidden" name="BASKET[count]" value="1"> 
+</form>
+
+<div class=view_shop>
+
+	<!-- item image -->
+	<div class=imgblock>
+		<!-- main -->
+    <? if(!empty($form["type_icon"])){ ?>
+      <div style="float: right; margin-bottom: -100px; margin-top: 10px; margin-right: 10px; width: 95px; height: 95px; z-index: 10; position: relative;"><img src="/reimg/templates/def/img/<?=$type_icon[$form["type_icon"]];?>?95x95" /></div>
+    <? } ?>	
+		<div class="cat-shdw">
+			<a href="<?=$img?>" rel=facebox_img id=img><img src="/reimg<?=$img?>?460" class="browseProductImage" title="<?=$form['name']?>" alt="<?=$form['name']?>" border="0"></a>
+		</div>
+
+		<div class=small>
+		<? // more images
+//		if ($need_other_img) foreach($arr as $i)if (is_file($FORM_DATA["doc".$i]["abspath"]."/".$form['doc'.$i])){ 
+//			echo "<script>p".$i." = new Image(); p".$i." = '/reimg".$FORM_DATA["doc".$i]["path"]."/".$form['doc'.$i]."?460';</script>";
+//			echo "<a href=\"".$FORM_DATA["doc".$i]["path"]."/".$form['doc'.$i]."\" onclick=\"javascript: show_img('/reimg".$FORM_DATA["doc".$i]["path"]."/".$form['doc'.$i]."?460');return false;\" ".(($i != '') ? 'rel=facebox_img' :'')."><div class=smallimg style='background: #000 url(\"/reimg".$FORM_DATA["doc".$i]["path"]."/".$form['doc'.$i]."?95\") no-repeat 50% 50%;' >&nbsp;</div></a>";
+//		}
+		if ($need_other_img) foreach($arr as $i) if (is_file($_SERVER['DOCUMENT_ROOT']."/data/db/f_all_items/".STR::translit($form["artikul"]).$i.".jpg")){ 
+			echo "<script>p".$i." = new Image(); p".$i." = '/reimg"."/data/db/f_all_items/".STR::translit($form["artikul"]).$i.".jpg"."?460';</script>";
+			echo "<a href=\""."/data/db/f_all_items/".STR::translit($form["artikul"]).$i.".jpg"."\" onclick=\"javascript: show_img('/reimg"."/data/db/f_all_items/".STR::translit($form["artikul"]).$i.".jpg"."?460');return false;\" ".(($i != '') ? 'rel=facebox_img' :'')."><div class=smallimg style='background: #000 url(\"/reimg".$FORM_DATA["doc".$i]["path"]."/".$form['doc'.$i]."?95\") no-repeat 50% 50%;' >&nbsp;</div></a>";
+		}
+		?>
+		</div>
+	</div>
+
+	
+	<div class='base_info'>
+		<table width=378 border=0>
+		<?if ($form['nalich']){?>
+		<tr><td colspan="2" nowrap class="white"><?=$FORM_DATA['nalich']['arr'][$form['nalich']]?></td></tr>
+		<?}?>
+		<?if ($form['artikul']){?>
+		<tr><td width=160><b>Артикул</b><td nowrap class="white"><?=$form['artikul']?>
+		<?}?>
+		<?if ($form['madeby']){?>
+		<tr><td><b>Производитель</b><td nowrap class="white"><?=$form['madeby']?>
+		<?}?>
+		<?if ($form['metal']){?>
+		<tr><td><b>Вид металла</b><td nowrap class="white"><?=$form['metal']?>
+		<?}?>
+		<?if ($form['ins']){?>
+		<tr><td width=160><b>Вставка</b><td nowrap class="white"><?=$form['ins']?>
+		<?}?>
+		<?if ($form['weight']){?>
+		<tr><td><b>Средний вес</b><td class="white"><?=$form['weight']?> гр.
+		<?}?>
+		<?if ($form['size']){?>
+		<tr><td><b>Размер</b><td class="white"><?=$form['size']?>
+		<?}?>
+		<?if ($form['price']){?>
+		<tr><td><b>Цена за грамм</b><td class="white"><?=number_format($form['price'], 0, '.' , ' ')?> руб.
+		<?}?>
+		<?if ($form['price'] && $form['weight']){?>
+		<tr><td><b>Средняя цена</b><td class="white"><?=number_format($price, 0, '.', ' ')?> руб.
+		<?}?>
+		<?if (!empty($form['num_series'])){?>
+		<tr><td><b>Серия номенклатуры</b><td class="white"><?=$form['num_series']?>
+		<?}?>
+		<?
+		// for opt
+		if ($_SESSION['SESS_AUTH']['ALL']['partner']) {
+		?>
+			<?if ($form['price_opt']){?>
+			<tr><td class="white"><b>Цена за грамм (опт)</b><td class="white"><?=number_format($form['price_opt'], 0, '.' , ' ')?> руб.
+			<?}?>
+			<?if ($form['price_opt'] && $form['weight']){?>
+			<tr><td class="white"><b>Средняя цена (опт)</b><td class="white"><?=number_format($price, 0, '.', ' ')?> руб.
+			<?}?>
+		
+		<?}?>
+
+		</table>
+	</div>
+<?if ($form['price']){?>	
+	<!-- button -->
+	<a href="#"><img src="/templates/def/img/add.gif" alt="" class=button width="189" height="34" border="0" OnClick="basketWork( document.forms.list<?=$form['id']?>[5].value, document.forms.list<?=$form['id']?>[7].value, 0+<?=($price)?$price:0?>, <?=$form['id']?> );document.forms.list<?=$form['id']?>.submit();animate_cart_my(this);return false;" style="cursor: hand;"></a>
+<?}?>
+	<!-- Описание -->
+	<?if ($form['cont']) {?>
+		<p style="clear: left"><?=$form['cont']?></p>
+	<?}?>
+
+<div class=cl></div>
+<?
+	//$_CORE->BODY_REQUEST_URI
+	$tmp = $form['id'];	
+?>
+<?=cmd("/connects/seealso_all/db/".$_KAT['KUR_ALIAS'].'/'.$form['alias'])?>
+<?//="<div>".cmd("/connects/concerned/db/".$_KAT['KUR_ALIAS'].'/'.$form['alias'])."</div>"; ?>
+<div class=cl></div>
+	<?
+	$form['id'] = $tmp;
+
+	// если есть связка, а она есть у товаров другого типа
+	if (!empty($TYPE)) {
+		// розничные цены
+//		$arr = SQL::getall('db1.name x, db2.name y, value', DB_TABLE_PREFIX.$_KAT[$_KAT['KUR_ALIAS']]["matrix_table"][$TYPE."_rozn"] . ' v, '.DB_TABLE_PREFIX.$TYPE.'_size db1, '.DB_TABLE_PREFIX.$TYPE.'_ins db2', "v.id_db1 = db1.id AND v.id_db2 = db2.id AND v.item_id = '".$form['id']."'", 'ORDER BY y, x', DEBUG);
+		$arr = '';
+		// передумали только галочки будут
+		// $arr = SQL::getall('db1.name x, db2.name y, value', DB_TABLE_PREFIX.$_KAT[$_KAT['KUR_ALIAS']]["matrix_table"][$TYPE."_opt"] . ' v, '.DB_TABLE_PREFIX.$TYPE.'_size db1, '.DB_TABLE_PREFIX.$TYPE.'_ins db2', "v.id_db1 = db1.id AND v.id_db2 = db2.id AND v.item_id = '".$form['id']."'", 'ORDER BY y, x', DEBUG);
+		
+		$was_y = '';
+		
+		if (is_array($arr) && !empty($arr) ) {
+			echo '<div class="zakaz">';
+			foreach ($arr as $k => $val) {
+				$keys_x[$val['x']] = 1;
+				$keys_y[$val['y']] = 1;
+				$res[$val['x']][$val['y']] = $val['value'];
+			}
+			// other
+			$cnt_lines = 1;
+			$cnt_blocks = 1;
+			
+			if (!empty($keys_y)) foreach ($keys_y as $y => $v) {
+				echo "<div class=block><table class=ins><tr><th colspan=5>".$y;
+				echo "<tr align=center  class=head><td width=80>размеры<td colspan=3 width=110>кол-во<td>";
+				foreach ($keys_x as $x =>$v1) {
+					if ($res[$x][$y]) {
+						echo "<tr><td class='white'>$x"; // number_format($res[$x][$y], 0)
+						?>
+						<!-- Basket part --> 
+						<FORM METHOD="POST" ACTION="/basket/put" target="basket" name="list_<?=++$cnt_lines?>">
+						<INPUT TYPE="hidden" name="BASKET[desc]" value="<?=$form['anons']?>">
+						<INPUT TYPE="hidden" name="BASKET[price]" value="<?=$price; //intval($res[$x][$y])?>">
+						<INPUT TYPE="hidden" name="BASKET[link]" value="/<?=$_KAT['MODULE_NAME']?>/<?=$_KAT['KUR_ALIAS']?>/<?=$form['alias']?>">
+						<INPUT TYPE="hidden" name="BASKET[subj]" value="<?=$form['name']?> (<?=$y?> / <?=$x?>)">
+						<INPUT TYPE="hidden" name="BASKET[doc]" value="<?=$FORM_DATA["doc"]["path"]."/".$form["doc"]?>">
+						<input type="hidden" class="inputboxquantity" size="4" name="BASKET[count_DEL]" value="10">
+						<INPUT TYPE="hidden" name="count_tmp" value="<?=$_SESSION['_BASKET_CONT'][STR::translit($form['name']." ($y / $x)")]['/'.$_KAT['MODULE_NAME'].'/'.$_KAT['KUR_ALIAS'].'/'.$form['alias'] ]['count']+1?>">
+						<td><a href='javascript:;' OnClick=" document.forms.list_<?=$cnt_lines?>[7].value--;">-</a>
+						<td nowrap><input type="textbox" name="BASKET[count]" value="1">
+						<td><a href='javascript:;' OnClick=" document.forms.list_<?=$cnt_lines?>[7].value++;">+</a>
+						<td><a href="#"><img src="/templates/def/img/zakaz_115.png" alt="" class=button width="80" border="0" title="В корзине этого товара  <?=$_SESSION['_BASKET_CONT'][STR::translit($form['name']." ($y / $x)")]['/'.$_KAT['MODULE_NAME'].'/'.$_KAT['KUR_ALIAS'].'/'.$form['alias'] ]['count']+1?> шт." OnClick="basketWork( document.forms.list_<?=$cnt_lines?>[5].value, document.forms.list_<?=$cnt_lines?>[7].value, 0+<?=($price)?$price:0?>, <?=$form['id']?> );document.forms.list_<?=$cnt_lines?>.submit();animate_cart_my(this);return false;" style="cursor: hand;"></a>
+						</form>
+						<?
+					}
+				}
+				
+				echo "</tbody></table></div>";
+				if (($cnt_blocks) % 3 == 0) echo "<div class=cl></div>";
+				$cnt_blocks++;
+			}
+			echo "</div>";
+		}
+	?>
+
+
+	<? 
+		$res = $keys_x = $keys_y = '';
+		
+		// для нового стиля отображения всех элементов
+		if ($TYPE == "all_items") {
+		
+			// выберем все товары с таким же артикулом
+			$arr = SQL::getall('*', DB_TABLE_PREFIX.$_KAT['TABLES'][$_KAT['KUR_ALIAS']], "artikul = '".$form['artikul']."' AND (hidden != 1 OR hidden IS NULL) AND doc!='' ", 'ORDER BY price', DEBUG);
+			
+			if (!empty($arr) ) {
+
+				echo '<h2>Товары</h2><div class="zakaz">';
+				echo "<div class=block><table width=100% class=ins>";
+				echo "<tr align=center  class=head><td width=80>Размер<td>Вес<td>В наличии<td>Артикул<td>Цена<td>Кол-во<td>";
+				foreach ($arr as $v) {
+						echo "<tr><td>$v[size]<td>$v[weight]<td>".$FORM_DATA['nalich']['arr'][$v['nalich']]."<td>$v[artikul]<td nowrap title='Цена'>".number_format($v[full_price], 0, '.' , ' ')." р.";
+						?>
+<!-- Basket part --> 
+<FORM METHOD="POST" ACTION="/basket/put" target="basket" name="list_<?=++$cnt_lines?>">
+				<INPUT TYPE="hidden" name="BASKET[desc]" value="<?=$form['anons']?>">
+				<INPUT TYPE="hidden" name="BASKET[price]" value="<?=$v[full_price]?>">
+				<INPUT TYPE="hidden" name="BASKET[link]" value="/<?=$_KAT['MODULE_NAME']?>/<?=$_KAT['KUR_ALIAS']?>/<?=$form['alias']?>">
+				<INPUT TYPE="hidden" name="BASKET[subj]" value="<?=$form['name']?> (<?=$v[size]?> / <?=$v['num_series']?>)">
+				<INPUT TYPE="hidden" name="BASKET[doc]" value="<?=$FORM_DATA["doc"]["path"]."/".$form["doc"]?>">
+				<input type="hidden" class="inputboxquantity" size="4" name="BASKET[count_DEL]" value="10">
+				<INPUT TYPE="hidden" name="count_tmp" value="<?=$_SESSION['_BASKET_CONT'][STR::translit($form['name']." ($v[size] / ".$v['num_series'].")")]['/'.$_KAT['MODULE_NAME'].'/'.$_KAT['KUR_ALIAS'].'/'.$form['alias'] ]['count']+1?>">
+				<td nowrap><input type="textbox" name="BASKET[count]" value="1"> шт.
+				<!-- <td><a href='javascript:;' OnClick=" document.forms.list_<?=$cnt_lines?>[7].value++;">+</a> -->
+				<td><a href="#"><img src="/templates/def/img/zakaz_115.png" alt="" class=button width="80" border="0" title="В корзине этого товара  <?=$_SESSION['_BASKET_CONT'][STR::translit($form['name']." ($y / $x)")]['/'.$_KAT['MODULE_NAME'].'/'.$_KAT['KUR_ALIAS'].'/'.$form['alias'] ]['count']+1?> шт." OnClick="basketWork( document.forms.list_<?=$cnt_lines?>[5].value, document.forms.list_<?=$cnt_lines?>[7].value, 0+<?=($price)?$price:0?>, <?=$form['id']?> );document.forms.list_<?=$cnt_lines?>.submit();animate_cart_my(this);return false;" style="cursor: hand;"></a>
+</form>
+						<?
+				}
+				echo "</tbody></table></div>";
+				echo "</div>";
+			}
+		}
+	} // $TYPE
+
+	?>
+	
+
+	<?// str_replace('/inside', $form['alias'], $_KAT['DOC_PATH'][$_KAT['KUR_ALIAS']])?>
+	<div class=cl></div>
+
+</div>
+
+
+</div>
+

@@ -1,0 +1,67 @@
+<?
+if (!empty($_REQUEST['nextpage'])) {
+	//$_KAT['all_items']['NO_PLINE'] = true;
+}
+
+if (!empty($_REQUEST['price_from'])) {
+	$FORM_WHERE .= " AND 1*price * REPLACE(weight, ',', '.') >= '".$_REQUEST['price_from']."'";
+}
+if (!empty($_REQUEST['price_to'])) {
+  $FORM_WHERE .= " AND 1*price * REPLACE(weight, ',', '.') <= '".$_REQUEST['price_to']."'";
+}
+if (!empty($_REQUEST['full_price_from'])) {
+	$FORM_WHERE .= " AND full_price >= ".$_REQUEST['full_price_from']."";
+}
+if (!empty($_REQUEST['full_price_to'])) {
+  $FORM_WHERE .= " AND full_price <= ".$_REQUEST['full_price_to']."";
+}
+
+$artikul = mysql_real_escape_string($_REQUEST['artikul']);
+$artikul = STR::del_fins($artikul);
+if(!empty($_REQUEST['artikul'])){
+  $FORM_WHERE .= " AND (name LIKE '%".$artikul."%' OR artikul LIKE '%".$artikul."%' OR num_series LIKE '%".$artikul."%' OR ins LIKE '%".$artikul."%' ) ";
+}
+ 
+
+if (!empty($_REQUEST['latest'])) {
+	if(isset($_COOKIE['_grand']['latest'])){
+		$arr_latest = $_COOKIE['_grand']['latest'];
+		if(is_array($arr_latest) && count($arr_latest) > 0){
+			$arr = array_slice( $arr_latest, 0, 8 );
+			$FORM_WHERE .= " AND alias IN ('".implode("','",$arr)."')";
+		}
+	}
+}
+if (!empty($_REQUEST['good_items']) ) {
+	if(!empty($_CONF['settings']['good_items'])){
+		$FORM_WHERE .= " AND alias IN ('".str_replace(',',"','",$_CONF['settings']['good_items'])."')";
+	}else{
+		$FORM_WHERE .= " AND 0";
+	}
+}
+
+// $FORM_ORDER = " ORDER BY price * REPLACE(weight, ',', '.') ";
+//$FORM_FROM = " as t1 ";
+
+$add_where = "";
+
+if (isset($_REQUEST['sort_by']) && in_array($_REQUEST['sort_by'], array_keys($FORM_DATA)) && isset($_REQUEST['sort_order']) && !empty($_REQUEST['sort_order'])){
+		$FORM_ORDER = ' group by artikul  ORDER BY '.DB_TABLE_PREFIX . 'items.'.$_REQUEST['sort_by'].'*1 '.$_REQUEST['sort_order'].' ';
+} 
+//if(in_array($_KAT['KUR_ALIAS'],$arr_katsize)!==false){ 
+/*  if (!empty($_REQUEST['size_from'])) {
+    $add_where = "(SELECT count(*) FROM ".DB_TABLE_PREFIX.$_KAT[$_KAT['KUR_ALIAS']]["matrix_table"][$TYPE."_opt"] . " as v, ".DB_TABLE_PREFIX.$TYPE."_size as db1 WHERE v.id_db1 = db1.id AND v.item_id = t1.id  AND 1*db1.name >= ".$_REQUEST['size_from'].") ";
+    $FORM_WHERE .= " AND ((1*size >= ".$_REQUEST['size_from']." AND 1*size > 0) OR ".$add_where." > 0)";    
+  }
+  if (!empty($_REQUEST['size_to'])) {
+    $add_where = "(SELECT count(*) FROM ".DB_TABLE_PREFIX.$_KAT[$_KAT['KUR_ALIAS']]["matrix_table"][$TYPE."_opt"] . " as v1, ".DB_TABLE_PREFIX.$TYPE."_size as db2 WHERE v1.id_db1 = db2.id AND v1.item_id = t1.id  AND 1*db2.name <= ".$_REQUEST['size_to'].") ";
+    $FORM_WHERE .= " AND ((1*size <= ".$_REQUEST['size_to']." AND 1*size > 0) OR ".$add_where." > 0)";    
+  }*/
+//}
+
+
+//SQL::getall('db1.name x, db2.name y, value', DB_TABLE_PREFIX.$_KAT[$_KAT['KUR_ALIAS']]["matrix_table"][$TYPE."_opt"] . ' v, '.DB_TABLE_PREFIX.$TYPE.'_size db1, '.DB_TABLE_PREFIX.$TYPE.'_ins db2', "v.id_db1 = db1.id AND v.id_db2 = db2.id AND v.item_id = '".$form['id']."'", 'ORDER BY y, x', DEBUG);
+if (empty($search) )
+	$search = 'searching';
+
+?>

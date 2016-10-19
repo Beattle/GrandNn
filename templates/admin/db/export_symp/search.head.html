@@ -1,0 +1,70 @@
+<?// partof сортировка в админском режиме added 22.02.06
+       $orderby = empty($_GET['orderby']) ? 'none':$_GET['orderby'];  $ord="a_order_none.gif"; $ord_text = "ќтсортировать по возрастанию";
+       $desc = empty($_GET['desc']) ? "site":$_GET['desc'];  
+	   switch ( $desc )
+		{	case "site":	$spec="a_order_none.gif";	$spec_text="ќтсортировать по возрастанию";	$ndesc="up";	break;
+			case "up":		$spec="a_order_up.gif";		$spec_text="ќтсортировать по убыванию";		$ndesc="down";	break;
+			case "down":	$spec="a_order_down.gif";	$spec_text="ќтсортировать, как на сайте";	$ndesc="site";	break;
+		}
+?>
+<table class="viewdetails"width=100% border=0 cellpadding="0" cellspacing="1">
+<THEAD>
+<tr>
+	<td class="header" nowrap>
+<? //внимание важно правильно заполнить!!! 
+   //в переменную $field_name нужно положить ключ у массива $data, из файла search.item.html, соответствующего данному заголовку, сейчас это $data['ts']
+       $field_name = 'from_id';
+?>  	
+      <a href="<?=$_SERVER['REQUEST_URI']?>?orderby=<?=$field_name?>&desc=<?=($orderby==$field_name)?@$ndesc:"up"?>" title="<?=( $orderby==$field_name )?$spec_text:$ord_text?>">
+      <IMG SRC="<?=KAT::inc_link( ( $orderby==$field_name )?$spec:$ord , $tmp)?>"  Alt="" style="vertical-align: middle;">   ID  то
+      </a>
+	</td>	
+	<td class="header">
+<? //внимание важно правильно заполнить!!! 
+   //в переменную $field_name нужно положить ключ у массива $data, из файла search.item.html, соответствующего данному заголовку, сейчас это $data['name'] 
+       $field_name = 'author_comment_from';
+?>  	
+      <a href="<?=$_SERVER['REQUEST_URI']?>?orderby=<?=$field_name?>&desc=<?=($orderby==$field_name)?@$ndesc:"up"?>" title="<?=( $orderby==$field_name )?$spec_text:$ord_text?>">
+      <IMG SRC="<?=KAT::inc_link( ( $orderby==$field_name )?$spec:$ord , $tmp)?>"  Alt="" style="vertical-align: middle;">  то  
+      </a>
+	</td>
+	<td class="header" nowrap>
+<? //внимание важно правильно заполнить!!! 
+   //в переменную $field_name нужно положить ключ у массива $data, из файла search.item.html, соответствующего данному заголовку, сейчас это $data['ts']
+       $field_name = 'to_id';
+?>  	
+      <a href="<?=$_SERVER['REQUEST_URI']?>?orderby=<?=$field_name?>&desc=<?=($orderby==$field_name)?@$ndesc:"up"?>" title="<?=( $orderby==$field_name )?$spec_text:$ord_text?>">
+      <IMG SRC="<?=KAT::inc_link( ( $orderby==$field_name )?$spec:$ord , $tmp)?>"  Alt="" style="vertical-align: middle;">  ID  ому 
+      </a>
+	</td>	
+	<td class="header" nowrap>
+<? //внимание важно правильно заполнить!!! 
+   //в переменную $field_name нужно положить ключ у массива $data, из файла search.item.html, соответствующего данному заголовку, сейчас это $data['ts']
+       $field_name = 'author_comment_to';
+?>  	
+      <a href="<?=$_SERVER['REQUEST_URI']?>?orderby=<?=$field_name?>&desc=<?=($orderby==$field_name)?@$ndesc:"up"?>" title="<?=( $orderby==$field_name )?$spec_text:$ord_text?>">
+      <IMG SRC="<?=KAT::inc_link( ( $orderby==$field_name )?$spec:$ord , $tmp)?>"  Alt="" style="vertical-align: middle;">    ому
+      </a>
+	</td>	
+	<td class="header" nowrap>
+<? //внимание важно правильно заполнить!!! 
+   //в переменную $field_name нужно положить ключ у массива $data, из файла search.item.html, соответствующего данному заголовку, сейчас это $data['ts']
+       $field_name = 'symvs';
+?>  	
+      <a href="<?=$_SERVER['REQUEST_URI']?>?orderby=<?=$field_name?>&desc=<?=($orderby==$field_name)?@$ndesc:"up"?>" title="<?=( $orderby==$field_name )?$spec_text:$ord_text?>">
+      <IMG SRC="<?=KAT::inc_link( ( $orderby==$field_name )?$spec:$ord , $tmp)?>"  Alt="" style="vertical-align: middle;" >   —импати€
+      </a>
+	</td>
+  <td class="header" nowrap>
+<? //внимание важно правильно заполнить!!! 
+   //в переменную $field_name нужно положить ключ у массива $data, из файла search.item.html, соответствующего данному заголовку, сейчас это $data['ts']
+       $field_name = 'alias';
+?>  	
+      <a href="<?=$_SERVER['REQUEST_URI']?>?orderby=<?=$field_name?>&desc=<?=($orderby==$field_name)?@$ndesc:"up"?>" title="<?=( $orderby==$field_name )?$spec_text:$ord_text?>">
+      <img src="<?=KAT::inc_link( ( $orderby==$field_name )?$spec:$ord , $tmp)?>"  alt="" style="vertical-align: middle;" >   ƒата
+      </a>
+	</td>
+
+</TR>
+</THEAD>
+<tbody>

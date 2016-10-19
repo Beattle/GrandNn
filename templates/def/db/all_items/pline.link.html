@@ -1,0 +1,10 @@
+<?
+global $_USER;
+if ($_USER['NO_DOCTXT_IN_MENU']) {
+	$uri = str_replace('/doctxt/', '/', $uri);
+}
+?>
+<a style="visibility: hidden;" href="<?=$uri."?".$string."p=".$i?>" title='<?=$i?>'><?=$i?></a>
+<? 	if(!empty($curPage) && $curPage == $i-1){ 
+		$nextPage = '<a href="'.$uri."?".$string."p=".$i.'" title="'.$i.'">Åù¸</a>';
+	} ?>

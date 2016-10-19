@@ -1,0 +1,7 @@
+<li class="searchitem_faq">
+	<a href="javascript: writeField('faq_content', getField('div_<?=$data['alias'];?>'));" id="itemList<?=$num;?>" onclick="sel(<?=$num;?>);" ><?=$data['name'];?></a>
+    <div id="div_<?=$data['alias'];?>" style="display:none;">
+    	<?=$data['cont'];?>
+    </div>
+</li>
+<?php $num++; ?>

@@ -1,0 +1,58 @@
+<? $tmp_file = basename($file); ?>	
+<tr>
+	<td valign=middle width="100%">
+		<a id="itemList<?=$iterator?>" href="/<?=$module_name?>/map?path=<?=$file?>&skin=<?=$skin?>" title="<?=$tmp_file?>"
+<?if( !empty($title) ){?>
+			onclick="writeField('EventsCmdLeft', getField('dmodel_<?=$tmp_file?>_down_l'));writeField('LeftPreview', getField('dmodel_<?=$tmp_file?>_d'));writeField('EventsCmdRight', getField('dmodel_<?=$tmp_file?>_down_r'));return false;"
+<?}else{?>
+			onclick="writeField('EventsCmdLeft', '');writeField('LeftPreview', '');writeField('EventsCmdRight', getField('dmodel_<?=$tmp_file?>_down_r'));return false;"
+<?}?>
+			
+<?if( $is_into ){?>
+			ondblclick="location.href='/<?=$module_name?>/map?skin=<?=$skin?>&path=/<?=$file?>';"
+<?}else{?>
+<?if( $file == $_DMODEL['IMAGES_DIR']."/" ){?>
+			ondblclick="location.href='/<?=$module_name?>/images?path=/<?=$file?>/&skin=<?=$skin?>'";
+<?}else{?>
+			ondblclick="ShowPopUp('/clear/<?=$module_name?>/edit?path=/<?=$file?>&skin=<?=$skin?>',800,600,'yes');"
+<?}}?>
+			
+			onfocus="setPointer('<?=$iterator?>');"
+<?$iterator++;?>
+		>
+		<img alt=" " src="<?=Main::comm_link(($is_into||($file == $_DMODEL['IMAGES_DIR']."/")?"dir":"file").'.gif', $f, $module_name )?>">
+		<?=$name?>
+		</a>
+	</td>
+	<td>
+		<?=$date?>
+	</td>
+</tr>
+
+<?if( !empty($title) ){?>
+	<div id="dmodel_<?=$tmp_file?>_down_l" style="position:absolute;visibility:hidden">
+			<img alt=" " src="<?=Main::comm_link('edit.gif', $f, $module_name )?>">
+			<a title="<?=$title?>" href="/<?=$module_name?>/edit?path=<?=$file?>&skin=<?=$skin?>" OnClick="ShowPopUp('/clear/<?=$module_name?>/edit?path=<?=$file?>&skin=<?=$skin?>',800,600,'yes');return false;">Редактировать</a>
+<?if( $skin != $_DMODEL['DEF_SKIN'] ){?>
+			<br>
+			<img alt=" " src="<?=Main::comm_link('copy.gif', $f, $module_name )?>" >
+			<a href="/<?=$module_name?>/copyskin?from=<?=$skin?>&skin=<?=$_DMODEL['DEF_SKIN']?>&path=/<?=$file?>" title="применить" OnClick="return confirm('Чо, правда применить?');">Применить на сайте</a>
+<?}?>
+	</div>
+
+	<div id="dmodel_<?=$tmp_file?>_d" style="position:absolute;visibility:hidden">
+		<?=str_replace(";", "<br>", $title)?>
+	</div>
+<?}?>
+
+	<div id="dmodel_<?=$tmp_file?>_down_r" style="position:absolute;visibility:hidden">
+<?if( $skin != $_DMODEL['DEF_SKIN'] ){?>
+			<img alt=" " src="<?=Main::comm_link('delete.gif', $f, $module_name )?>">
+			<a title="<?=$title?>" href="/<?=$module_name?>/delskin?path=<?=$file?>&skin=<?=$skin?>" OnClick="return confirm('Чо, правда удалить?');">Удалить</a>
+			<br>
+<?}?>
+		<img alt=" " src="<?=Main::comm_link('newskin.gif', $f, $_DMODEL['MODULE_NAME'] )?>">
+		<a title="<?=$title?>" href="/<?=$_DMODEL['MODULE_NAME']?>/newskin?from=<?=$skin?>&path=/<?=$file?>" OnClick="ShowPopUp('/clear/<?=$_DMODEL['MODULE_NAME']?>/newskin?from=<?=$skin?>&path=<?=$file?>',800,600,'yes');return false;">Создать на основе</a>
+	</div>
+
+	

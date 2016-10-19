@@ -1,0 +1,8 @@
+<?
+if ($_USER['NO_DOCTXT_IN_MENU']) {
+	$path = str_replace('doctxt/', '', $path);
+}
+
+echo STR::taging_a($name, $path, '', true)
+?>
+<span>&darr;</span></div>

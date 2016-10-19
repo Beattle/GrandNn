@@ -1,0 +1,87 @@
+<tr>
+<td valign=middle width=100% colspan="2"><div style="margin-left: <?=$deep*20?>px">
+
+<IMG SRC="<?=(preg_match('/db/',$item['path']))
+?Main::comm_link('1folder.gif', $tmp, 'db')
+:DOCTXT::inc_link((!empty($item['next']))?'1folder.gif':'1article.gif', $tmp)
+?>" BORDER='0' ALT='Опции' align="left"><p>
+<a href="javascript:;"  TITLE='<?=
+addslashes(strtr(htmlspecialchars($item['name']),array("'"=>' ', '"' => '')))
+?>' id="doctree<?=
+$_DOC['COUNTER']
+?>" OnClick="writeField('EventsCmdLeft', getField('tree_<?=
+$_DOC['COUNTER']
+?>_l'));writeField('EventsCmdRight', getField('tree_<?=
+$_DOC['COUNTER']
+?>_r'));writeField('CreateCmdRight', getField('tree_<?=
+$_DOC['COUNTER']
+?>_up'));writeField('LeftPreview', getField('tree_<?=
+$_DOC['COUNTER']
+?>_d'));writeField('Connects', getField('tree_<?=
+$_DOC['COUNTER']
+?>_sa'));return false;"  onfocus="setPointer('<?=
+$_DOC['COUNTER']
+?>');" ondblclick="<?
+if (!preg_match("|.*(/db/.+)|",$item['path'],$m) && empty($item['path_tmp']))
+	echo ($item['next'])
+		?"location.href='?list&node=".$item['path']."'" 
+		:(empty($item['readonly'])?"ShowPopUp('/clear/".$item['path']."?edit', 800, 600, 'yes');":'');
+else
+	echo (empty($m[1]))
+		?"location.href='".$item['path_tmp']."'"
+		:"location.href='".$m[1]."'";
+?>"><?=
+STR::taging(STR::short(htmlspecialchars($item['name']), 70), 'b', $deep==0)
+?></a></p></div></td>
+<td><?
+$file = (!empty($item['hidden'])) ? 'a_red.gif':'a_green.gif';
+$link = "/".$_DOC['MODULE_NAME']."/?tree&add=".$item['path']."&";
+$link .= (!empty($item['hidden'])) ? 'show':'hide';;
+?><a href="<?=
+$link
+?>"><IMG src="<?=
+DOCTXT::inc_link($file, $f);
+?>" border="0" align="left">
+</td>
+</tr>
+<?
+// Последнее - это скрыть, убрать, есть в интерфейсе
+array_pop($ADDONS);
+?>
+<div id="tree_<?=$_DOC['COUNTER']?>_up" style="position:absolute;visibility:hidden">
+<?
+	// Первое - это добавить поддокумент, его в верх
+	echo '<div class="action">'.array_shift($ADDONS).'</div>';
+?>
+</div>
+
+<div id="tree_<?=$_DOC['COUNTER']?>_l" style="position:absolute;visibility:hidden">
+<?
+for ( $i = 0; $i < sizeof($ADDONS); $i+=2 ) {
+	echo '<div class="action">'.$ADDONS[$i].'</div>';
+}?>	
+</div>
+
+<div id="tree_<?=$_DOC['COUNTER']?>_r" style="position:absolute;visibility:hidden">
+<?for ( $i = 1; $i < sizeof($ADDONS); $i+=2 ) {
+	echo '<div class="action">'.$ADDONS[$i].'</div>';
+}?>	
+</div>
+
+<div id="tree_<?=$_DOC['COUNTER']?>_d" style="position:absolute;visibility:hidden">
+<b><?=$item["name"]?></b><br>
+<p>
+	<a href="javascript:;" OnClick="ShowPopUp('<?=(!empty($item['link']))?$item['link']:
+	str_replace('//','/','/def/'.$item['path']);
+	?>', 900, 900, 'yes');">Просмотр</a>
+	<br><input type="input" style="width: 100%" value="<?=(!empty($item['link']))?$item['link']:$item['path']?>" >
+</p>
+</div>
+
+<div id="tree_<?=
+$_DOC['COUNTER']
+?>_sa" style="position:absolute;visibility:hidden">
+<?=cmd("connects/edit/".$item['path'])?>
+</div>
+
+<?$_DOC['COUNTER']++?>

@@ -1,0 +1,27 @@
+<a id="crumb-<?=$item['key']?>" class="servicelink" <?=($i>=0)?'onclick="return showcrumbs(this);"':''?>><?=$name?></a></div>
+
+<?
+global $_PROJECT; reset($_PROJECT);
+if (is_array($_PROJECT['CURRTREE'])) {?>
+<div id="breadcrumbs-popup">
+	<?foreach ($_PROJECT['CURRTREE'] as $c => $data) {
+			if (!empty($data['hidden']) || !empty($data['nomenu'])) continue;
+			# для добавленных внешних ссылок
+			$data['path'] = (empty($data['link'])) ? $data['path'] : $data['link'];
+			if ($_USER['NO_DOCTXT_IN_MENU']) {
+				$data['path'] = str_replace('doctxt/', '', $data['path']);
+			}
+			if (!empty($data['menunolink'])){
+				echo '<a id="select-crumb-'.$c.'" href="javascript:;">'.$data['name']."</a>\n";
+			}else{
+				echo '<a id="select-crumb-'.$c.'" href="'.$data['path'].'">'.$data['name']."</a>\n";
+			}
+			if ($data['name'] == $name) $present = true;
+		}
+		# if not present, add, to be sure that pop-up on place
+		if (!$present) 
+			echo '<a id="select-crumb-'.$item['key'].'" href="'.$path.'">'.$name."</a>\n";
+
+		?>
+</div>
+<?}?>

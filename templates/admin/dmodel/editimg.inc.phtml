@@ -1,0 +1,47 @@
+<? global $_DMODEL;?>
+<TABLE cellSpacing=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE class=popuptitle cellSpacing=20 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class="modulename"><IMG height=24 alt=" " hspace=0 src="<?=Main::comm_link('module.gif', $f, $_DMODEL['MODULE_NAME']);?>" width=24 align=left> 
+                 <H2>Просмотр изображения: <?=basename($img_src)?></H2>
+            	Макет: <?=$skin==$_DMODEL['DEF_SKIN']?$_DMODEL['DEF_SKIN_NAME']:$skin?>
+          </TD>
+        </TR>
+        </TBODY>
+</TABLE>
+      <TABLE cellSpacing=20 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <TABLE class=form cellSpacing=0 cellPadding=0 width="100%" border=0><TBODY>
+              <TR>
+                <TD>
+<br>
+<center>
+	<img src="<?=$img_src?>">
+</center>
+<br>
+	<FORM  name="<?=$_DMODEL['FORM_NAME']?>" METHOD="POST" enctype="multipart/form-data" action="/clear/<?=$_DMODEL['MODULE_NAME']?>/seeimg" >
+                <INPUT name=path type="hidden" value="<?=$path?>">
+                <INPUT name=skin type="hidden" value="<?=$skin?>">
+                <INPUT name=close type="hidden" value="">
+        <TABLE class=form style="MARGIN-TOP: 20px" cellSpacing=0 cellPadding=0 width="100%" border=0>
+              <TBODY>
+              <TR><TD class=sep colSpan=5><DIV class=sep><SPACER height="1" width="1" type="block"></SPACER></DIV></TD></TR>
+              <TR>
+                <TD class=tdleft width="100%">
+                <INPUT name=delete type=submit value=Удалить onclick="document.<?=$_DMODEL['FORM_NAME']?>.close.value='close';"></TD>
+                <TD class=tdcenter nowrap><input type="file" name="new_img" onchange="document.<?=$_DMODEL['FORM_NAME']?>.change.disabled = false;"><INPUT name="change" type=submit value=Заменить disabled></TD>
+                <TD class=tdright> <INPUT name=save onclick="document.<?=$_DMODEL['FORM_NAME']?>.close.value='close';" type=submit value=Закрыть></TD>
+              </TR>
+              </TBODY>
+        </TABLE>
+	</FORM>
+				</TD>
+                <td></td><TD class=tdright></TD>
+              </TR>
+             </TBODY></table>

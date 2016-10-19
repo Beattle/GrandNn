@@ -1,0 +1,13 @@
+<?
+include "list_header.html";
+global $part;
+if (is_array($out)) {
+	foreach ($out as $record_id => $record) { 
+		include "list_item.html";   
+	} 
+}
+
+include "list_footer.html"; 
+
+if( !empty( $GLOBALS['pline'] )) echo "<br>".$GLOBALS['pline'];
+?>

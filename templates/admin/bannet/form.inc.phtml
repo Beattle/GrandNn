@@ -1,0 +1,33 @@
+<?global $form;?>
+<table width="100%"  border="0" cellpadding="0" cellspacing="20" class="popuptitle">
+      <tr>
+        <td><img src="<?=$_CORE->TEMPLATES.$_CORE->CURR_TPL?>/<?=$_BAN['MODULE_NAME']?>/d_folder.gif" alt="" width="24" height="24" hspace="0" vspace="0" align="left"><h2>
+        <?=(!empty($form['name'])?$form['name']:'Добавление')?>
+        </h2></td>
+      </tr>
+    </table>
+
+
+<p align=center><?=@nl2br($_BAN['ERROR'])?></p>
+<FORM ACTION="/clear/<?=$_BAN['MODULE_NAME']."/".$_BAN['KUR_ALIAS']."/add?edit"?>" METHOD=POST enctype="multipart/form-data" name='db_form'>
+<TABLE BORDER=0 width='100%' cellspacing=20 cellpadding=0>
+<tr><td>
+<TABLE BORDER=0 width='100%' cellspacing=1 cellpadding=3 class="form">
+<?$_BAN['cForm']->Body_print();?>
+</table>
+<table width="100%"  border="0" cellpadding="0" cellspacing="0" class="form" style="margin-top:20px">
+<tr>
+  <td colspan="3" class="sep"><div class="sep"><spacer type="block" width="1" height="1"></spacer></div></td>
+</tr>
+<tr>
+  <input type="hidden" name="apply" value="0">
+  <td width="100%" class="tdleft"><input type=submit name="submit" value="Сохранить">&nbsp;<input type="submit" name="submit" onClick="db_form.apply.value=1;db_form.submit();" value="Применить"></td>
+  <td class="tdright" align="right"><input type=reset value="Отменить"></td>
+</tr>
+</TABLE>
+<script type="text/javascript">
+document.db_form['form[name]'].focus();
+</script>
+</FORM>
+</TD></TR></TABLE>
+</td></tr></table>

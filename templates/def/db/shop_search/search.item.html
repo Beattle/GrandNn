@@ -1,0 +1,59 @@
+<? 
+  $FORM_DATA["doc"]["abspath"] = KAT::get_data_path( '/f_'.$data["tab"], $dir, KAT_LOOKIG_DATA_DIR );
+  $FORM_DATA["doc"]["path"] = KAT::get_data_link( '/f_'.$data["tab"], $dir, KAT_LOOKIG_DATA_DIR );
+  
+	$img = (!empty($data["doc"]) && is_file($FORM_DATA["doc"]["abspath"]."/".$data["doc"]))
+					?	$FORM_DATA["doc"]["path"]."/".$data["doc"]
+					: '/templates/def/images/prod-01.jpg';
+
+// после импорта точки могут замениться запятыми
+$data['price'] = str_replace(',','.',$data['price']);
+$data['weight'] = str_replace(',','.',$data['weight']);
+$data['size'] = str_replace(',','.',$data['size']);
+
+// Цена
+$price = (!$_SESSION['SESS_AUTH']['ALL']['partner']) 
+					? number_format(round($data['price']*$data['weight']), 0, '.' , ' ')
+					: number_format(round($data['price_opt']*$data['weight']), 0, '.' , ' ');
+$price_int = (!$_SESSION['SESS_AUTH']['ALL']['partner']) 
+					? round($data['price']*$data['weight'])
+					: round($data['price_opt']*$data['weight']);
+$type_icon = array(
+            1=>"premium.png",
+            2=>"akciya.png",
+            3=>"hit.png"
+              );
+?>
+
+
+<div class="cat-tovar">
+<form method="POST" action="/basket/put" target="basket" name="list<?=$data['id']?>">
+				<input type="hidden" name="BASKET[desc]" value="<?=$data['anons']?>">
+				<input type="hidden" name="BASKET[price]" value="<?=intval($price_int)?>">
+				<input type="hidden" name="BASKET[link]" value="/<?=$_KAT['MODULE_NAME']?>/<?=$data["tab"]?>/<?=$data['alias']?>"/>
+				<input type="hidden" name="BASKET[subj]" value="<?=$data['name']?>">
+				<input type="hidden" name="BASKET[doc]" value="<?=$FORM_DATA["doc"]["path"]."/".$data["doc"]?>">
+				<input type="hidden" class="inputboxquantity" size="4" name="BASKET[count_DEL]" value="10">
+				<input type="hidden" name="count_tmp" value="<?=$_SESSION['_BASKET_CONT'][STR::translit($data['name'])]['/'.$_KAT['MODULE_NAME'].'/'.$data["tab"].'/'.$data['alias'] ]['count']+1?>">
+				<input type="hidden" name="BASKET[count]" value="1"/> 
+</form>
+	<a href="/<?=$_KAT['MODULE_NAME']?>/<?=$data["tab"]?>/<?=$data['alias']?>">
+    
+		<div class="cat-icon" style="background: url(/reimg/<?=$img?>?140) #fff no-repeat 0 50%; ">
+    <? if(!empty($data["type_icon"])){ ?>
+      <div style="float: right; margin-top: 2px; margin-right: 2px; width: 30px; height: 30px; z-index: 100; position: relative;"><img src="/reimg/templates/def/img/<?=$type_icon[$data["type_icon"]];?>?30x30" /></div>
+    <? } ?>
+		</div>
+    
+	</a>
+    <? if(!empty($price)){ ?>
+		<a href="#"><img src="/templates/def/img/add.gif" alt="" width="82" height="25" border="0" class='card_but' onclick="basketWork( document.forms.list<?=$data['id']?>[5].value, document.forms.list<?=$data['id']?>[7].value, 0+<?=($price_int)?$price_int:0?>, <?=$data['id']?> );document.forms.list<?=$data['id']?>.submit();animate_cart_my(this);return false;" style="cursor: hand;" /></a>
+
+		<?php
+	/*<div class="cat-titl"><a href="<?=$data['alias']?>"><?=$data['name']?> <span></span></a></div>*/
+?>
+		<div class="cat-price"><span><?=STR::price_sp($price)?> руб.</span></div>
+    <? } ?>
+		<!-- button -->
+	</div>
+

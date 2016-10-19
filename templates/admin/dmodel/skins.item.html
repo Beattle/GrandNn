@@ -1,0 +1,52 @@
+<!--writeField('CreateCmdRight', getField('dmodel_<?=$skin?>_up_r'));-->
+<tr>
+	<td valign=middle width="100%">
+		<img alt=" " src="<?=Main::comm_link('skin.gif', $f, $_DMODEL['MODULE_NAME'] )?>" >
+		<a id="itemList<?=$iterator?>" href="/<?=$_DMODEL['MODULE_NAME']?>/map?skin=<?=$skin?>" title="<?=$skin?>" 
+			
+			onclick="writeField('EventsCmdRight', getField('dmodel_<?=$skin?>_down_r'));writeField('EventsCmdLeft', getField('dmodel_<?=$skin?>_down_l'));return false;"
+			
+			ondblclick="location.href='/<?=$_DMODEL['MODULE_NAME']?>/map?skin=<?=$skin?>';"
+			
+			onfocus="setPointer('<?=$iterator?>');" 
+			<?$iterator++;?>
+		>
+			<?=($skin==$_DMODEL['DEF_SKIN']?$_DMODEL['DEF_SKIN_NAME']:$name)?>
+		</a>
+	</td>	
+	<td>
+		<?=$date?>
+	</td>
+	<td>
+		<img alt=" " src="<?=Main::comm_link(($skin==$_DMODEL['DEF_SKIN']?'on_air':'off_air').'.gif', $f, $_DMODEL['MODULE_NAME'] )?>" >
+	</td>
+</tr>
+
+
+
+<div id="dmodel_<?=$skin?>_down_r" style="position:absolute;visibility:hidden">
+<?if( $skin!=$_DMODEL['DEF_SKIN'] ){?>
+		<img alt=" " src="<?=Main::comm_link('delete.gif', $f, $_DMODEL['MODULE_NAME'] )?>" >
+		<a href="/<?=$_DMODEL['MODULE_NAME']?>/delskin?skin=<?=$skin?>" title="Удалить" OnClick="return confirm('Чо, правда удалить?');">Удалить</a>
+		<br>
+<?}?>
+		<img alt=" " src="<?=Main::comm_link('newskin.gif', $f, $_DMODEL['MODULE_NAME'] )?>">
+		<a title="<?=$title?>" href="/<?=$_DMODEL['MODULE_NAME']?>/newskin?from=<?=$skin?>" OnClick="ShowPopUp('/clear/<?=$_DMODEL['MODULE_NAME']?>/newskin?from=<?=$skin?>',800,600,'yes');return false;">Создать на основе</a>
+</div>
+<div id="dmodel_<?=$skin?>_down_l" style="position:absolute;visibility:hidden">
+<?if( $skin!=$_DMODEL['DEF_SKIN'] ){?>
+		<img alt=" " src="<?=Main::comm_link('copy.gif', $f, $_DMODEL['MODULE_NAME'] )?>" >
+		<a href="/<?=$_DMODEL['MODULE_NAME']?>/copyskin?from=<?=$skin?>&skin=<?=$_DMODEL['DEF_SKIN']?>" title="применить" OnClick="return confirm('Чо, правда применить?');">Применить</a>
+		<br>
+<?}else{?>
+<?}?>	
+		<img alt=" " src="<?=Main::comm_link('copy.gif', $f, $_DMODEL['MODULE_NAME'] )?>" >
+		<a href="/<?=$_DMODEL['MODULE_NAME']?>/copyskin?from=<?=$_DMODEL['DEFAULT_SKIN']?>&skin=<?=$skin?>" title="применить" OnClick="return confirm('Чо, правда применить?');">Применить из дефолта</a>
+</div>
+
+<?/*
+<div id="dmodel_<?=$skin?>_up_r" style="position:absolute;visibility:hidden">
+		<img alt=" " src="<?=Main::comm_link('add.gif', $f, $_DMODEL['MODULE_NAME'] )?>">
+		<a href="/<?=$_DMODEL['MODULE_NAME']?>/newskin?from=<?=$_DMODEL['DEFAULT_SKIN']?>" title="Новый макет" OnClick="ShowPopUp('/clear/<?=$_DMODEL['MODULE_NAME']?>/newskin?from=<?=$_DMODEL['DEFAULT_SKIN']?>',800,600,'yes');return false;">Новый макет</a>
+</div>
+*/?>

@@ -1,0 +1,24 @@
+<? echo '<?xml version="1.0" encoding="windows-1251"?>';?>
+<!DOCTYPE yml_catalog SYSTEM "shops.dtd">
+<yml_catalog date="<?=date("Y-m-d");?> 12:00">
+	<shop>
+		<name>Ювелирный дом ГРАНД</name>
+		<company>Ювелирный дом ГРАНД</company>
+		<url><?='http://'.$_SERVER['HTTP_HOST'];?></url>
+		
+		<currencies>
+			<currency id="RUR" rate="1" plus="0"/>
+		</currencies>
+		
+		<categories>
+<?php
+		$vid_arr = SQL::getall('*',DB_TABLE_PREFIX.'type_products','hidden != 1 OR hidden IS NULL','order by name'); // order by prior
+		$vid_arr_new = array();
+		foreach($vid_arr as $k=>$vid){
+			$vid_arr_new[$vid['name_one']] = $vid;
+?>
+			<category id="<?=$vid['id'];?>"><?=$vid['name'];?></category>
+<?php 	} ?>
+			<category id="99">Другая</category>
+		</categories>
+		<offers>

@@ -1,0 +1,17 @@
+<?php
+	if(empty($data['proba900']) ){
+?>
+<tr class="head" style="text-align: center;">
+	<td class="head"><?=$data['name'];?></td>
+	<td style="vertical-align: middle;"><?=($data['proba375'])?$data['proba375'].' руб':'';?></td>
+	<td style="vertical-align: middle;"><?=($data['proba500'])?$data['proba500'].' руб':'';?></td>
+	<td <?=($data['proba585'])?'style="border-left:1px solid #453107; border-right:1px solid #453107;vertical-align: middle;" class="inverse"':'';?>><?=($data['proba585'] && is_numeric($data['proba585']))?$data['proba585'].' руб':$data['proba585'];?></td>
+	<td style="vertical-align: middle;"><?=($data['proba750'])?$data['proba750'].' руб':'';?></td>
+	<td style="vertical-align: middle;"><?=($data['proba850'])?$data['proba850'].' руб':'';?></td>
+	<td style="vertical-align: middle;"><?=($data['proba999'])?$data['proba999'].' руб':'';?></td>
+</tr>
+<?php
+	}else{
+		$post_view[] = $data;
+	}
+?>

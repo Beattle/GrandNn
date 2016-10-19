@@ -1,0 +1,125 @@
+<?// partof сортировка в админском режиме added 22.02.06
+       $orderby = empty($_GET['orderby']) ? 'none':$_GET['orderby'];  $ord="a_order_none.gif"; $ord_text = "ќтсортировать по возрастанию";
+       $desc = empty($_GET['desc']) ? "site":$_GET['desc'];  
+	   switch ( $desc )
+		{	case "site":	$spec="a_order_none.gif";	$spec_text="ќтсортировать по возрастанию";	$ndesc="up";	break;
+			case "up":		$spec="a_order_up.gif";		$spec_text="ќтсортировать по убыванию";		$ndesc="down";	break;
+			case "down":	$spec="a_order_down.gif";	$spec_text="ќтсортировать, как на сайте";	$ndesc="site";	break;
+		}
+?>
+<?= $_KAT['SEARCH_PLINE']?>
+<? if(!empty($_KAT[$_KAT['KUR_ALIAS']]['admin_search']) && is_array($_KAT[$_KAT['KUR_ALIAS']]['admin_search'])) {
+	echo "<form>";
+	foreach ($_KAT[$_KAT['KUR_ALIAS']]['admin_search'] as $filterItem ) { ?>
+		<div id="search_<?=$filterItem?>" style="float: left; margin: 4px 0 0 0;">
+		  <input type="text" name="form[<?=$filterItem?>]" value="<?=$_REQUEST['form'][$filterItem];?>"  placeholder='<?=$FORM_DATA[$filterItem]['title']?>' >
+		</div>
+	<? } ?>
+	<input type="submit" name="submit" value="поиск"/>
+	</form>
+<? } ?>
+<table class="viewdetails"width=100% border=0 cellpadding="0" cellspacing="1">
+<THEAD>
+<tr>
+<td class="header" width="60" >
+<? //внимание важно правильно заполнить!!! 
+   //в переменную $field_name нужно положить ключ у массива $data, из файла search.item.html, соответствующего данному заголовку, сейчас это $data['ts']
+       $field_name = 'author_id';
+?>  	
+      <a href="<?=$_SERVER['REQUEST_URI']?>?orderby=<?=$field_name?>&desc=<?=($orderby==$field_name)?@$ndesc:"up"?>" title="<?=( $orderby==$field_name )?$spec_text:$ord_text?>">
+      <IMG SRC="<?=KAT::inc_link( ( $orderby==$field_name )?$spec:$ord , $tmp)?>"  Alt="" >   
+ID</a></td>
+	<td class="header">
+<? //внимание важно правильно заполнить!!! 
+   //в переменную $field_name нужно положить ключ у массива $data, из файла search.item.html, соответствующего данному заголовку, сейчас это $data['name'] 
+       $field_name = 'name';
+?>  	
+      <a href="<?=$_SERVER['REQUEST_URI']?>?orderby=<?=$field_name?>&desc=<?=($orderby==$field_name)?@$ndesc:"up"?>" title="<?=( $orderby==$field_name )?$spec_text:$ord_text?>">
+      <IMG SRC="<?=KAT::inc_link( ( $orderby==$field_name )?$spec:$ord , $tmp)?>"  Alt="" >   
+      
+	Login</a></td>
+<td class="header" nowrap>
+<? //внимание важно правильно заполнить!!! 
+   //в переменную $field_name нужно положить ключ у массива $data, из файла search.item.html, соответствующего данному заголовку, сейчас это $data['ts']
+       $field_name = 'author_comment';  
+?>  	
+      <a href="<?=$_SERVER['REQUEST_URI']?>?orderby=<?=$field_name?>&desc=<?=($orderby==$field_name)?@$ndesc:"up"?>" title="<?=( $orderby==$field_name )?$spec_text:$ord_text?>">
+      <IMG SRC="<?=KAT::inc_link( ( $orderby==$field_name )?$spec:$ord , $tmp)?>"  Alt="" >   
+      
+	»м€</a></td>
+	<? if (!empty($DATA['author_bd'])){ ?>
+	<td class="header" nowrap>
+<? $field_name = 'author_bd'; ?>
+      <a href="<?=$_SERVER['REQUEST_URI']?>?orderby=<?=$field_name?>&desc=<?=($orderby==$field_name)?@$ndesc:"up"?>" title="<?=( $orderby==$field_name )?$spec_text:$ord_text?>">
+      <IMG SRC="<?=KAT::inc_link( ( $orderby==$field_name )?$spec:$ord , $tmp)?>"  Alt="" >   
+      
+	¬</a></td>
+	<?}?>
+	<?if (!empty($FORM_DATA['balance'])){?>
+	<td class="header" nowrap>
+<? $field_name = 'balance'; ?>  	
+      <a href="<?=$_SERVER['REQUEST_URI']?>?orderby=<?=$field_name?>&desc=<?=($orderby==$field_name)?@$ndesc:"up"?>" title="<?=( $orderby==$field_name )?$spec_text:$ord_text?>">
+      <IMG SRC="<?=KAT::inc_link( ( $orderby==$field_name )?$spec:$ord , $tmp)?>"  Alt="" >   
+      
+	Ё</a></td>
+	<?}?>
+	<td class="header" nowrap width="140">
+<? //внимание важно правильно заполнить!!! 
+   //в переменную $field_name нужно положить ключ у массива $data, из файла search.item.html, соответствующего данному заголовку, сейчас это $data['ts']
+       $field_name = 'doc';
+?>  	
+      <a href="<?=$_SERVER['REQUEST_URI']?>?orderby=<?=$field_name?>&desc=<?=($orderby==$field_name)?@$ndesc:"up"?>" title="<?=( $orderby==$field_name )?$spec_text:$ord_text?>">
+      <IMG SRC="<?=KAT::inc_link( ( $orderby==$field_name )?$spec:$ord , $tmp)?>"  Alt="" >   
+    
+	јватар  </a></td>
+	<?if (!empty($DATA['author_company'])){?>
+	<td class="header" nowrap>
+<? //внимание важно правильно заполнить!!! 
+   //в переменную $field_name нужно положить ключ у массива $data, из файла search.item.html, соответствующего данному заголовку, сейчас это $data['ts']
+       $field_name = 'author_company';
+?>  	
+      <a href="<?=$_SERVER['REQUEST_URI']?>?orderby=<?=$field_name?>&desc=<?=($orderby==$field_name)?@$ndesc:"up"?>" title="<?=( $orderby==$field_name )?$spec_text:$ord_text?>">
+      <IMG SRC="<?=KAT::inc_link( ( $orderby==$field_name )?$spec:$ord , $tmp)?>"  Alt="" >   
+      
+	 омпани€</a></td>
+	<?}?>
+<?if (!empty($_CORE->_modules['partners_stat'])) {?>
+	<!-- ѕартнерство -->
+	<td class="header" nowrap>
+<? //внимание важно правильно заполнить!!! 
+   //в переменную $field_name нужно положить ключ у массива $data, из файла search.item.html, соответствующего данному заголовку, сейчас это $data['ts']
+       $field_name = 'partner';
+?>  	
+      <a href="<?=$_SERVER['REQUEST_URI']?>?orderby=<?=$field_name?>&desc=<?=($orderby==$field_name)?@$ndesc:"up"?>" title="<?=( $orderby==$field_name )?$spec_text:$ord_text?>">
+      <IMG SRC="<?=KAT::inc_link( ( $orderby==$field_name )?$spec:$ord , $tmp)?>"  Alt="" >   
+      
+	ѕартнер</a></td>
+<?}?>
+	<?if (!empty($FORM_DATA['MODIFY'])){?>
+	<td class="header" nowrap>
+<? $field_name = 'MODIFY';?>  	
+      <a href="<?=$_SERVER['REQUEST_URI']?>?orderby=<?=$field_name?>&desc=<?=($orderby==$field_name)?@$ndesc:"up"?>" title="<?=( $orderby==$field_name )?$spec_text:$ord_text?>">
+      <IMG SRC="<?=KAT::inc_link( ( $orderby==$field_name )?$spec:$ord , $tmp)?>"  Alt="" >   
+      
+	ƒата последней<br />модификации</a></td>
+	<?}?>
+	<?if (!empty($FORM_DATA['AUTORISE'])){?>
+	<td class="header" nowrap>
+<? $field_name = 'AUTORISE';?>  	
+      <a href="<?=$_SERVER['REQUEST_URI']?>?orderby=<?=$field_name?>&desc=<?=($orderby==$field_name)?@$ndesc:"up"?>" title="<?=( $orderby==$field_name )?$spec_text:$ord_text?>">
+      <IMG SRC="<?=KAT::inc_link( ( $orderby==$field_name )?$spec:$ord , $tmp)?>"  Alt="" >   
+      
+	ƒата последнего<br />посещени€</a></td>
+	<?}?>
+	<td class="header" nowrap>
+<? //внимание важно правильно заполнить!!! 
+   //в переменную $field_name нужно положить ключ у массива $data, из файла search.item.html, соответствующего данному заголовку, сейчас это $data['ts']
+       $field_name = 'hidden';
+?>  	
+      <a href="<?=$_SERVER['REQUEST_URI']?>?orderby=<?=$field_name?>&desc=<?=($orderby==$field_name)?@$ndesc:"up"?>" title="<?=( $orderby==$field_name )?$spec_text:$ord_text?>">
+      <IMG SRC="<?=KAT::inc_link( ( $orderby==$field_name )?$spec:$ord , $tmp)?>"  Alt="" >   
+      
+	—</a></td>
+</TR>
+</THEAD>
+<tbody>
