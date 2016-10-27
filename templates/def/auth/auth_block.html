@@ -8,7 +8,11 @@
 			<br><a href="/basketorders/myorders">Ваши заказы</a></div>
 
 			<script>
-			  ga('set', 'userId', '<?=$_SESSION['SESS_AUTH']['ID']?>'); // GA
-			  rrApiOnReady.push(function() { rrApi.setEmail('<?=$_SESSION['SESS_AUTH']['LOGIN']?>', { }); });
+                if(typeof ga !=='undefined'){
+                    ga('set', 'userId', '<?=$_SESSION['SESS_AUTH']['ID']?>'); // GA
+                }
+                if (typeof  rrApiOnReady !=='undefined'){
+                    rrApiOnReady.push(function() { rrApi.setEmail('<?=$_SESSION['SESS_AUTH']['LOGIN']?>', { }); });
+                }
 			</script>
 <?php } ?>

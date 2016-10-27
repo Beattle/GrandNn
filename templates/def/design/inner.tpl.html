@@ -33,6 +33,14 @@
 <script language="javascript" src="<?=$_CORE->TEMPLATES.$_CORE->CURR_TPL?>/JS/jquery.js?v=2"  type="text/javascript"></script>
 -->
 
+    <?php if(strstr($_SERVER['REQUEST_URI'], '/basketorders/go') == true){
+        echo <<<SCRIPT
+<script src="https://s1.l-kredit.ru/CLWidget/assets_widget/kreditline_obj.js" type="text/javascript" charset="utf-8"></script>
+SCRIPT;
+    }
+     ?>
+
+
 	<script src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js'></script>
 	<script type="text/javascript" src="<?=$_CORE->TEMPLATES.$_CORE->CURR_TPL?>/JS/fancybox/js/jquery.fancybox-1.3.4.pack.js"></script>
 	<link href="<?=$_CORE->TEMPLATES.$_CORE->CURR_TPL?>/JS/fancybox/jquery.fancybox-1.3.4.css?v=1" rel="stylesheet" type="text/css">
@@ -150,7 +158,7 @@ if(isset($_SESSION['_BASKET_ERROR']) && !empty($_SESSION['_BASKET_ERROR'])){ ?>
 } ?>
 <?=cmd("admin/menu")?>
 <!-- moved menu -->
-<div id=slide_menu>
+<div id="slide_menu">
 	<div class=con>
 	<div class=center>
 		<a href="javascript:;" style="position: absolute; left: 10px; top: 7px; line-height: 66px;" title="наверх" onclick="$('html, body').animate({scrollTop:0},'slow');">

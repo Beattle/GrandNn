@@ -44,10 +44,50 @@
 <p>Заказ будет передан в службу обработки. И наши операторы свяжутся с вами.
 <p>Пройдите в <a href="/basketorders/myorders">личный кабинет</a>, что бы проследить за статусом вашего заказа.
 <p>После подтверждения будет доступна возможность оплаты онлайн.
+<?php
 
+/*     echo $_SESSION['_BASKET']['contacts']['name'];
+     echo $_SESSION['_BASKET']['contacts']['phone'];
+     echo $_SESSION['_BASKET']['contacts']['email'];*/
+?>
 <?=$_SESSION['_BASKET_CONFIRM']?>
 
-<?php echo '<pre>'.print_r($_POST,true).'</pre>'; ?>
-<?php echo '<pre>'.print_r($data,true).'</pre>';?>
+    <?php $prods = array();
+     if(!empty($data['items'])){?>
+        <script type="text/javascript">
+            var prodObj = [];
+            <?php foreach ($data['items'] as  $key =>$item){?>
+                prodObj[<?php echo $key?>] = <?php echo "$item[item_data]";?>;
+            <?php } ?>
+            var prods = [];
+            for (var i=0,l=prodObj.length;i<l;i++){
+                prods[i] = {};
+                prods[i].Name = prodObj[i].name;
+                prods[i].Price = prodObj[i].price;
+                prods[i].Count = prodObj[i].cnt;
+            }
+            console.log(JSON.stringify(prods));
+
+        </script>
+
+
+     <?php } ?>
+
+
+
+
+<?php if($_POST['BASKET_PAYMENT'] == 2){ ?>
+     <a id="lkredit" style="display: none" href="#">Купить в кредит</a>
+    <script type="text/javascript">
+                kreditlineBig.create({
+                goods:    JSON.stringify(prods),
+                site:     'grandnn.com',
+                siteName: 'Ювелирный дом "Гранд"',
+                elm:      'lkredit',
+                URLSuccess: 'http://basketorders/myorders',
+                autostart:true
+                });
+    </script>
+<?php } ?>
 
 
