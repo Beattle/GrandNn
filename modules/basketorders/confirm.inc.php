@@ -45,8 +45,7 @@
 <p>Пройдите в <a href="/basketorders/myorders">личный кабинет</a>, что бы проследить за статусом вашего заказа.
 <p>После подтверждения будет доступна возможность оплаты онлайн.
 <?php
-
-/*     echo $_SESSION['_BASKET']['contacts']['name'];
+/*   echo $_SESSION['_BASKET']['contacts']['name'];
      echo $_SESSION['_BASKET']['contacts']['phone'];
      echo $_SESSION['_BASKET']['contacts']['email'];*/
 ?>
@@ -62,11 +61,17 @@
             var prods = [];
             for (var i=0,l=prodObj.length;i<l;i++){
                 prods[i] = {};
-                prods[i].Name = prodObj[i].name;
-                prods[i].Price = prodObj[i].price;
-                prods[i].Count = prodObj[i].cnt;
+                prods[i].Name = encode_utf8(prodObj[i].name);
+                prods[i].Price = encode_utf8( prodObj[i].price );
+                prods[i].Count = encode_utf8(prodObj[i].cnt);
             }
             console.log(JSON.stringify(prods));
+
+            function encode_utf8( s )
+            {
+                return decodeURIComponent( encodeURIComponent( s ) );
+            }
+
 
         </script>
 
@@ -76,18 +81,8 @@
 
 
 
-<?php if($_POST['BASKET_PAYMENT'] == 2){ ?>
-     <a id="lkredit" style="display: none" href="#">Купить в кредит</a>
-    <script type="text/javascript">
-                kreditlineBig.create({
-                goods:    JSON.stringify(prods),
-                site:     'grandnn.com',
-                siteName: 'Ювелирный дом "Гранд"',
-                elm:      'lkredit',
-                URLSuccess: 'http://basketorders/myorders',
-                autostart:true
-                });
-    </script>
-<?php } ?>
+<?php if($_POST['BASKET_PAYMENT'] == 2) 
+	include  "credit_init.inc.php";
+?>
 
 
